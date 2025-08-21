@@ -89,12 +89,6 @@ const ExamCard = () => {
               <Typography>{exam.count}</Typography>
             </Box>
           </Box>
-          <Box>
-            <Typography sx={{ opacity: '50%' }}>
-              {t('pages.exam.semester')}
-            </Typography>
-            <Typography>{exam.semester}</Typography>
-          </Box>
         </Card>
       ))}
     </Box>

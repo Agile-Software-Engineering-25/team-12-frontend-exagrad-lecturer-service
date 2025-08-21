@@ -26,5 +26,4 @@ export interface Exam {
   ects: number;
   room: string;
   count: number;
-  semester: string;
 }

@@ -1,9 +1,7 @@
-import ExamCard from "@components/ExamCard/ExamCard"
+import ExamCard from '@components/ExamCard/ExamCard';
 
 const Exams = () => {
-  return (
-    <ExamCard />
-  )
-}
+  return <ExamCard />;
+};
 
-export default Exams
+export default Exams;

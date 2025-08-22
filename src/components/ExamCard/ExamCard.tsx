@@ -1,5 +1,5 @@
 import useApi from '@hooks/useApi';
-import { Typography, Card, Box } from '@mui/joy';
+import { Typography, Card, Box, Divider } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import type { Exam } from '@/@custom-types/backendTypes';
@@ -43,6 +43,7 @@ const ExamCard = () => {
           }}
         >
           <Typography level="h3">{exam.name}</Typography>
+          <Divider inset="none" />
           <Box
             sx={{
               display: 'flex',

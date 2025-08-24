@@ -25,7 +25,8 @@ const ExamCard = () => {
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        gap: 3,
+        gap: 2,
+        paddingTop: 3,
         justifyContent: 'space-around',
       }}
     >
@@ -36,7 +37,7 @@ const ExamCard = () => {
           variant="outlined"
           sx={{
             display: 'flex',
-            width: 290,
+            width: 270,
             justifyContent: 'space-around',
             boxShadow: '1px 1px 0px 1px #d3d3d3',
           }}

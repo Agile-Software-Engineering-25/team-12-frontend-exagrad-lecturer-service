@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Final Exam",
+    "module": "Physics",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissions": 1
+  },
+  {
+    "name": "Chemistry Lab Exam",
+    "module": "Chemistry",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissions": 1
+  },
+  {
+    "name": "Physics Midterm",
+    "module": "Physics",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissions": 1
+  },
+  {
+    "name": "Mathematics Final Exam",
+    "module": "Mathe",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissions": 1
+  },
+  {
+    "name": "History Essay Exam",
+    "module": "History I",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissions": 2
+  },
+  {
+    "name": "Computer Science Project",
+    "module": "CS I",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissions": 1
+  }
+]

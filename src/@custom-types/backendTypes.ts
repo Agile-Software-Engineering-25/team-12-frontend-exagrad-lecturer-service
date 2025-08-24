@@ -25,5 +25,5 @@ export interface Exam {
   student: UserEntity;
   ects: number;
   room: string;
-  count: number;
+  submissions: number;
 }

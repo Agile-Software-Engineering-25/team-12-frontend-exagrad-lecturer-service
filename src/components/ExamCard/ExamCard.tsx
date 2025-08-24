@@ -14,7 +14,6 @@ const ExamCard = () => {
     if (exams) {
       setRequestedExams(exams);
     }
-    console.log(exams);
   };
 
   useEffect(() => {
@@ -87,7 +86,7 @@ const ExamCard = () => {
               <Typography sx={{ opacity: '50%' }}>
                 {t('pages.exam.exams')}
               </Typography>
-              <Typography>{exam.count}</Typography>
+              <Typography>{exam.submissions}</Typography>
             </Box>
           </Box>
         </Card>

@@ -11,6 +11,13 @@
       "getWeatherButton": "GET WEATHER",
       "weatherHeader": "Current Weather",
       "temperature": "Temperature"
+    },
+    "exam": {
+      "title": "Exams",
+      "module": "Module:",
+      "time": "Time in min:",
+      "date": "Deadline:",
+      "exams": "Submissions:"
     }
   }
 }

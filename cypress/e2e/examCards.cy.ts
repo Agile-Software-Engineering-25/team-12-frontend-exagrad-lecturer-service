@@ -1,10 +1,10 @@
 describe('Exam Page', () => {
   it('should load the exam page', () => {
-    cy.visit('/exams');
+    cy.visit('/');
   });
 
   it('should display exams', () => {
-    cy.visit('/exams');
+    cy.visit('/');
     cy.wait('@getExams');
 
     cy.fixture('exams.json').then((examData) => {

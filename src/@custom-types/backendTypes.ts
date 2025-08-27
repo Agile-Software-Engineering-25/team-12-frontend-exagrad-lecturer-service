@@ -1,9 +1,11 @@
-import { UserType } from './enums';
+import type { UserType } from './enums';
 
 export interface UserEntity {
   id: string;
   first_name: string;
   last_name: string;
+  email: string;
+  UserType: UserType;
 }
 
 export interface Exam {

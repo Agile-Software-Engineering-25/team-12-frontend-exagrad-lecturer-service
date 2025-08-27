@@ -1,10 +1,10 @@
-import Exams from '@pages/Exams/Exams';
+import ExamsPage from '@/pages/ExamsPage/ExamsPage';
 import { Route, Routes } from 'react-router';
 
 const RoutingComponent = () => {
   return (
     <Routes>
-      <Route path="/" element={<Exams />} />
+      <Route path="/" element={<ExamsPage />} />
     </Routes>
   );
 };

@@ -4,12 +4,10 @@ export interface UserEntity {
   id: string;
   first_name: string;
   last_name: string;
-  email: string;
-  type: UserType;
 }
 
 export interface Exam {
-  id: string;
+  uuid: string;
   module: string;
   name: string;
   lecturer: UserEntity;
@@ -25,5 +23,5 @@ export interface Exam {
   student: UserEntity;
   ects: number;
   room: string;
-  submissions: number;
+  submissionsCount: number;
 }

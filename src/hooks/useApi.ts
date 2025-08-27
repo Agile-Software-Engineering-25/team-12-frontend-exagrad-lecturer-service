@@ -7,10 +7,10 @@ const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
 
   const requestExams = useCallback(
-    async (lecturer: string) => {
+    async (lecturerUuid: string) => {
       try {
         const response = await axiosInstance.get('/lecturer/exams', {
-          params: { lecturer: lecturer },
+          params: { lecturer: lecturerUuid },
         });
         return response.data as Exam[];
       } catch (error) {

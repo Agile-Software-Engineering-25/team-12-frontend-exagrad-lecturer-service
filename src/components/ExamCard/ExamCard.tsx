@@ -6,6 +6,7 @@ interface ExamCardProps {
   exam: Exam;
 }
 
+// Calculate the submissionsCount later with a different API call.
 const ExamCard = (props: ExamCardProps) => {
   const { t } = useTranslation();
   const { exam } = props;
@@ -42,7 +43,6 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
-
           <Typography>{new Date(exam.date).toLocaleDateString()}</Typography>
         </Box>
       </Box>

@@ -6,9 +6,10 @@ import { Box } from '@mui/joy';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Exams = () => {
+const ExamsPage = () => {
   const dispatch = useDispatch();
   const requestedExams = useSelector((state: RootState) => state.exam.data);
+  const exams = Object.values(requestedExams);
   const { requestExams } = useApi();
 
   const fetchExams = async (lecturer: string) => {
@@ -32,11 +33,11 @@ const Exams = () => {
         justifyContent: 'space-around',
       }}
     >
-      {requestedExams.map((exam) => (
-        <ExamCard exam={exam} key={exam.name} />
+      {exams.map((exam) => (
+        <ExamCard exam={exam} key={exam.uuid} />
       ))}
     </Box>
   );
 };
 
-export default Exams;
+export default ExamsPage;

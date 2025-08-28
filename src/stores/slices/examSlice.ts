@@ -3,16 +3,25 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { SliceState } from '..';
 import type { Exam } from '@custom-types/backendTypes';
 
+type ExamMap = { [id: string]: Exam };
+
 const examSlice = createSlice({
   name: 'examSlice',
   initialState: {
-    data: [],
+    data: {},
     state: 'idle',
     error: null,
-  } as SliceState<Exam[]>,
+  } as SliceState<ExamMap>,
   reducers: {
     setExams: (state, action: PayloadAction<Exam[]>) => {
-      state.data = action.payload;
+      const examsArray = action.payload;
+      const examMap: ExamMap = {};
+
+      for (const exam of examsArray) {
+        examMap[exam.uuid] = exam;
+      }
+
+      state.data = examMap;
     },
   },
 });

@@ -28,7 +28,7 @@ describe('Exam Page', () => {
                 .should('contain.text', exam.time);
               cy.contains('Abgaben:')
                 .next()
-                .should('contain.text', exam.submissions);
+                .should('contain.text', exam.submissionsCount);
             });
         });
       });

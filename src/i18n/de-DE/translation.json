@@ -11,6 +11,13 @@
       "getWeatherButton": "WETTER ABRUFEN",
       "weatherHeader": "Aktuelles Wetter",
       "temperature": "Temperatur"
+    },
+    "exam": {
+      "title": "Prüfungen",
+      "module": "Module:",
+      "time": "Zeit in min:",
+      "date": "Deadline:",
+      "exams": "Abgaben:"
     }
   }
 }

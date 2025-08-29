@@ -1,0 +1,50 @@
+[
+  {
+    "uuid": "b3c87de6-25dc-4a64-b97e-2c3d918b0617",
+    "name": "Final Exam",
+    "module": "Physics",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissionsCount": 0
+  },
+  {
+    "uuid": "f0a1ec0d-6e41-4a93-a1c7-2b4b19e18e87",
+    "name": "Chemistry Lab Exam",
+    "module": "Chemistry",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissionsCount": 0
+  },
+  {
+    "uuid": "a62f9ff2-9b99-4b61-a5de-2a9c33d67b74",
+    "name": "Physics Midterm",
+    "module": "Physics",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissionsCount": 0
+  },
+  {
+    "uuid": "cba58a9a-7d0e-4694-b88f-cdd5a39cc508",
+    "name": "Mathematics Final Exam",
+    "module": "Mathe",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissionsCount": 0
+  },
+  {
+    "uuid": "ab7f2b5f-e117-4b5a-8b0e-4186fd04e611",
+    "name": "History Essay Exam",
+    "module": "History I",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissionsCount": 0
+  },
+  {
+    "uuid": "d9867315-017c-4a3e-9a64-620129a4e8c3",
+    "name": "Computer Science Project",
+    "module": "CS I",
+    "date": "12/10/2015",
+    "time": 90,
+    "submissionsCount": 0
+  }
+]

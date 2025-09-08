@@ -10,12 +10,14 @@ const BASE_URL_DEPLOYMENT = `http://localhost:${PORT}/`;
 const ENTRY_POINT = 'src/singleSpa.tsx';
 
 const NPM_EXTERNALS: string[] = [
+  /* TODO: currently externals are not being used as there is some issue
   'react',
   'react-dom',
   '@mui/material',
   '@mui/joy',
   'axios',
   'i18next',
+  */
 ];
 
 // https://vite.dev/config/

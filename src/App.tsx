@@ -13,7 +13,6 @@ import { CssVarsProvider as JoyCssVarsProvider, GlobalStyles } from '@mui/joy';
 import './i18n';
 import { Provider } from 'react-redux';
 import store from '@stores/index.ts';
-import GlobalControls from '@components/GlobalControls/GlobalControls';
 
 const joyTheme = createCustomJoyTheme();
 const muiTheme = createCustomMuiTheme();
@@ -54,7 +53,6 @@ function App(props: AppProps) {
           />
           <BrowserRouter basename={basename ?? '/'}>
             <RoutingComponent />
-            <GlobalControls />
           </BrowserRouter>
         </JoyCssVarsProvider>
       </ThemeProvider>

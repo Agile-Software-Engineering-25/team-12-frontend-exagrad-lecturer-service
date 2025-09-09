@@ -1,4 +1,4 @@
-import type { UserType } from './enums';
+import type { ExamType, UserType } from './enums';
 
 export interface UserEntity {
   id: string;
@@ -17,7 +17,7 @@ export interface Exam {
   average: number | null;
   totalPoints: number;
   achievedPoints: number | null;
-  examType: string;
+  examType: ExamType;
   date: Date;
   time: number;
   allowedResources: string[];
@@ -26,4 +26,15 @@ export interface Exam {
   ects: number;
   room: string;
   submissionsCount: number;
+}
+
+export interface Submission {
+  uuid: string;
+  studentUuid: string[];
+  totalPoints: number;
+}
+
+export interface Grade {
+  grade: number;
+  points: number;
 }

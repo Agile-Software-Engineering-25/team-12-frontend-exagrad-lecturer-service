@@ -19,6 +19,7 @@ const ExamCard = (props: ExamCardProps) => {
   };
 
   const route = () => {
+    console.log(exam.uuid);
     if (exam.examType === ExamType.PRESENTATION) {
       navigate(`/submissions/${exam.uuid}`);
     }
@@ -33,7 +34,7 @@ const ExamCard = (props: ExamCardProps) => {
         display: 'flex',
         width: 270,
         justifyContent: 'space-around',
-        boxShadow: '1px 1px 0px 1px #d3d3d3',
+        boxShadow: 'sm',
         ':hover': {
           transform: 'scale(1.03)',
           boxShadow: 'lg',

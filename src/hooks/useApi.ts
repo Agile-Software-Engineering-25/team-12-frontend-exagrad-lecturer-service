@@ -1,7 +1,7 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
-import type { Exam, Grade, Submission } from '@custom-types/backendTypes';
+import type { Exam, Submission } from '@custom-types/backendTypes';
 
 const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
@@ -25,7 +25,7 @@ const useApi = () => {
     async (examUuid: string) => {
       try {
         const response = await axiosInstance.get(
-          `/lecturer/exam/${examUuid}/submission`
+          `/lecturer/exam/${examUuid}/data`
         );
         return response.data as Submission;
       } catch (error) {
@@ -36,25 +36,9 @@ const useApi = () => {
     [axiosInstance]
   );
 
-  const requestGrades = useCallback(
-    async (studentUuid: string) => {
-      try {
-        const response = await axiosInstance.get(
-          `/lecturer/exam/${studentUuid}/grade`
-        );
-        return response.data as Grade;
-      } catch (error) {
-        console.error('Error while getting grade data: ', error);
-        return false;
-      }
-    },
-    [axiosInstance]
-  );
-
   return {
     requestExams,
     requestExam,
-    requestGrades,
   };
 };
 

@@ -20,5 +20,15 @@
       "exams": "Abgaben:",
       "type": "Type:"
     }
+  },
+  "components": {
+    "testCard": {
+      "title": "Matrikelnummer",
+      "grade": "Note",
+      "points": "Erreichte Punkte",
+      "alreadyGraded": "Benoted",
+      "notGraded": "Nicht benotet",
+      "gradeTest": "benoten"
+    }
   }
 }

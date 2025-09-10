@@ -1,38 +1,78 @@
-import type { Grade, Submission } from '@/@custom-types/backendTypes';
-import useApi from '@/hooks/useApi';
-import { Card, Divider, Typography } from '@mui/joy';
-import { useEffect, useState } from 'react';
+import { Box, Button, Card, Chip, Divider, Stack, Typography } from '@mui/joy';
+import { useTranslation } from 'react-i18next';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 
-const TestCard = (props: { examUuid: string }) => {
-  const { requestExam, requestGrades } = useApi();
-  const [submissions, setSubmission] = useState<Submission>();
-  const [grade, setGrade] = useState<Grade>();
-
-  const fetchSubmissions = async () => {
-    const exam = await requestExam(props.examUuid);
-    if (exam) {
-      setSubmission(exam);
-    }
-
-    if (submissions) {
-      for (const submission of submissions.studentUuid) {
-        const grade = await requestGrades(submission);
-        if (grade) {
-          setGrade(grade);
-        }
-      }
-    }
-  };
-  useEffect(() => {
-    fetchSubmissions();
-  }, []);
+interface TestCradProps {
+  grade?: number;
+  points?: number;
+  totalpoints?: number;
+  matriculationNumber: string;
+}
+const TestCard = (props: TestCradProps) => {
+  const { t } = useTranslation();
 
   return (
-    <Card>
+    <Card
+      color="neutral"
+      variant="outlined"
+      sx={{
+        display: 'flex',
+        width: 270,
+        justifyContent: 'space-around',
+        boxShadow: 'sm',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box
+            sx={{
+              width: 40,
+              height: 40,
+              marginRight: 1,
+              borderRadius: 'sm',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: props.grade
+                ? 'success.softBg'
+                : 'primary.softBg',
+            }}
+          >
+            {props.grade ? <CheckCircleOutlineIcon /> : <PanoramaFishEyeIcon />}
+          </Box>
+          <Stack>
+            <Typography level="h4">{props.matriculationNumber}</Typography>
+            {props.grade ? (
+              <Chip size="sm" color="success">
+                {t('components.testCard.alreadyGraded')}
+              </Chip>
+            ) : (
+              <Chip size="sm" color="primary">
+                {t('components.testCard.notGraded')}
+              </Chip>
+            )}
+          </Stack>
+        </Box>
+        <Button size="sm">{t('components.testCard.gradeTest')}</Button>
+      </Box>
       <Divider inset="none" />
-      <Typography>{grade?.grade ?? 'loading'}</Typography>
-      <Typography>{grade?.points ?? 'loading'}</Typography>
-      <Typography>{submissions?.totalPoints ?? 'loading'}</Typography>
+      <Stack>
+        <Typography sx={{ opacity: '50%' }}>
+          {t('components.testCard.points')}
+        </Typography>
+        <Typography>{(props.points ?? 0) + '/' + props.totalpoints}</Typography>
+        <Typography sx={{ opacity: '50%' }}>
+          {t('components.testCard.grade')}
+        </Typography>
+        <Typography>{props.grade ?? 'N/A'}</Typography>
+      </Stack>
     </Card>
   );
 };

@@ -20,5 +20,15 @@
       "exams": "Submissions:",
       "type": "Type:"
     }
+  },
+  "components": {
+    "testCard": {
+      "title": "Matriculation Number",
+      "grade": "Grade",
+      "points": "Actived Points",
+      "alreadyGraded": "Graded",
+      "notGraded": "Not been graded",
+      "gradeTest": "grade"
+    }
   }
 }

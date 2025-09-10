@@ -8,6 +8,10 @@ export interface UserEntity {
   UserType: UserType;
 }
 
+export interface Student extends UserEntity {
+  matricalNumber: string;
+}
+
 export interface Exam {
   uuid: string;
   module: string;
@@ -29,12 +33,12 @@ export interface Exam {
 }
 
 export interface Submission {
-  uuid: string;
-  studentUuid: string[];
   totalPoints: number;
+  student: Student[];
+  grade: Grade[];
 }
 
-export interface Grade {
+interface Grade {
   grade: number;
   points: number;
 }

@@ -28,7 +28,8 @@
       "points": "Actived Points",
       "alreadyGraded": "Graded",
       "notGraded": "Not been graded",
-      "gradeTest": "grade"
+      "gradeTest": "grade",
+      "editTest": "edit"
     }
   }
 }

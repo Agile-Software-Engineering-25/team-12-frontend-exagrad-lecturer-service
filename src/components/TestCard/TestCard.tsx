@@ -60,7 +60,11 @@ const TestCard = (props: TestCradProps) => {
             )}
           </Stack>
         </Box>
-        <Button size="sm">{t('components.testCard.gradeTest')}</Button>
+        <Button size="sm">
+          {props.grade
+            ? t('components.testCard.editTest')
+            : t('components.testCard.gradeTest')}
+        </Button>
       </Box>
       <Divider inset="none" />
       <Stack>

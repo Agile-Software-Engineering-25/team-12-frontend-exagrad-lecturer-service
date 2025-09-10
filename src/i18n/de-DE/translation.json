@@ -28,7 +28,8 @@
       "points": "Erreichte Punkte",
       "alreadyGraded": "Benoted",
       "notGraded": "Nicht benotet",
-      "gradeTest": "benoten"
+      "gradeTest": "benoten",
+      "editTest": "bearbeiten"
     }
   }
 }

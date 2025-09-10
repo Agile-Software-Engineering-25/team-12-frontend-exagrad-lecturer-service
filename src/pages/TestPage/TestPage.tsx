@@ -2,26 +2,31 @@ import type { Submission } from '@/@custom-types/backendTypes';
 import TestCard from '@/components/TestCard/TestCard';
 import useApi from '@/hooks/useApi';
 import { Box } from '@mui/joy';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '@/stores';
+import { setSubmission } from '@/stores/slices/submissionSlice';
 
 const TestPage = () => {
   const { examUuid } = useParams();
   const { requestExam } = useApi();
-  const [submission, setSubmission] = useState<Submission>();
+  const dispatch = useDispatch();
+  const requestSubmission = useSelector(
+    (state: RootState) => state.submission.data
+  );
 
   const fetchSubmissions = async () => {
     if (!examUuid) {
       return;
     }
 
-    console.log(examUuid);
     const exam = await requestExam(examUuid);
     if (!exam) {
       return;
     }
 
-    setSubmission(exam);
+    dispatch(setSubmission(exam));
   };
 
   useEffect(() => {
@@ -38,8 +43,8 @@ const TestPage = () => {
         justifyContent: 'space-around',
       }}
     >
-      {submission?.student?.map((student, index) => {
-        const correspondingGrade = submission.grade[index];
+      {requestSubmission?.student?.map((student, index) => {
+        const correspondingGrade = requestSubmission.grade[index];
 
         return (
           <TestCard
@@ -47,7 +52,7 @@ const TestPage = () => {
             matriculationNumber={student.matricalNumber}
             grade={correspondingGrade?.grade}
             points={correspondingGrade?.points}
-            totalpoints={submission?.totalPoints}
+            totalpoints={requestSubmission.totalPoints}
           />
         );
       })}

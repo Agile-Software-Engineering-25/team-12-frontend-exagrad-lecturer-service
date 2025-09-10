@@ -29,6 +29,7 @@ describe('Exam Page', () => {
               cy.contains('Abgaben:')
                 .next()
                 .should('contain.text', exam.submissionsCount);
+              cy.contains('Type:').next().should('contain.text', exam.examType);
             });
         });
       });

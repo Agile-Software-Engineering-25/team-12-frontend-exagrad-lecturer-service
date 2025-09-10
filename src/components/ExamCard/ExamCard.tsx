@@ -19,7 +19,6 @@ const ExamCard = (props: ExamCardProps) => {
   };
 
   const route = () => {
-    console.log(exam.uuid);
     if (exam.examType === ExamType.PRESENTATION) {
       navigate(`/submissions/${exam.uuid}`);
     }

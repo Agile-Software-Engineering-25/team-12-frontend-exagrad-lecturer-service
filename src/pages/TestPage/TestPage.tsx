@@ -1,4 +1,3 @@
-import type { Submission } from '@/@custom-types/backendTypes';
 import TestCard from '@/components/TestCard/TestCard';
 import useApi from '@/hooks/useApi';
 import { Box } from '@mui/joy';

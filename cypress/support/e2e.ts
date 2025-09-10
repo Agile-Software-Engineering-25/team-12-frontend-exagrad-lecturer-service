@@ -20,4 +20,8 @@ beforeEach(() => {
   cy.intercept('GET', 'http://localhost:8080/api/v1/lecturer/exams*', {
     fixture: 'exams.json',
   }).as('getExams');
+
+  cy.intercept('GET', 'http://localhost:8080/api/v1/lecturer/*/data', {
+    fixture: 'submission.json',
+  }).as('getSubmission');
 });

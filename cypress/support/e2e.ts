@@ -21,12 +21,6 @@ beforeEach(() => {
     fixture: 'exams.json',
   }).as('getExams');
 
-  cy.intercept('GET', '**/lecturer/**', (req) => {
-    console.log('🔍 Lecturer API request:', req.url);
-    console.log('🔍 Method:', req.method);
-    console.log('🔍 Full URL:', req.url);
-  });
-
   cy.intercept('GET', '**/lecturer/exam/*/data', {
     fixture: 'submission.json',
   }).as('getSubmission');

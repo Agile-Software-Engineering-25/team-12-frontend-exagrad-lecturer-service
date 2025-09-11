@@ -6,21 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import useApi from '@/hooks/useApi';
 import { useEffect } from 'react';
 import { setGrade } from '@/stores/slices/gradeSlice';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
 
 interface ExamCardProps {
   exam: Exam;
 }
 
-// Calculate the submissionsCount later with a different API call.
 const ExamCard = (props: ExamCardProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { requestGrade } = useApi();
   const { exam } = props;
-
   const formatForDisplay = (type: ExamType): string => {
     return type.charAt(0) + type.slice(1).toLowerCase();
   };
@@ -32,22 +29,19 @@ const ExamCard = (props: ExamCardProps) => {
   };
 
   useEffect(() => {
-    const grades: Grade[] = []
     const fetchGrades = async () => {
-      for (const student of exam.students) {
-        const grade = await requestGrade(exam.uuid,student.uuid)
-        if (!grade) {
-          continue
-        }
+      const gradePromises = exam.assignedStudents.map((student) =>
+        requestGrade(exam.uuid, student.uuid)
+      );
 
-        grades.push(grade);
-    }
-
-    dispatch(setGrade(grades))
-
-    }
-    fetchGrades()
-      }, [exam, dispatch])
+      const results = await Promise.all(gradePromises);
+      const grades = results.filter((grade): grade is Grade => Boolean(grade));
+      if (grades.length > 0) {
+        dispatch(setGrade(grades));
+      }
+    };
+    fetchGrades();
+  }, [exam, dispatch]);
 
   return (
     <Card
@@ -109,7 +103,9 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.exams')}
           </Typography>
-          <Typography>{exam.students.length}</Typography>
+          <Typography>
+            {exam.assignedStudents?.length ?? 'Loading...'}
+          </Typography>
         </Box>
       </Box>
       <Box>

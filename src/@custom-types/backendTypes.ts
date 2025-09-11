@@ -1,7 +1,7 @@
 import type { ExamType, UserType } from './enums';
 
 interface UserEntity {
-  id: string;
+  uuid: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -15,7 +15,7 @@ export interface FileReference {
 }
 
 export interface Student extends UserEntity {
-  matricalNumber: string;
+  matriculationNumber: string;
 }
 
 export interface Exam {
@@ -32,7 +32,7 @@ export interface Exam {
   time: number;
   allowedResources: string[];
   attempt: number;
-  students: Student[];
+  assignedStudents: Student[];
   ects: number;
   room: string;
 }
@@ -45,7 +45,7 @@ export interface Grade {
   studentUuid: string;
   submissionUuid: string | null;
   comment: string | null;
-  fileReferenced: FileReference[]
+  fileReferenced: FileReference[];
   grade: number;
   points: number;
 }

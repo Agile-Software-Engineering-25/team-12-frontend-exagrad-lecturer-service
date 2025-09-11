@@ -1,18 +1,25 @@
 import TestCard from '@/components/TestCard/TestCard';
-import useApi from '@/hooks/useApi';
 import { Box } from '@mui/joy';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@/stores';
+import { useTypedSelector } from '@/stores/rootReducer';
 
 const TestPage = () => {
   const { examUuid } = useParams();
-  const dispatch = useDispatch();
+  const exams = useTypedSelector((state) => state.exam.data);
+  const grades = useTypedSelector((state) => state.grade.data);
 
+  const currentExam = useMemo(() => {
+    return Object.values(exams).find((exam) => exam.uuid === examUuid);
+  }, [exams, examUuid]);
 
-  useEffect(() => {
-  }, [examUuid]);
+  const students = useMemo(() => {
+    return currentExam?.assignedStudents || [];
+  }, [currentExam]);
+
+  const totalPoints = useMemo(() => {
+    return currentExam?.totalPoints ?? 0;
+  }, [currentExam]);
 
   return (
     <Box
@@ -24,16 +31,15 @@ const TestPage = () => {
         justifyContent: 'space-around',
       }}
     >
-      {requestSubmission?.student?.map((student, index) => {
-        const correspondingGrade = requestSubmission.grade[index];
-
+      {students.map((student) => {
+        const gradeFromStudent = grades[student.uuid];
         return (
           <TestCard
-            key={student.id}
-            matriculationNumber={student.matricalNumber}
-            grade={correspondingGrade?.grade}
-            points={correspondingGrade?.points}
-            totalpoints={requestSubmission.totalPoints}
+            key={student.uuid}
+            matriculationNumber={student.matriculationNumber}
+            grade={gradeFromStudent?.grade}
+            points={gradeFromStudent?.points}
+            totalpoints={totalPoints}
           />
         );
       })}

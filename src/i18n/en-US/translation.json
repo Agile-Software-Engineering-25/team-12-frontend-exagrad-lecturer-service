@@ -27,7 +27,7 @@
       "grade": "Grade",
       "points": "Actived Points",
       "alreadyGraded": "Graded",
-      "notGraded": "Not been graded",
+      "notGraded": "Ungraded",
       "gradeTest": "grade",
       "editTest": "edit"
     }

@@ -1,11 +1,11 @@
 {
   "totalPoints": 100,
   "student": [
-    { "id": "D725", "matricalNumber": "D725" },
-    { "id": "D755", "matricalNumber": "D755" },
-    { "id": "D735", "matricalNumber": "D735" },
-    { "id": "D729", "matricalNumber": "D729" },
-    { "id": "D726", "matricalNumber": "D726" }
+    { "matricalNumber": "D725" },
+    { "matricalNumber": "D755" },
+    { "matricalNumber": "D735" },
+    { "matricalNumber": "D729" },
+    { "matricalNumber": "D726" }
   ],
   "grade": [
     { "grade": 1.3, "points": 90 },

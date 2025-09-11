@@ -61,7 +61,9 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
-          <Typography>{new Date(exam.date).toLocaleDateString()}</Typography>
+          <Typography>
+            {new Date(exam.date).toLocaleDateString('de-DE')}
+          </Typography>
         </Box>
       </Box>
 

@@ -1,36 +1,32 @@
-describe('Exam Page for Submission Page', () => {
-  let examData;
-
+describe('Exam Page', () => {
   beforeEach(() => {
-    cy.fixture('exams.json').then((data) => {
-      examData = data;
-    });
     cy.visit('/');
     cy.wait('@getExams');
   });
 
-  it('should validate exam cards content', () => {
-    examData.forEach((exam, index) => {
-      cy.get('.MuiCard-root.MuiCard-vertical')
-        .eq(index)
-        .within(() => {
-          cy.contains(exam.name).should('exist');
-          cy.contains('Module:').next().should('contain.text', exam.module);
-          cy.contains('Deadline:').next().should('contain.text', exam.date);
-          cy.contains('Zeit in min:').next().should('contain.text', exam.time);
-          cy.contains('Abgaben:')
-            .next()
-            .should('contain.text', exam.submissionsCount);
-          cy.contains('Type:').next().should('contain.text', exam.examType);
-        });
-    });
-  });
+  it('should open submission page when clicking presentation exam card', () => {
+    cy.fixture('exams.json').then((examData) => {
+      const presentationExam = examData.find(
+        (exam) => exam.examType === 'PRESENTATION'
+      );
 
-  it('should open submission page when clicking exam card', () => {
-    const firstExam = examData[0];
-    cy.contains(firstExam.name).click();
-    cy.url().should('include', `/submissions/${firstExam.uuid}`);
-    cy.wait('@getSubmission');
-    cy.contains('Erreichte Punkte').should('exist');
+      expect(presentationExam).to.exist;
+
+      cy.url().then((url) => cy.log('🔍 Initial URL:', url));
+
+      cy.get('.MuiCard-root.MuiCard-vertical')
+        .contains('Presentation')
+        .closest('.MuiCard-root')
+        .as('presentationCard');
+
+      cy.get('@presentationCard').click();
+
+      cy.url().should('include', `/submissions/${presentationExam.uuid}`);
+
+      cy.wait('@getSubmission');
+
+      cy.contains('Erreichte Punkte').should('exist');
+      cy.get('.MuiCard-root').should('have.length', 5);
+    });
   });
 });

@@ -7,7 +7,8 @@
     "displayDate": "25.10.2015",
     "time": 90,
     "submissionsCount": 0,
-    "examType": "PRESENTATION"
+    "examType": "PRESENTATION",
+    "examDisplay": "Presentation"
   },
   {
     "uuid": "f0a1ec0d-6e41-4a93-a1c7-2b4b19e18e87",
@@ -17,7 +18,8 @@
     "displayDate": "25.10.2015",
     "time": 90,
     "submissionsCount": 0,
-    "examType": "PRESENTATION"
+    "examType": "PRESENTATION",
+    "examDisplay": "Presentation"
   },
   {
     "uuid": "a62f9ff2-9b99-4b61-a5de-2a9c33d67b74",
@@ -27,7 +29,8 @@
     "displayDate": "25.10.2015",
     "time": 90,
     "submissionsCount": 0,
-    "examType": "TEST"
+    "examType": "TEST",
+    "examDisplay": "Test"
   },
   {
     "uuid": "cba58a9a-7d0e-4694-b88f-cdd5a39cc508",
@@ -37,7 +40,8 @@
     "displayDate": "25.10.2015",
     "time": 90,
     "submissionsCount": 0,
-    "examType": "TEST"
+    "examType": "TEST",
+    "examDisplay": "Test"
   },
   {
     "uuid": "ab7f2b5f-e117-4b5a-8b0e-4186fd04e611",
@@ -47,7 +51,8 @@
     "displayDate": "25.10.2015",
     "time": 90,
     "submissionsCount": 0,
-    "examType": "PRESENTATION"
+    "examType": "PRESENTATION",
+    "examDisplay": "Presentation"
   },
   {
     "uuid": "d9867315-017c-4a3e-9a64-620129a4e8c3",
@@ -57,6 +62,7 @@
     "displayDate": "25.10.2015",
     "time": 90,
     "submissionsCount": 0,
-    "examType": "TEST"
+    "examType": "TEST",
+    "examDisplay": "Test"
   }
 ]

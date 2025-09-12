@@ -33,10 +33,11 @@ describe('Exam Page', () => {
               .should('contain.text', exam.time);
             cy.contains('Abgaben:')
               .next()
-              .should('contain.text', exam.submissionsCount);
+              .should('contain.text', exam.assignedStudents.length);
             cy.contains('Type:')
               .next()
               .should('contain.text', exam.examDisplay);
+            cy.get('[class*="Chip"]').should('exist').and('be.visible');
           });
       });
     });

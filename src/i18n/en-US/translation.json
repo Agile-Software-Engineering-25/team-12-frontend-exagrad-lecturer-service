@@ -29,7 +29,12 @@
       "alreadyGraded": "Graded",
       "notGraded": "Ungraded",
       "gradeTest": "grade",
-      "editTest": "edit"
+      "editTest": "edit",
+      "gradeStatus": {
+        "graded": "Graded",
+        "ungraded": "Ungraded",
+        "partial": "Partially graded"
+      }
     }
   }
 }

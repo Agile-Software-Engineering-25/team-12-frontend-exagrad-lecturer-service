@@ -5,6 +5,9 @@ export enum UserType {
 }
 
 export enum ExamType {
-  TEST = 'TEST',
+  EXAM = 'EXAM',
   PRESENTATION = 'PRESENTATION',
+  ORAL = 'ORAL',
+  PROJECT = 'PROJECT',
+  OTHERS = 'OTHERS',
 }

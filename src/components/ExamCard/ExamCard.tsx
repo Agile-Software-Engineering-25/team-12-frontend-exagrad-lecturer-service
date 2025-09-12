@@ -1,10 +1,10 @@
-import { Typography, Card, Box, Divider } from '@mui/joy';
+import { Typography, Card, Box, Divider, Chip } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import type { Exam, Grade } from '@/@custom-types/backendTypes';
 import { ExamType } from '@/@custom-types/enums';
 import { useNavigate } from 'react-router-dom';
 import useApi from '@/hooks/useApi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setGrade } from '@/stores/slices/gradeSlice';
 import { useDispatch } from 'react-redux';
 
@@ -16,6 +16,9 @@ const ExamCard = (props: ExamCardProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [gradeStatus, setGradeStatus] = useState<
+    'graded' | 'partial' | 'ungraded'
+  >();
   const { requestGrade } = useApi();
   const { exam } = props;
   const formatForDisplay = (type: ExamType): string => {
@@ -23,7 +26,12 @@ const ExamCard = (props: ExamCardProps) => {
   };
 
   const route = () => {
-    if (exam.examType === ExamType.PRESENTATION) {
+    const examWithoutSubmissions = [
+      ExamType.PRESENTATION,
+      ExamType.EXAM,
+      ExamType.ORAL,
+    ];
+    if (examWithoutSubmissions.includes(exam.examType)) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };
@@ -38,6 +46,14 @@ const ExamCard = (props: ExamCardProps) => {
       const grades = results.filter((grade): grade is Grade => Boolean(grade));
       if (grades.length > 0) {
         dispatch(setGrade(grades));
+      }
+
+      if (results.length === grades.length) {
+        setGradeStatus('graded');
+      } else if (grades.length == 0) {
+        setGradeStatus('ungraded');
+      } else {
+        setGradeStatus('partial');
       }
     };
     fetchGrades();
@@ -108,9 +124,36 @@ const ExamCard = (props: ExamCardProps) => {
           </Typography>
         </Box>
       </Box>
-      <Box>
-        <Typography sx={{ opacity: '50%' }}>{t('pages.exam.type')}</Typography>
-        <Typography>{formatForDisplay(exam.examType)}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Box>
+          <Typography sx={{ opacity: '50%' }}>
+            {t('pages.exam.type')}
+          </Typography>
+          <Typography>{formatForDisplay(exam.examType)}</Typography>
+        </Box>
+        <Box>
+          {gradeStatus === 'graded' && (
+            <Chip color="success">
+              {t('components.testCard.gradeStatus.graded')}
+            </Chip>
+          )}
+          {gradeStatus === 'ungraded' && (
+            <Chip color="warning">
+              {t('components.testCard.gradeStatus.ungraded')}
+            </Chip>
+          )}
+          {gradeStatus === 'partial' && (
+            <Chip color="primary">
+              {t('components.testCard.gradeStatus.partial')}
+            </Chip>
+          )}
+        </Box>
       </Box>
     </Card>
   );

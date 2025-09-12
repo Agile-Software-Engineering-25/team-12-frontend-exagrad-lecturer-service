@@ -1,68 +1,134 @@
 [
   {
-    "uuid": "b3c87de6-25dc-4a64-b97e-2c3d918b0617",
+    "uuid": "a1111111-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Mathematics I",
     "name": "Final Exam",
-    "module": "Physics",
-    "date": "2015-10-25",
-    "displayDate": "25.10.2015",
+    "totalPoints": 100,
+    "examType": "EXAM",
+    "examDisplay": "Exam",
+    "date": "2025-09-25",
+    "displayDate": "25.9.2025",
     "time": 90,
-    "submissionsCount": 0,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b1111111-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Alice",
+        "last_name": "Smith",
+        "email": "alice@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "123456"
+      }
+    ]
+  },
+  {
+    "uuid": "a2222222-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Software Engineering",
+    "name": "Project Presentation",
+    "totalPoints": 50,
+    "examType": "PROJECT",
+    "examDisplay": "Project",
+    "date": "2025-10-01",
+    "displayDate": "1.10.2025",
+    "time": 45,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b2222222-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Bob",
+        "last_name": "Johnson",
+        "email": "bob@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "654321"
+      }
+    ]
+  },
+  {
+    "uuid": "a3333333-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Algorithms",
+    "name": "Oral Defense",
+    "totalPoints": 40,
+    "examType": "ORAL",
+    "examDisplay": "Oral",
+    "date": "2025-09-30",
+    "displayDate": "30.9.2025",
+    "time": 30,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b3333333-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Charlie",
+        "last_name": "Lee",
+        "email": "charlie@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "112233"
+      }
+    ]
+  },
+  {
+    "uuid": "a4444444-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Databases",
+    "name": "Written Test",
+    "totalPoints": 75,
+    "examType": "EXAM",
+    "examDisplay": "Exam",
+    "date": "2025-10-10",
+    "displayDate": "10.10.2025",
+    "time": 60,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b4444444-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Diana",
+        "last_name": "Wang",
+        "email": "diana@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "445566"
+      }
+    ]
+  },
+  {
+    "uuid": "a5555555-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "AI Fundamentals",
+    "name": "Final Oral Exam",
+    "totalPoints": 60,
+    "examType": "OTHERS",
+    "examDisplay": "Others",
+    "date": "2025-10-05",
+    "displayDate": "5.10.2025",
+    "time": 20,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b5555555-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Evan",
+        "last_name": "Martinez",
+        "email": "evan@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "778899"
+      }
+    ]
+  },
+  {
+    "uuid": "a6666666-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Human-Computer Interaction",
+    "name": "Usability Presentation",
+    "totalPoints": 30,
     "examType": "PRESENTATION",
-    "examDisplay": "Presentation"
-  },
-  {
-    "uuid": "f0a1ec0d-6e41-4a93-a1c7-2b4b19e18e87",
-    "name": "Chemistry Lab Exam",
-    "module": "Chemistry",
-    "date": "2015-10-25",
-    "displayDate": "25.10.2015",
-    "time": 90,
-    "submissionsCount": 0,
-    "examType": "PRESENTATION",
-    "examDisplay": "Presentation"
-  },
-  {
-    "uuid": "a62f9ff2-9b99-4b61-a5de-2a9c33d67b74",
-    "name": "Physics Midterm",
-    "module": "Physics",
-    "date": "2015-10-25",
-    "displayDate": "25.10.2015",
-    "time": 90,
-    "submissionsCount": 0,
-    "examType": "TEST",
-    "examDisplay": "Test"
-  },
-  {
-    "uuid": "cba58a9a-7d0e-4694-b88f-cdd5a39cc508",
-    "name": "Mathematics Final Exam",
-    "module": "Mathe",
-    "date": "2015-10-25",
-    "displayDate": "25.10.2015",
-    "time": 90,
-    "submissionsCount": 0,
-    "examType": "TEST",
-    "examDisplay": "Test"
-  },
-  {
-    "uuid": "ab7f2b5f-e117-4b5a-8b0e-4186fd04e611",
-    "name": "History Essay Exam",
-    "module": "History I",
-    "date": "2015-10-25",
-    "displayDate": "25.10.2015",
-    "time": 90,
-    "submissionsCount": 0,
-    "examType": "PRESENTATION",
-    "examDisplay": "Presentation"
-  },
-  {
-    "uuid": "d9867315-017c-4a3e-9a64-620129a4e8c3",
-    "name": "Computer Science Project",
-    "module": "CS I",
-    "date": "2015-10-25",
-    "displayDate": "25.10.2015",
-    "time": 90,
-    "submissionsCount": 0,
-    "examType": "TEST",
-    "examDisplay": "Test"
+    "examDisplay": "Presentation",
+    "date": "2025-09-28",
+    "displayDate": "28.9.2025",
+    "time": 40,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b6666666-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Fiona",
+        "last_name": "Khan",
+        "email": "fiona@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "991122"
+      }
+    ]
   }
 ]

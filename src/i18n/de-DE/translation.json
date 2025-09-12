@@ -29,7 +29,12 @@
       "alreadyGraded": "Benoted",
       "notGraded": "Unbenotet",
       "gradeTest": "benoten",
-      "editTest": "bearbeiten"
+      "editTest": "bearbeiten",
+      "gradeStatus": {
+        "graded": "Benoted",
+        "ungraded": "Unbenoted",
+        "partial": "Teilweise benoted"
+      }
     }
   }
 }

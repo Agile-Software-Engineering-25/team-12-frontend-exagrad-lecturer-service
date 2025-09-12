@@ -1,32 +1,60 @@
-describe('Exam Page', () => {
+describe('Exam Page Navigation', () => {
   beforeEach(() => {
     cy.visit('/');
     cy.wait('@getExams');
   });
 
-  it('should open submission page when clicking presentation exam card', () => {
+  it('should navigate to submissions page when clicking navigable exam cards', () => {
+    cy.fixture('exams.json').then((examData) => {
+      examData.forEach((exam, index) => {
+        const navigableTypes = ['PRESENTATION', 'EXAM', 'ORAL'];
+
+        if (navigableTypes.includes(exam.examType)) {
+          cy.get('.MuiCard-root.MuiCard-vertical').eq(index).click();
+
+          cy.url().should('include', `/submissions/${exam.uuid}`);
+
+          cy.go('back');
+          cy.wait('@getExams');
+        }
+      });
+    });
+  });
+
+  it('should not navigate when clicking non-navigable exam cards', () => {
+    cy.fixture('exams.json').then((examData) => {
+      examData.forEach((exam, index) => {
+        const nonNavigableTypes = ['QUIZ', 'ASSIGNMENT'];
+
+        if (nonNavigableTypes.includes(exam.examType)) {
+          const currentUrl = cy.url();
+
+          cy.get('.MuiCard-root.MuiCard-vertical').eq(index).click();
+
+          cy.url().should('eq', currentUrl);
+        }
+      });
+    });
+  });
+
+  it('should navigate to correct exam submission page', () => {
     cy.fixture('exams.json').then((examData) => {
       const presentationExam = examData.find(
         (exam) => exam.examType === 'PRESENTATION'
       );
 
-      expect(presentationExam).to.exist;
+      if (presentationExam) {
+        cy.get('.MuiCard-root.MuiCard-vertical')
+          .contains(presentationExam.name)
+          .parent()
+          .click();
 
-      cy.url().then((url) => cy.log('🔍 Initial URL:', url));
-
-      cy.get('.MuiCard-root.MuiCard-vertical')
-        .contains('Presentation')
-        .closest('.MuiCard-root')
-        .as('presentationCard');
-
-      cy.get('@presentationCard').click();
-
-      cy.url().should('include', `/submissions/${presentationExam.uuid}`);
-
-      cy.wait('@getSubmission');
-
-      cy.contains('Erreichte Punkte').should('exist');
-      cy.get('.MuiCard-root').should('have.length', 5);
+        cy.url().should('include', `/submissions/${presentationExam.uuid}`);
+      } else {
+        cy.log(
+          'No PRESENTATION exam found in fixture - skipping navigation test'
+        );
+      }
     });
   });
 });

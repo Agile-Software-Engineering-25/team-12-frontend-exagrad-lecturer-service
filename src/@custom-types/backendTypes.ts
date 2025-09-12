@@ -23,10 +23,7 @@ export interface Exam {
   module: string;
   name: string;
   lecturer: UserEntity;
-  grade: number | null;
-  average: number | null;
   totalPoints: number;
-  achievedPoints: number | null;
   examType: ExamType;
   date: Date;
   time: number;

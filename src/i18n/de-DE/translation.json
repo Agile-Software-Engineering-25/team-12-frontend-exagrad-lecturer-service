@@ -32,8 +32,8 @@
       "editTest": "bearbeiten",
       "gradeStatus": {
         "graded": "Benoted",
-        "ungraded": "Unbenoted",
-        "partial": "Teilweise benoted"
+        "ungraded": "Unbenotet",
+        "partial": "Teilweise benotet"
       }
     }
   }

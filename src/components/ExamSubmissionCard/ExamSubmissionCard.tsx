@@ -40,12 +40,12 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: props.feedback.grade
+              backgroundColor: props.feedback?.grade
                 ? 'success.softBg'
                 : 'primary.softBg',
             }}
           >
-            {props.feedback.grade ? (
+            {props.feedback?.grade ? (
               <CheckCircleOutlineIcon />
             ) : (
               <PanoramaFishEyeIcon />
@@ -53,7 +53,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           </Box>
           <Stack>
             <Typography level="h4">{props.matriculationNumber}</Typography>
-            {props.feedback.grade ? (
+            {props.feedback?.grade ? (
               <Chip size="sm" color="success">
                 {t('components.testCard.alreadyGraded')}
               </Chip>
@@ -64,7 +64,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
             )}
           </Stack>
         </Box>
-        {props.feedback.grade ? (
+        {props.feedback?.grade ? (
           <Button size="sm">{t('components.testCard.gradeTest')}</Button>
         ) : (
           <Button size="sm" variant="outlined">
@@ -78,12 +78,12 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           {t('components.testCard.points')}
         </Typography>
         <Typography>
-          {(props.feedback.points ?? 0) + '/' + props.totalpoints}
+          {(props.feedback?.points ?? 0) + '/' + props.totalpoints}
         </Typography>
         <Typography sx={{ opacity: '50%' }}>
           {t('components.testCard.grade')}
         </Typography>
-        <Typography>{props.feedback.grade ?? 'N/A'}</Typography>
+        <Typography>{props.feedback?.grade ?? 'N/A'}</Typography>
       </Stack>
     </Card>
   );

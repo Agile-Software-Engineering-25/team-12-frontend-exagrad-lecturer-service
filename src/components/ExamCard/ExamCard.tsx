@@ -1,12 +1,12 @@
 import { Typography, Card, Box, Divider, Chip } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
-import type { Exam, Feedback } from '@/@custom-types/backendTypes';
+import type { Exam } from '@/@custom-types/backendTypes';
 import { ExamType } from '@/@custom-types/enums';
 import { useNavigate } from 'react-router-dom';
-import useApi from '@/hooks/useApi';
-import { useEffect, useMemo, useState } from 'react';
-import { setGrades } from '@/stores/slices/gradeSlice';
-import { useDispatch } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import type { RootState } from '@/stores';
+import { useSelector } from 'react-redux';
+import useExamDataLoading from '@/hooks/useDataLoading';
 
 interface ExamCardProps {
   exam: Exam;
@@ -14,13 +14,12 @@ interface ExamCardProps {
 
 const ExamCard = (props: ExamCardProps) => {
   const { exam } = props;
-  const { requestGrade } = useApi();
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [examGrades, setExamGrades] = useState<Feedback[]>([]);
-
+  const { loadGradesForExam } = useExamDataLoading();
   i18n.language;
+
+  const allGrades = useSelector((state: RootState) => state.grade.data || []);
 
   const route = () => {
     const examWithoutSubmissions = [
@@ -34,6 +33,10 @@ const ExamCard = (props: ExamCardProps) => {
   };
 
   const gradeStatus = useMemo(() => {
+    const examGrades = Object.values(allGrades).filter(
+      (grade) => grade.examUuid === exam.uuid
+    );
+
     const totalStudents = exam.assignedStudents.length;
     const gradeCount = examGrades.length;
 
@@ -44,7 +47,7 @@ const ExamCard = (props: ExamCardProps) => {
       return 'graded';
     }
     return 'partial';
-  }, [examGrades.length, exam.assignedStudents.length]);
+  }, [allGrades, exam.uuid, exam.assignedStudents.length]);
 
   useEffect(() => {
     const studentUuids = exam.assignedStudents.map((student) => student.uuid);
@@ -148,6 +151,3 @@ const ExamCard = (props: ExamCardProps) => {
 };
 
 export default ExamCard;
-function loadGradesForExam(uuid: string, studentUuids: string[]) {
-  throw new Error('Function not implemented.');
-}

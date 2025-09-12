@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import useApi from '@/hooks/useApi';
-import { setExams } from '@/stores/slices/examSlice';
 import { setGrades } from '@/stores/slices/gradeSlice';
 import type { Feedback } from '@/@custom-types/backendTypes';
+import { setExams } from '@/stores/slices/examSlice';
 
 const useExamDataLoading = () => {
   const dispatch = useDispatch();
   const { requestExams, requestGrade } = useApi();
 
   const loadExams = useCallback(
-    async (lecturer: string) => {
-      const exams = await requestExams(lecturer);
+    async (lecturerUuid: string) => {
+      const exams = await requestExams(lecturerUuid);
       if (exams) {
         dispatch(setExams(exams));
       }
@@ -34,7 +34,7 @@ const useExamDataLoading = () => {
         dispatch(setGrades(grades));
       }
 
-      return grades;
+      return gradePromises;
     },
     [requestGrade, dispatch]
   );

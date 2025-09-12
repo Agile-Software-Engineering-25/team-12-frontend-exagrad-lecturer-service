@@ -108,7 +108,7 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.time')}
           </Typography>
-          <Typography>{exam.time}</Typography>
+          <Typography>{exam.time / 60}</Typography>
         </Box>
         <Box>
           <Typography sx={{ opacity: '50%' }}>

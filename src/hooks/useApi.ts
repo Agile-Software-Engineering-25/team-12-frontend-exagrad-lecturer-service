@@ -2,7 +2,6 @@ import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
 import type { Exam, Feedback } from '@custom-types/backendTypes';
-import type { W } from 'node_modules/react-router/dist/development/index-react-server-client-DRhjXpk2.d.mts';
 
 const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);

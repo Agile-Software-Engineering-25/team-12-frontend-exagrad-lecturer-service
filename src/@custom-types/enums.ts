@@ -12,7 +12,7 @@ export enum ExamType {
   OTHERS = 'OTHERS',
 }
 
-export enum GradeState {
+export enum ExamGradingState {
   GRADED = 'graded',
   UNGRADED = 'ungraded',
   PARTIALLY = 'partial',

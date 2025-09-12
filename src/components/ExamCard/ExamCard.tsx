@@ -7,6 +7,7 @@ import { useEffect, useMemo } from 'react';
 import type { RootState } from '@/stores';
 import { useSelector } from 'react-redux';
 import useExamDataLoading from '@/hooks/useDataLoading';
+import i18n from '@/i18n';
 
 interface ExamCardProps {
   exam: Exam;
@@ -14,10 +15,9 @@ interface ExamCardProps {
 
 const ExamCard = (props: ExamCardProps) => {
   const { exam } = props;
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { loadGradesForExam } = useExamDataLoading();
-  i18n.language;
 
   const allGrades = useSelector((state: RootState) => state.grade.data || []);
 
@@ -91,7 +91,9 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
-          <Typography>{new Date(exam.date).toLocaleDateString()}</Typography>
+          <Typography>
+            {new Date(exam.date).toLocaleDateString(i18n.language)}
+          </Typography>
         </Box>
       </Box>
 

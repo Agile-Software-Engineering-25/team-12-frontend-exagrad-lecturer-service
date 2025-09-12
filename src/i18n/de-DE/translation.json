@@ -34,6 +34,13 @@
         "graded": "Benoted",
         "ungraded": "Unbenotet",
         "partial": "Teilweise benotet"
+      },
+      "examTypes": {
+        "EXAM": "Klausur",
+        "PRESENTATION": "Präsentation",
+        "ORAL": "Mündlich",
+        "PROJECT": "Projekt",
+        "OTHERS": "Anderes"
       }
     }
   }

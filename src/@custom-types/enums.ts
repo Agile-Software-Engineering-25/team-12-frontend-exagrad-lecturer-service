@@ -11,3 +11,9 @@ export enum ExamType {
   PROJECT = 'PROJECT',
   OTHERS = 'OTHERS',
 }
+
+export enum GradeState {
+  GRADED = 'graded',
+  UNGRADED = 'ungraded',
+  PARTIALLY = 'partial',
+}

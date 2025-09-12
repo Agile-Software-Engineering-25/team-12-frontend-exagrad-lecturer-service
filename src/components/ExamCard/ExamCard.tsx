@@ -1,11 +1,11 @@
 import { Typography, Card, Box, Divider, Chip } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
-import type { Exam, Grade } from '@/@custom-types/backendTypes';
+import type { Exam, Feedback } from '@/@custom-types/backendTypes';
 import { ExamType } from '@/@custom-types/enums';
 import { useNavigate } from 'react-router-dom';
 import useApi from '@/hooks/useApi';
-import { useEffect, useState } from 'react';
-import { setGrade } from '@/stores/slices/gradeSlice';
+import { useEffect, useMemo, useState } from 'react';
+import { setGrades } from '@/stores/slices/gradeSlice';
 import { useDispatch } from 'react-redux';
 
 interface ExamCardProps {
@@ -13,18 +13,14 @@ interface ExamCardProps {
 }
 
 const ExamCard = (props: ExamCardProps) => {
-  const { requestGrade } = useApi();
   const { exam } = props;
-  const { t } = useTranslation();
+  const { requestGrade } = useApi();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [gradeStatus, setGradeStatus] = useState<
-    'graded' | 'partial' | 'ungraded'
-  >();
+  const [examGrades, setExamGrades] = useState<Feedback[]>([]);
 
-  const formatForDisplay = (type: ExamType): string => {
-    return type.charAt(0) + type.slice(1).toLowerCase();
-  };
+  i18n.language;
 
   const route = () => {
     const examWithoutSubmissions = [
@@ -37,29 +33,23 @@ const ExamCard = (props: ExamCardProps) => {
     }
   };
 
+  const gradeStatus = useMemo(() => {
+    const totalStudents = exam.assignedStudents.length;
+    const gradeCount = examGrades.length;
+
+    if (gradeCount === 0) {
+      return 'ungraded';
+    }
+    if (gradeCount === totalStudents) {
+      return 'graded';
+    }
+    return 'partial';
+  }, [examGrades.length, exam.assignedStudents.length]);
+
   useEffect(() => {
-    const fetchGrades = async () => {
-      const gradePromises = exam.assignedStudents.map((student) =>
-        requestGrade(exam.uuid, student.uuid)
-      );
-
-      const results = await Promise.all(gradePromises);
-      const grades = results.filter((grade): grade is Grade => Boolean(grade));
-
-      if (grades.length > 0) {
-        dispatch(setGrade(grades));
-      }
-
-      if (results.length === grades.length) {
-        setGradeStatus('graded');
-      } else if (grades.length == 0) {
-        setGradeStatus('ungraded');
-      } else {
-        setGradeStatus('partial');
-      }
-    };
-    fetchGrades();
-  }, [exam, dispatch]);
+    const studentUuids = exam.assignedStudents.map((student) => student.uuid);
+    loadGradesForExam(exam.uuid, studentUuids);
+  }, [exam.uuid, exam.assignedStudents, loadGradesForExam]);
 
   return (
     <Card
@@ -98,9 +88,7 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
-          <Typography>
-            {new Date(exam.date).toLocaleDateString('de-DE')}
-          </Typography>
+          <Typography>{new Date(exam.date).toLocaleDateString()}</Typography>
         </Box>
       </Box>
 
@@ -137,24 +125,22 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.type')}
           </Typography>
-          <Typography>{formatForDisplay(exam.examType)}</Typography>
+          <Typography>
+            {t(`components.testCard.examTypes.${exam.examType}`)}
+          </Typography>
         </Box>
         <Box>
-          {gradeStatus === 'graded' && (
-            <Chip color="success">
-              {t('components.testCard.gradeStatus.graded')}
-            </Chip>
-          )}
-          {gradeStatus === 'ungraded' && (
-            <Chip color="warning">
-              {t('components.testCard.gradeStatus.ungraded')}
-            </Chip>
-          )}
-          {gradeStatus === 'partial' && (
-            <Chip color="primary">
-              {t('components.testCard.gradeStatus.partial')}
-            </Chip>
-          )}
+          <Chip
+            color={
+              gradeStatus == 'graded'
+                ? 'success'
+                : gradeStatus == 'ungraded'
+                  ? 'warning'
+                  : 'primary'
+            }
+          >
+            {t('components.testCard.gradeStatus.' + gradeStatus)}
+          </Chip>
         </Box>
       </Box>
     </Card>
@@ -162,3 +148,6 @@ const ExamCard = (props: ExamCardProps) => {
 };
 
 export default ExamCard;
+function loadGradesForExam(uuid: string, studentUuids: string[]) {
+  throw new Error('Function not implemented.');
+}

@@ -4,24 +4,15 @@ import { setExams } from '@/stores/slices/examSlice';
 import ExamCard from '@components/ExamCard/ExamCard';
 import { Box } from '@mui/joy';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const ExamsPage = () => {
-  const dispatch = useDispatch();
-  const { requestExams } = useApi();
   const requestedExams = useSelector((state: RootState) => state.exam.data);
   const exams = Object.values(requestedExams);
 
-  const fetchExams = async (lecturer: string) => {
-    const exams = await requestExams(lecturer);
-    if (exams) {
-      dispatch(setExams(exams));
-    }
-  };
-
   useEffect(() => {
-    fetchExams('Tom');
-  }, []);
+    loadExams('Tom');
+  }, [loadExams]);
 
   return (
     <Box
@@ -41,3 +32,6 @@ const ExamsPage = () => {
 };
 
 export default ExamsPage;
+function loadExams(arg0: string) {
+  throw new Error('Function not implemented.');
+}

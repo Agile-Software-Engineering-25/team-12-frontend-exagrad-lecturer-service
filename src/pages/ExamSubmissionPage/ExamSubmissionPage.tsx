@@ -1,10 +1,10 @@
-import TestCard from '@/components/TestCard/TestCard';
+import ExamSubmissionCard from '@/components/ExamSubmissionCard/ExamSubmissionCard';
 import { Box } from '@mui/joy';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '@/stores/rootReducer';
 
-const TestPage = () => {
+const ExamSubmissionPage = () => {
   const { examUuid } = useParams();
   const exams = useTypedSelector((state) => state.exam.data);
   const grades = useTypedSelector((state) => state.grade.data);
@@ -35,11 +35,10 @@ const TestPage = () => {
         if (!examUuid) return null;
         const gradeFromStudent = grades[`${examUuid}:${student.uuid}`];
         return (
-          <TestCard
+          <ExamSubmissionCard
             key={student.uuid}
             matriculationNumber={student.matriculationNumber}
-            grade={gradeFromStudent?.grade}
-            points={gradeFromStudent?.points}
+            feedback={gradeFromStudent}
             totalpoints={totalPoints}
           />
         );
@@ -48,4 +47,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default ExamSubmissionPage;

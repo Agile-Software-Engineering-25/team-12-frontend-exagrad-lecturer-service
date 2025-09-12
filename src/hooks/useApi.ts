@@ -1,7 +1,7 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
-import type { Exam, Grade } from '@custom-types/backendTypes';
+import type { Exam, Feedback } from '@custom-types/backendTypes';
 
 const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
@@ -28,7 +28,7 @@ const useApi = () => {
             studentUuid: studentUuid,
           },
         });
-        return response.data as Grade;
+        return response.data as Feedback;
       } catch (error) {
         console.error('Error while getting exam: ', error);
         return false;

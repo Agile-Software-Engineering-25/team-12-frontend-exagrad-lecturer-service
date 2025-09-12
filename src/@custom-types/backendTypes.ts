@@ -34,7 +34,7 @@ export interface Exam {
   room: string;
 }
 
-export interface Grade {
+export interface Feedback {
   uuid: string;
   gradedAt: Date;
   examUuid: string;

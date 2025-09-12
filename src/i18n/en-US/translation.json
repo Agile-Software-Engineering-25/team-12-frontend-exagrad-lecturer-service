@@ -34,6 +34,13 @@
         "graded": "Graded",
         "ungraded": "Ungraded",
         "partial": "Partially graded"
+      },
+      "examTypes": {
+        "EXAM": "Exam",
+        "PRESENTATION": "Presentation",
+        "ORAL": "Oral",
+        "PROJECT": "Project",
+        "OTHERS": "Others"
       }
     }
   }

@@ -2,14 +2,14 @@ import { Box, Button, Card, Chip, Divider, Stack, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
+import type { Feedback } from '@/@custom-types/backendTypes';
 
-interface TestCradProps {
-  grade?: number;
-  points?: number;
+interface ExamSubmissionCradProps {
+  feedback: Feedback;
   totalpoints?: number;
   matriculationNumber: string;
 }
-const TestCard = (props: TestCradProps) => {
+const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
   const { t } = useTranslation();
 
   return (
@@ -40,16 +40,20 @@ const TestCard = (props: TestCradProps) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: props.grade
+              backgroundColor: props.feedback.grade
                 ? 'success.softBg'
                 : 'primary.softBg',
             }}
           >
-            {props.grade ? <CheckCircleOutlineIcon /> : <PanoramaFishEyeIcon />}
+            {props.feedback.grade ? (
+              <CheckCircleOutlineIcon />
+            ) : (
+              <PanoramaFishEyeIcon />
+            )}
           </Box>
           <Stack>
             <Typography level="h4">{props.matriculationNumber}</Typography>
-            {props.grade ? (
+            {props.feedback.grade ? (
               <Chip size="sm" color="success">
                 {t('components.testCard.alreadyGraded')}
               </Chip>
@@ -60,7 +64,7 @@ const TestCard = (props: TestCradProps) => {
             )}
           </Stack>
         </Box>
-        {props.grade ? (
+        {props.feedback.grade ? (
           <Button size="sm">{t('components.testCard.gradeTest')}</Button>
         ) : (
           <Button size="sm" variant="outlined">
@@ -73,14 +77,16 @@ const TestCard = (props: TestCradProps) => {
         <Typography sx={{ opacity: '50%' }}>
           {t('components.testCard.points')}
         </Typography>
-        <Typography>{(props.points ?? 0) + '/' + props.totalpoints}</Typography>
+        <Typography>
+          {(props.feedback.points ?? 0) + '/' + props.totalpoints}
+        </Typography>
         <Typography sx={{ opacity: '50%' }}>
           {t('components.testCard.grade')}
         </Typography>
-        <Typography>{props.grade ?? 'N/A'}</Typography>
+        <Typography>{props.feedback.grade ?? 'N/A'}</Typography>
       </Stack>
     </Card>
   );
 };
 
-export default TestCard;
+export default ExamSubmissionCard;

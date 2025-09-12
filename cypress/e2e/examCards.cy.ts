@@ -30,7 +30,7 @@ describe('Exam Page', () => {
               .should('contain.text', exam.displayDate);
             cy.contains('Zeit in min:')
               .next()
-              .should('contain.text', exam.time);
+              .should('contain.text', exam.displayTime);
             cy.contains('Abgaben:')
               .next()
               .should('contain.text', exam.assignedStudents.length);

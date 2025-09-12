@@ -17,11 +17,11 @@
 import './commands';
 
 beforeEach(() => {
-  cy.intercept('GET', 'http://localhost:8080/api/v1/exams/*', {
+  cy.intercept('GET', 'http://localhost:8080/api/v1/exams*', {
     fixture: 'exams.json',
   }).as('getExams');
 
-  cy.intercept('GET', '**/lecturer/exam/*/data', {
+  cy.intercept('GET', 'http://localhost:8090/api/v1/submission/*', {
     fixture: 'submission.json',
   }).as('getSubmission');
 });

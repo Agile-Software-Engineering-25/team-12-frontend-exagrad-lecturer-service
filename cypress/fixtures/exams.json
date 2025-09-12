@@ -8,7 +8,8 @@
     "examDisplay": "Klausur",
     "date": "2025-09-25",
     "displayDate": "25.9.2025",
-    "time": 90,
+    "time": 5400,
+    "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
@@ -30,7 +31,8 @@
     "examDisplay": "Projekt",
     "date": "2025-10-01",
     "displayDate": "1.10.2025",
-    "time": 45,
+    "time": 5400,
+    "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
@@ -52,7 +54,8 @@
     "examDisplay": "Mündlich",
     "date": "2025-09-30",
     "displayDate": "30.9.2025",
-    "time": 30,
+    "time": 5400,
+    "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
@@ -74,7 +77,8 @@
     "examDisplay": "Klausur",
     "date": "2025-10-10",
     "displayDate": "10.10.2025",
-    "time": 60,
+    "time": 5400,
+    "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
@@ -96,7 +100,8 @@
     "examDisplay": "Anderes",
     "date": "2025-10-05",
     "displayDate": "5.10.2025",
-    "time": 20,
+    "time": 5400,
+    "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
@@ -118,7 +123,8 @@
     "examDisplay": "Präsentation",
     "date": "2025-09-28",
     "displayDate": "28.9.2025",
-    "time": 40,
+    "time": 5400,
+    "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {

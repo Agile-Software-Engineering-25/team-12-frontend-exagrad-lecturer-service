@@ -18,10 +18,11 @@ const gradeSlice = createSlice({
       const gradeMap: GradeMap = {};
 
       for (const grade of gradeArray) {
-        gradeMap[grade.studentUuid] = grade;
+        const key = `${grade.examUuid}:${grade.studentUuid}`;
+        gradeMap[key] = grade;
       }
 
-      state.data = gradeMap;
+      state.data = { ...state.data, ...gradeMap };
     },
   },
 });

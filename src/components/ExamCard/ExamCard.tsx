@@ -13,14 +13,15 @@ interface ExamCardProps {
 }
 
 const ExamCard = (props: ExamCardProps) => {
+  const { requestGrade } = useApi();
+  const { exam } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [gradeStatus, setGradeStatus] = useState<
     'graded' | 'partial' | 'ungraded'
   >();
-  const { requestGrade } = useApi();
-  const { exam } = props;
+
   const formatForDisplay = (type: ExamType): string => {
     return type.charAt(0) + type.slice(1).toLowerCase();
   };
@@ -44,6 +45,7 @@ const ExamCard = (props: ExamCardProps) => {
 
       const results = await Promise.all(gradePromises);
       const grades = results.filter((grade): grade is Grade => Boolean(grade));
+
       if (grades.length > 0) {
         dispatch(setGrade(grades));
       }

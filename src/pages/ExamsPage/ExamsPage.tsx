@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const ExamsPage = () => {
   const dispatch = useDispatch();
+  const { requestExams } = useApi();
   const requestedExams = useSelector((state: RootState) => state.exam.data);
   const exams = Object.values(requestedExams);
-  const { requestExams } = useApi();
 
   const fetchExams = async (lecturer: string) => {
     const exams = await requestExams(lecturer);

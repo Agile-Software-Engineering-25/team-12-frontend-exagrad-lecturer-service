@@ -32,7 +32,8 @@ const TestPage = () => {
       }}
     >
       {students.map((student) => {
-        const gradeFromStudent = grades[student.uuid];
+        if (!examUuid) return null;
+        const gradeFromStudent = grades[`${examUuid}:${student.uuid}`];
         return (
           <TestCard
             key={student.uuid}

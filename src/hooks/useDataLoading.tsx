@@ -1,48 +1,45 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import useApi from '@/hooks/useApi';
-import { setGrades } from '@/stores/slices/gradeSlice';
-import type { Feedback } from '@/@custom-types/backendTypes';
+import { setFeedback } from '@/stores/slices/gradeSlice';
 import { setExams } from '@/stores/slices/examSlice';
 
-const useExamDataLoading = () => {
+const useDataLoading = () => {
   const dispatch = useDispatch();
-  const { requestExams, requestGrade } = useApi();
+  const { fetchExams, fetchSubmissionsForLecturer, fetchFeedbackForLecturer } =
+    useApi();
 
   const loadExams = useCallback(
     async (lecturerUuid: string) => {
-      const exams = await requestExams(lecturerUuid);
+      const exams = await fetchExams(lecturerUuid);
       if (exams) {
         dispatch(setExams(exams));
       }
     },
-    [requestExams, dispatch]
+    [fetchExams, dispatch]
   );
 
-  const loadGradesForExam = useCallback(
-    async (examUuid: string, studentUuids: string[]) => {
-      const gradePromises = studentUuids.map((studentUuid) =>
-        requestGrade(examUuid, studentUuid)
-      );
-
-      const results = await Promise.all(gradePromises);
-      const grades = results.filter((grade): grade is Feedback =>
-        Boolean(grade)
-      );
-
-      if (grades.length > 0) {
-        dispatch(setGrades(grades));
-      }
-
-      return gradePromises;
+  const loadFeedback = useCallback(
+    async (lecturerUuid: string) => {
+      const results = await fetchFeedbackForLecturer(lecturerUuid);
+      dispatch(setFeedback(results || []));
     },
-    [requestGrade, dispatch]
+    [dispatch, fetchFeedbackForLecturer]
+  );
+
+  const loadSubmissions = useCallback(
+    async (lecturerUuid: string) => {
+      const results = await fetchSubmissionsForLecturer(lecturerUuid);
+      dispatch(setFeedback(results || []));
+    },
+    [dispatch, fetchSubmissionsForLecturer]
   );
 
   return {
     loadExams,
-    loadGradesForExam,
+    loadFeedback,
+    loadSubmissions,
   };
 };
 
-export default useExamDataLoading;
+export default useDataLoading;

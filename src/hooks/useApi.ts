@@ -6,7 +6,7 @@ import type { Exam, Feedback } from '@custom-types/backendTypes';
 const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
 
-  const requestExams = useCallback(
+  const fetchExams = useCallback(
     async (lecturerUuid: string) => {
       try {
         const response = await axiosInstance.get('/exams', {
@@ -23,10 +23,10 @@ const useApi = () => {
     [axiosInstance]
   );
 
-  const requestGrade = useCallback(
+  const fetchFeedbackForSubmission = useCallback(
     async (examUuid: string, studentUuid: string) => {
       try {
-        const response = await axiosInstance.get('/grades', {
+        const response = await axiosInstance.get('/feedback', {
           params: {
             examUuid: examUuid,
             studentUuid: studentUuid,
@@ -41,9 +41,43 @@ const useApi = () => {
     [axiosInstance]
   );
 
+  const fetchFeedbackForLecturer = useCallback(
+    async (lecturerUuid: string) => {
+      try {
+        const response = await axiosInstance.get(
+          '/feedback/for-lecturer/' + lecturerUuid,
+          {}
+        );
+        return response.data as Feedback[];
+      } catch (error) {
+        console.error('Error while getting exam: ', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
+  const fetchSubmissionsForLecturer = useCallback(
+    async (lecturerUuid: string) => {
+      try {
+        const response = await axiosInstance.get(
+          '/submissions/for-lecturer/' + lecturerUuid,
+          {}
+        );
+        return response.data as Feedback[];
+      } catch (error) {
+        console.error('Error while getting exam: ', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
   return {
-    requestExams,
-    requestGrade,
+    fetchExams,
+    fetchFeedbackForSubmission,
+    fetchFeedbackForLecturer,
+    fetchSubmissionsForLecturer,
   };
 };
 

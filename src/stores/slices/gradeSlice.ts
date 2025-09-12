@@ -1,21 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { SliceState } from '..';
 import type { Feedback } from '@custom-types/backendTypes';
 
-type GradeMap = { [uuid: string]: Feedback };
+type FeedbackMap = { [uuid: string]: Feedback };
 
-const gradeSlice = createSlice({
-  name: 'gradeSlice',
+const feedbackSlice = createSlice({
+  name: 'feedbackSlice',
   initialState: {
     data: {},
     state: 'idle',
     error: null,
-  } as SliceState<GradeMap>,
+  } as SliceState<FeedbackMap>,
   reducers: {
-    setGrades: (state, action: PayloadAction<Feedback[]>) => {
+    setFeedback: (state, action: PayloadAction<Feedback[]>) => {
       const gradeArray = action.payload;
-      const gradeMap: GradeMap = {};
+      const gradeMap: FeedbackMap = {};
 
       for (const grade of gradeArray) {
         const key = `${grade.examUuid}:${grade.studentUuid}`;
@@ -27,7 +27,7 @@ const gradeSlice = createSlice({
   },
 });
 
-const { setGrades } = gradeSlice.actions;
+const { setFeedback } = feedbackSlice.actions;
 
-export { setGrades };
-export default gradeSlice.reducer;
+export { setFeedback };
+export default feedbackSlice.reducer;

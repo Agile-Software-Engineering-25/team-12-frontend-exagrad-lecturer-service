@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import type { RootState } from '@/stores';
 import { useSelector } from 'react-redux';
-import useExamDataLoading from '@/hooks/useDataLoading';
+import useDataLoading from '@/hooks/useDataLoading';
 import i18n from '@/i18n';
 
 interface ExamCardProps {
@@ -17,7 +17,7 @@ const ExamCard = (props: ExamCardProps) => {
   const { exam } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { loadGradesForExam } = useExamDataLoading();
+  const { loadFeedback } = useDataLoading();
 
   const allGrades = useSelector((state: RootState) => state.grade.data || []);
 
@@ -51,8 +51,8 @@ const ExamCard = (props: ExamCardProps) => {
 
   useEffect(() => {
     const studentUuids = exam.assignedStudents.map((student) => student.uuid);
-    loadGradesForExam(exam.uuid, studentUuids);
-  }, [exam.uuid, exam.assignedStudents, loadGradesForExam]);
+    loadFeedback(exam.uuid, studentUuids);
+  }, [exam.uuid, exam.assignedStudents, loadFeedback]);
 
   return (
     <Card

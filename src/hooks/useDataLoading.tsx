@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import useApi from '@/hooks/useApi';
-import { setFeedback } from '@/stores/slices/gradeSlice';
+import { setFeedback } from '@/stores/slices/feedbackSlice';
 import { setExams } from '@/stores/slices/examSlice';
 
 const useDataLoading = () => {

@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
 import type { RootState } from './index';
 import examReducer from '@/stores/slices/examSlice';
-import gradeReducer from './slices/gradeSlice';
+import feedbackReducer from './slices/feedbackSlice';
 
 const appReducer = combineReducers({
   exam: examReducer,
-  grade: gradeReducer,
+  feedback: feedbackReducer,
 });
 
 const rootReducer = appReducer;

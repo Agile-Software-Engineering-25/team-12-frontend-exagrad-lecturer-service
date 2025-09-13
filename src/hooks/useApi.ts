@@ -45,8 +45,7 @@ const useApi = () => {
     async (lecturerUuid: string) => {
       try {
         const response = await axiosInstance.get(
-          '/feedback/for-lecturer/' + lecturerUuid,
-          {}
+          `/feedback/for-lecturer/${lecturerUuid}`
         );
         return response.data as Feedback[];
       } catch (error) {
@@ -61,8 +60,7 @@ const useApi = () => {
     async (lecturerUuid: string) => {
       try {
         const response = await axiosInstance.get(
-          '/submissions/for-lecturer/' + lecturerUuid,
-          {}
+          `/submissions/for-lecturer/${lecturerUuid}`
         );
         return response.data as Feedback[];
       } catch (error) {

@@ -14,15 +14,15 @@ const feedbackSlice = createSlice({
   } as SliceState<FeedbackMap>,
   reducers: {
     setFeedback: (state, action: PayloadAction<Feedback[]>) => {
-      const gradeArray = action.payload;
-      const gradeMap: FeedbackMap = {};
+      const feedbackArray = action.payload;
+      const feedbackMap: FeedbackMap = {};
 
-      for (const grade of gradeArray) {
-        const key = `${grade.examUuid}:${grade.studentUuid}`;
-        gradeMap[key] = grade;
+      for (const feedback of feedbackArray) {
+        const key = `${feedback.examUuid}:${feedback.studentUuid}`;
+        feedbackMap[key] = feedback;
       }
 
-      state.data = { ...state.data, ...gradeMap };
+      state.data = { ...state.data, ...feedbackMap };
     },
   },
 });

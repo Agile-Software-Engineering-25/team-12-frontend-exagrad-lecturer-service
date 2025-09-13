@@ -19,7 +19,9 @@ const ExamCard = (props: ExamCardProps) => {
   const navigate = useNavigate();
   const { loadFeedback } = useDataLoading();
 
-  const allGrades = useSelector((state: RootState) => state.grade.data || []);
+  const allGrades = useSelector(
+    (state: RootState) => state.feedback.data || []
+  );
 
   const route = () => {
     const examWithoutSubmissions = [

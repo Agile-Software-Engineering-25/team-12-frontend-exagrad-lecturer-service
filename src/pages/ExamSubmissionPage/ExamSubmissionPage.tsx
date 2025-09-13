@@ -7,7 +7,7 @@ import { useTypedSelector } from '@/stores/rootReducer';
 const ExamSubmissionPage = () => {
   const { examUuid } = useParams();
   const exams = useTypedSelector((state) => state.exam.data);
-  const grades = useTypedSelector((state) => state.grade.data);
+  const feedbacks = useTypedSelector((state) => state.feedback.data);
 
   const currentExam = useMemo(() => {
     return Object.values(exams).find((exam) => exam.uuid === examUuid);
@@ -33,7 +33,7 @@ const ExamSubmissionPage = () => {
     >
       {students.map((student) => {
         if (!examUuid) return null;
-        const gradeFromStudent = grades[`${examUuid}:${student.uuid}`];
+        const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
         return (
           <ExamSubmissionCard
             key={student.uuid}

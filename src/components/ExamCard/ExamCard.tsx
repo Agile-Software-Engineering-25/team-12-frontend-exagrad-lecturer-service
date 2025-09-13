@@ -50,9 +50,8 @@ const ExamCard = (props: ExamCardProps) => {
   }, [allGrades, exam.uuid, exam.assignedStudents.length]);
 
   useEffect(() => {
-    const studentUuids = exam.assignedStudents.map((student) => student.uuid);
-    loadFeedback(exam.uuid, studentUuids);
-  }, [exam.uuid, exam.assignedStudents, loadFeedback]);
+    loadFeedback(exam.uuid);
+  }, [exam.uuid, loadFeedback]);
 
   return (
     <Card

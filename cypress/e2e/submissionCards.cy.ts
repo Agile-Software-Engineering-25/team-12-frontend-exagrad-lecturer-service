@@ -15,7 +15,6 @@ describe('Exam Page Navigation', () => {
           cy.url().should('include', `/submissions/${exam.uuid}`);
 
           cy.go('back');
-          cy.wait('@getExams');
         }
       });
     });

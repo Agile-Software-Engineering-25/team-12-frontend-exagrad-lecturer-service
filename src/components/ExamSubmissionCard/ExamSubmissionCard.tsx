@@ -80,7 +80,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
         <Typography>
           {(props.feedback?.points ?? 0) + '/' + props.totalpoints}
         </Typography>
-        <Typography sx={{ opacity: '50%' }}>
+        <Typography sx={{ opacity: '50%', paddingTop: 1 }}>
           {t('components.testCard.grade')}
         </Typography>
         <Typography>{props.feedback?.grade ?? 'N/A'}</Typography>

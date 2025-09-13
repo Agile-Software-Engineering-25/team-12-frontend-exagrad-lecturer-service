@@ -4,28 +4,54 @@ import {
   createCustomJoyTheme,
   createCustomMuiTheme,
 } from '@agile-software/shared-components';
-import { THEME_ID as MATERIAL_THEME_ID, ThemeProvider } from '@mui/material';
-import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy';
+import {
+  CssBaseline,
+  THEME_ID as MATERIAL_THEME_ID,
+  ThemeProvider,
+} from '@mui/material';
+import { CssVarsProvider as JoyCssVarsProvider, GlobalStyles } from '@mui/joy';
 import './i18n';
 import { Provider } from 'react-redux';
 import store from '@stores/index.ts';
 
+const joyTheme = createCustomJoyTheme();
+const muiTheme = createCustomMuiTheme();
+
 type AppProps = {
   basename?: string;
 };
-const joyTheme = createCustomJoyTheme();
-const materialTheme = createCustomMuiTheme();
 
-function App({ basename }: AppProps) {
+/**
+ * @param props - AppProps, also contains all customProps delivered from the rootUi
+ */
+function App(props: AppProps) {
+  const { basename } = props;
   return (
     <Provider store={store}>
-      <ThemeProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+      <ThemeProvider theme={{ [MATERIAL_THEME_ID]: muiTheme }}>
         <JoyCssVarsProvider
           theme={joyTheme}
-          defaultMode="light"
-          modeStorageKey="mode"
+          defaultMode="system"
+          modeStorageKey="joy-mode"
+          colorSchemeStorageKey="joy-color-scheme"
         >
-          <BrowserRouter basename={basename}>
+          <CssBaseline />
+          <GlobalStyles
+            styles={(theme) => ({
+              // Ensure html and body have proper background
+              html: {
+                backgroundColor: theme.vars.palette.background.body,
+                minHeight: '100%',
+              },
+              body: {
+                backgroundColor: theme.vars.palette.background.body,
+                minHeight: '100vh',
+                margin: 0,
+                padding: 0,
+              },
+            })}
+          />
+          <BrowserRouter basename={basename ?? '/'}>
             <RoutingComponent />
           </BrowserRouter>
         </JoyCssVarsProvider>

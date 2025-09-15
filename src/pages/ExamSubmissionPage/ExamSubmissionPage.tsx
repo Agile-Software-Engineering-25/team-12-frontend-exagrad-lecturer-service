@@ -26,7 +26,7 @@ const ExamSubmissionPage = () => {
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        gap: 2,
+        gap: 3,
         paddingTop: 3,
         justifyContent: 'space-around',
       }}
@@ -39,7 +39,7 @@ const ExamSubmissionPage = () => {
             key={student.uuid}
             matriculationNumber={student.matriculationNumber}
             feedback={gradeFromStudent}
-            totalpoints={totalPoints}
+            totalPoints={totalPoints}
           />
         );
       })}

@@ -6,7 +6,7 @@ import type { Feedback } from '@/@custom-types/backendTypes';
 
 interface ExamSubmissionCradProps {
   feedback: Feedback;
-  totalpoints?: number;
+  totalPoints?: number;
   matriculationNumber: string;
 }
 const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
@@ -33,8 +33,8 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box
             sx={{
-              width: 40,
-              height: 40,
+              width: 50,
+              aspectRatio: 1,
               marginRight: 1,
               borderRadius: 'sm',
               display: 'flex',
@@ -52,7 +52,9 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
             )}
           </Box>
           <Stack>
-            <Typography level="h4">{props.matriculationNumber}</Typography>
+            <Typography level="h4" sx={{ pb: 0.5 }}>
+              {props.matriculationNumber}
+            </Typography>
             {props.feedback?.grade ? (
               <Chip size="sm" color="success">
                 {t('components.testCard.alreadyGraded')}
@@ -78,7 +80,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           {t('components.testCard.points')}
         </Typography>
         <Typography>
-          {(props.feedback?.points ?? 0) + '/' + props.totalpoints}
+          {(props.feedback?.points ?? 0) + '/' + props.totalPoints}
         </Typography>
         <Typography sx={{ opacity: '50%', paddingTop: 1 }}>
           {t('components.testCard.grade')}

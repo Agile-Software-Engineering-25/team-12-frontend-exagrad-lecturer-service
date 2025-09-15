@@ -1,12 +1,11 @@
-import { Typography, Card, Box, Divider, Chip } from '@mui/joy';
+import { Box, Card, Chip, Divider, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
 import { ExamType } from '@/@custom-types/enums';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import type { RootState } from '@/stores';
 import { useSelector } from 'react-redux';
-import useDataLoading from '@/hooks/useDataLoading';
 import i18n from '@/i18n';
 
 interface ExamCardProps {
@@ -17,7 +16,6 @@ const ExamCard = (props: ExamCardProps) => {
   const { exam } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { loadFeedback } = useDataLoading();
 
   const allGrades = useSelector(
     (state: RootState) => state.feedback.data || []
@@ -51,10 +49,6 @@ const ExamCard = (props: ExamCardProps) => {
     return 'partial';
   }, [allGrades, exam.uuid, exam.assignedStudents.length]);
 
-  useEffect(() => {
-    loadFeedback(exam.uuid);
-  }, [exam.uuid, loadFeedback]);
-
   return (
     <Card
       onClick={route}
@@ -65,13 +59,15 @@ const ExamCard = (props: ExamCardProps) => {
         width: 270,
         justifyContent: 'space-around',
         boxShadow: 'sm',
+        transition: 'all ease .3s',
+        cursor: 'pointer',
         ':hover': {
           transform: 'scale(1.03)',
           boxShadow: 'lg',
         },
       }}
     >
-      <Typography level="h4" fontWeight={'bold'}>
+      <Typography level="h4" fontWeight={'bold'} lineHeight={1.2}>
         {exam.name}
       </Typography>
       <Divider inset="none" />

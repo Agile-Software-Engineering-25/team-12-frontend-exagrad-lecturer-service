@@ -50,7 +50,7 @@
       "grade": "Note",
       "file": "Dateinen",
       "noFiles": "Keine Dateinen gefunden",
-      "matriculationNumber": "Martikelnummer",
+      "matriculationNumber": "Matrikelnummer",
       "feedback": "Feedback",
       "dropFile": "Zum Hinzufügen einer Feedback-Datei ablegen oder klicken",
       "hint": "Die Note wird automatisch berechnet",
@@ -58,7 +58,8 @@
         "next": "Weiter",
         "back": "Zurück",
         "save": "Speichern",
-        "loading": "Lädt..."
+        "loading": "Lädt...",
+        "done": "Fertig"
       },
       "errorMessage": {
         "notPositiveNumber": "Muss eine positive Zahl sein",

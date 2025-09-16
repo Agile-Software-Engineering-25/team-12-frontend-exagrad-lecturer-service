@@ -47,22 +47,22 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const [grade, setGrade] = useState<number | undefined>(props.feedback?.grade);
   const [points, setPoints] = useState('');
   const [currentStudent, setStudent] = useState<Student>(props.student);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'saved'>('idle');
 
   const examHasSubmissions = [ExamType.PROJECT, ExamType.OTHERS];
   const isValid = !error || grade !== undefined;
 
   const hasSubmission = examHasSubmissions.includes(props.exam.examType);
+  const studentIndex = props.exam.assignedStudents.findIndex(
+    (student) => student.uuid === currentStudent.uuid
+  );
+  const isLastStudent = studentIndex === props.exam.assignedStudents.length - 1;
 
   /**
    * Navigates to the next or previous student in the exam
    */
   const navigateStudent = useCallback(
     (direction: 'next' | 'back') => {
-      const studentIndex = props.exam.assignedStudents.findIndex(
-        (student) => student.uuid === currentStudent.uuid
-      );
-
       const index = direction === 'next' ? studentIndex + 1 : studentIndex - 1;
       const student = props.exam.assignedStudents[index];
 
@@ -97,7 +97,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       examUuid: props.exam.uuid,
       lecturerUuid: crypto.randomUUID.toString(), // TODO: change this the the users ID
       studentUuid: currentStudent.uuid,
-      submissionUuid: props.feedback.submissionUuid,
+      submissionUuid: props.feedback?.submissionUuid,
       comment: comment,
       points: Number(points),
       fileReference: files,
@@ -105,7 +105,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     await new Promise((resolve) => setTimeout(resolve, 600));
 
-    setStatus('done');
+    setStatus('saved');
     saveFeedback(gradedExam);
   };
 
@@ -138,6 +138,17 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     },
     [props.exam.totalPoints, props.feedback?.grade, t]
   );
+
+  /**
+   * Decides what function the primary button should have
+   */
+  const handlePrimaryAction = () => {
+    if (isLastStudent) {
+      props.setOpen(false);
+    } else {
+      navigateStudent('next');
+    }
+  };
 
   /**
    * Handles points input - only allows numeric values
@@ -256,7 +267,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
           <FormControl>
             <Box display={'flex'} justifyContent={'space-between'}>
               <Button
-                disabled={status === 'loading'}
+                disabled={status === 'loading' || studentIndex === 0}
                 variant="outlined"
                 onClick={() => navigateStudent('back')}
                 sx={{ width: '49%' }}
@@ -276,13 +287,15 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                 </Button>
               )}
 
-              {status === 'done' && (
+              {status === 'saved' && (
                 <Button
                   color="success"
                   sx={{ width: '49%' }}
-                  onClick={() => navigateStudent('next')}
+                  onClick={handlePrimaryAction}
                 >
-                  {t('components.gradeExam.button.next')}
+                  {isLastStudent
+                    ? t('components.gradeExam.button.done')
+                    : t('components.gradeExam.button.next')}
                 </Button>
               )}
             </Box>

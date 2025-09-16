@@ -40,7 +40,7 @@ export interface Feedback {
   examUuid: string;
   lecturerUuid: string;
   studentUuid: string;
-  submissionUuid: string | null;
+  submissionUuid?: string | null;
   comment: string | null;
   fileReference: FileReference[];
   grade: number;

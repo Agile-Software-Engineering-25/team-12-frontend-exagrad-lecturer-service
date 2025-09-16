@@ -71,11 +71,11 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
         </Box>
         {props.feedback?.grade ? (
           <Button size="sm" onClick={() => setOpen(true)}>
-            {t('components.testCard.gradeTest')}
+            {t('components.testCard.editTest')}
           </Button>
         ) : (
           <Button size="sm" variant="outlined" onClick={() => setOpen(true)}>
-            {t('components.testCard.editTest')}
+            {t('components.testCard.gradeTest')}
           </Button>
         )}
         <FeedbackModal

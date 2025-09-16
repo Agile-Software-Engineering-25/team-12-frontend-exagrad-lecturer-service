@@ -71,11 +71,25 @@ const useApi = () => {
     [axiosInstance]
   );
 
+  const saveFeedback = useCallback(
+    async (feedback: Feedback) => {
+      try {
+        axiosInstance.post('/feedback/save', feedback);
+        return true;
+      } catch (error) {
+        console.error('Error while saving feedback', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
   return {
     fetchExams,
     fetchFeedbackForSubmission,
     fetchFeedbackForLecturer,
     fetchSubmissionsForLecturer,
+    saveFeedback,
   };
 };
 

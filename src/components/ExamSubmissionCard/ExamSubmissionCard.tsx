@@ -2,15 +2,18 @@ import { Box, Button, Card, Chip, Divider, Stack, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
-import type { Feedback } from '@/@custom-types/backendTypes';
+import type { Exam, Feedback, Student } from '@/@custom-types/backendTypes';
+import FeedbackModal from '../FeedbackModal/FeedbackModal';
+import { useState } from 'react';
 
 interface ExamSubmissionCradProps {
   feedback: Feedback;
-  totalPoints?: number;
-  matriculationNumber: string;
+  student: Student;
+  exam: Exam;
 }
 const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
 
   return (
     <Card
@@ -53,7 +56,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           </Box>
           <Stack>
             <Typography level="h4" sx={{ pb: 0.5 }}>
-              {props.matriculationNumber}
+              {props.student.matriculationNumber}
             </Typography>
             {props.feedback?.grade ? (
               <Chip size="sm" color="success">
@@ -67,12 +70,21 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           </Stack>
         </Box>
         {props.feedback?.grade ? (
-          <Button size="sm">{t('components.testCard.gradeTest')}</Button>
+          <Button size="sm" onClick={() => setOpen(true)}>
+            {t('components.testCard.gradeTest')}
+          </Button>
         ) : (
-          <Button size="sm" variant="outlined">
+          <Button size="sm" variant="outlined" onClick={() => setOpen(true)}>
             {t('components.testCard.editTest')}
           </Button>
         )}
+        <FeedbackModal
+          open={open}
+          setOpen={setOpen}
+          student={props.student}
+          exam={props.exam}
+          feedback={props.feedback}
+        />
       </Box>
       <Divider inset="none" />
       <Stack>
@@ -80,7 +92,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           {t('components.testCard.points')}
         </Typography>
         <Typography>
-          {(props.feedback?.points ?? 0) + '/' + props.totalPoints}
+          {(props.feedback?.points ?? 0) + '/' + props.exam.totalPoints}
         </Typography>
         <Typography sx={{ opacity: '50%', paddingTop: 1 }}>
           {t('components.testCard.grade')}

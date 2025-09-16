@@ -26,7 +26,7 @@
       "title": "Matrikelnummer",
       "grade": "Note",
       "points": "Erreichte Punkte",
-      "alreadyGraded": "Benoted",
+      "alreadyGraded": "Benotet",
       "notGraded": "Unbenotet",
       "gradeTest": "benoten",
       "editTest": "bearbeiten",
@@ -41,6 +41,33 @@
         "ORAL": "Mündlich",
         "PROJECT": "Projekt",
         "OTHERS": "Anderes"
+      }
+    },
+    "gradeExam": {
+      "subtitle": "Bewerten Sie die Prüfung unten",
+      "points": "Punkte",
+      "placeholder": "Punkte eingeben",
+      "grade": "Note",
+      "file": "Dateinen",
+      "noFiles": "Keine Dateinen gefunden",
+      "matriculationNumber": "Martikelnummer",
+      "feedback": "Feedback",
+      "dropFile": "Zum Hinzufügen einer Feedback-Datei ablegen oder klicken",
+      "hint": "Die Note wird automatisch berechnet",
+      "button": {
+        "next": "Weiter",
+        "back": "Zurück",
+        "save": "Speichern",
+        "loading": "Lädt..."
+      },
+      "errorMessage": {
+        "notPositiveNumber": "Muss eine positive Zahl sein",
+        "numberToHigh": "Muss gleich oder kleiner als die Gesamtpunktzahl sein",
+        "notGraded": "Keine Note eingetragen"
+      },
+      "comment": {
+        "title": "Kommentar",
+        "placeholder": "Kommentar eingeben"
       }
     }
   }

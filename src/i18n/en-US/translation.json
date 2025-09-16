@@ -41,6 +41,33 @@
         "ORAL": "Oral",
         "PROJECT": "Project",
         "OTHERS": "Others"
+      },
+      "gradeExam": {
+        "subtitle": "Grade the Exam below",
+        "points": "Points",
+        "placeholder": "Enter Points",
+        "grade": "Grade",
+        "files": "Files",
+        "noFiles": "No files were found",
+        "matriculationNumber": "Marticulation Number",
+        "feedback": "Feedback",
+        "dropFile": "Drop or Click to add feedback file",
+        "hint": "The grade will be automaticly calculated",
+        "button": {
+          "next": "Next",
+          "back": "Back",
+          "save": "Save",
+          "loading": "Loading..."
+        },
+        "errorMessage": {
+          "notPositiveNumber": "Must be a positive number",
+          "numberToHigh": "Must be equal or lower than the total points",
+          "notGraded": "No grade noted"
+        },
+        "comment": {
+          "title": "Comment",
+          "placeholder": "Enter a comment"
+        }
       }
     }
   }

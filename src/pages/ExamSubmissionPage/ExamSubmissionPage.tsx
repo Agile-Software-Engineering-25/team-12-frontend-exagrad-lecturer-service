@@ -17,10 +17,6 @@ const ExamSubmissionPage = () => {
     return currentExam?.assignedStudents || [];
   }, [currentExam]);
 
-  const totalPoints = useMemo(() => {
-    return currentExam?.totalPoints ?? 0;
-  }, [currentExam]);
-
   return (
     <Box
       sx={{
@@ -37,9 +33,9 @@ const ExamSubmissionPage = () => {
         return (
           <ExamSubmissionCard
             key={student.uuid}
-            matriculationNumber={student.matriculationNumber}
+            student={student}
+            exam={exams[examUuid]}
             feedback={gradeFromStudent}
-            totalPoints={totalPoints}
           />
         );
       })}

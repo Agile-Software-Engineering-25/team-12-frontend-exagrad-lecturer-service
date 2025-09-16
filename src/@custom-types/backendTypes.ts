@@ -35,14 +35,14 @@ export interface Exam {
 }
 
 export interface Feedback {
-  uuid: string;
+  uuid?: string;
   gradedAt: Date;
   examUuid: string;
   lecturerUuid: string;
   studentUuid: string;
   submissionUuid: string | null;
   comment: string | null;
-  fileReferenced: FileReference[];
+  fileReference: FileReference[];
   grade: number;
   points: number;
 }

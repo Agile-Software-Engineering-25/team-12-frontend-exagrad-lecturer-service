@@ -27,3 +27,22 @@ export interface Exam {
   room: string;
   submissionsCount: number;
 }
+
+export enum Status {
+  submitted,
+  rejected,
+}
+
+export interface ExamSubmission {
+  submissionId: string;
+  examId: string;
+  studentId: string;
+  submissionDate: Date;
+  fileUrl: string[];
+  status: Status;
+  examOfficeComment: string;
+  grade: number;
+  gradeDocumentUrl: string;
+  graderId: string; //UUID of lecturer who graded the submission
+  gradingDate: Date;
+}

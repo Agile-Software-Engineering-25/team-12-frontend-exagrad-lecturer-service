@@ -18,6 +18,23 @@
       "time": "Time in min:",
       "date": "Deadline:",
       "exams": "Submissions:"
+    },
+    "submission": {
+      "status": {
+        "submitted": "Abgegeben",
+        "graded": "Bewertet",
+        "rejected": "Abgelehnt"
+      }
+    }
+  },
+  "components": {
+    "SubmissionCard": {
+      "graded": "graded",
+      "notGraded": "not graded",
+      "edit": "edit",
+      "grade": "grade",
+      "achievedGrade": "Grade",
+      "files": "Submitted Files"
     }
   }
 }

@@ -34,7 +34,30 @@
       "edit": "bearbeiten",
       "grade": "bewerten",
       "achievedGrade": "Note",
-      "files": "Abgegebene Dateien"
+      "files": "Abgegebene Dateien",
+      "exams": "Abgaben:",
+      "type": "Type:"
+    },
+    "testCard": {
+      "title": "Matrikelnummer",
+      "grade": "Note",
+      "points": "Erreichte Punkte",
+      "alreadyGraded": "Benoted",
+      "notGraded": "Unbenotet",
+      "gradeTest": "benoten",
+      "editTest": "bearbeiten",
+      "gradeStatus": {
+        "graded": "Benotet",
+        "ungraded": "Unbenotet",
+        "partial": "Teilweise benotet"
+      },
+      "examTypes": {
+        "EXAM": "Klausur",
+        "PRESENTATION": "Präsentation",
+        "ORAL": "Mündlich",
+        "PROJECT": "Projekt",
+        "OTHERS": "Anderes"
+      }
     }
   }
 }

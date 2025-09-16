@@ -34,7 +34,30 @@
       "edit": "edit",
       "grade": "grade",
       "achievedGrade": "Grade",
-      "files": "Submitted Files"
+      "files": "Submitted Files",
+      "exams": "Submissions:",
+      "type": "Type:"
+    },
+    "testCard": {
+      "title": "Matriculation Number",
+      "grade": "Grade",
+      "points": "Actived Points",
+      "alreadyGraded": "Graded",
+      "notGraded": "Ungraded",
+      "gradeTest": "grade",
+      "editTest": "edit",
+      "gradeStatus": {
+        "graded": "Graded",
+        "ungraded": "Ungraded",
+        "partial": "Partially graded"
+      },
+      "examTypes": {
+        "EXAM": "Exam",
+        "PRESENTATION": "Presentation",
+        "ORAL": "Oral",
+        "PROJECT": "Project",
+        "OTHERS": "Others"
+      }
     }
   }
 }

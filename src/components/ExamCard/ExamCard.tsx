@@ -1,28 +1,75 @@
-import { Typography, Card, Box, Divider } from '@mui/joy';
+import { Box, Card, Chip, Divider, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
+import { ExamType } from '@/@custom-types/enums';
+import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import type { RootState } from '@/stores';
+import { useSelector } from 'react-redux';
+import i18n from '@/i18n';
 
 interface ExamCardProps {
   exam: Exam;
 }
 
-// Calculate the submissionsCount later with a different API call.
 const ExamCard = (props: ExamCardProps) => {
-  const { t } = useTranslation();
   const { exam } = props;
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const allGrades = useSelector(
+    (state: RootState) => state.feedback.data || []
+  );
+
+  const route = () => {
+    const examWithoutSubmissions = [
+      ExamType.PRESENTATION,
+      ExamType.EXAM,
+      ExamType.ORAL,
+    ];
+    if (examWithoutSubmissions.includes(exam.examType)) {
+      navigate(`/submissions/${exam.uuid}`);
+    }
+  };
+
+  const gradeStatus = useMemo(() => {
+    const examGrades = Object.values(allGrades).filter(
+      (grade) => grade.examUuid === exam.uuid
+    );
+
+    const totalStudents = exam.assignedStudents.length;
+    const gradeCount = examGrades.length;
+
+    if (gradeCount === 0) {
+      return 'ungraded';
+    }
+    if (gradeCount === totalStudents) {
+      return 'graded';
+    }
+    return 'partial';
+  }, [allGrades, exam.uuid, exam.assignedStudents.length]);
 
   return (
     <Card
+      onClick={route}
       color="neutral"
       variant="outlined"
       sx={{
         display: 'flex',
         width: 270,
         justifyContent: 'space-around',
-        boxShadow: '1px 1px 0px 1px #d3d3d3',
+        boxShadow: 'sm',
+        transition: 'all ease .3s',
+        cursor: 'pointer',
+        ':hover': {
+          transform: 'scale(1.03)',
+          boxShadow: 'lg',
+        },
       }}
     >
-      <Typography level="h3">{exam.name}</Typography>
+      <Typography level="h4" fontWeight={'bold'} lineHeight={1.2}>
+        {exam.name}
+      </Typography>
       <Divider inset="none" />
       <Box
         sx={{
@@ -35,7 +82,7 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.module')}
           </Typography>
-          <Typography level="h3" sx={{ fontSize: 'lg' }}>
+          <Typography fontWeight={'bold'} sx={{ fontSize: 'md' }}>
             {exam.module}
           </Typography>
         </Box>
@@ -43,7 +90,9 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
-          <Typography>{new Date(exam.date).toLocaleDateString()}</Typography>
+          <Typography>
+            {new Date(exam.date).toLocaleDateString(i18n.language)}
+          </Typography>
         </Box>
       </Box>
 
@@ -58,13 +107,44 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.time')}
           </Typography>
-          <Typography>{exam.time}</Typography>
+          <Typography>{exam.time / 60}</Typography>
         </Box>
         <Box>
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.exams')}
           </Typography>
-          <Typography>{exam.submissionsCount}</Typography>
+          <Typography>
+            {exam.assignedStudents?.length ?? 'Loading...'}
+          </Typography>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Box>
+          <Typography sx={{ opacity: '50%' }}>
+            {t('pages.exam.type')}
+          </Typography>
+          <Typography>
+            {t(`components.testCard.examTypes.${exam.examType}`)}
+          </Typography>
+        </Box>
+        <Box>
+          <Chip
+            color={
+              gradeStatus == 'graded'
+                ? 'success'
+                : gradeStatus == 'ungraded'
+                  ? 'warning'
+                  : 'primary'
+            }
+          >
+            {t('components.testCard.gradeStatus.' + gradeStatus)}
+          </Chip>
         </Box>
       </Box>
     </Card>

@@ -74,7 +74,7 @@ const useApi = () => {
   const saveFeedback = useCallback(
     async (feedback: Feedback) => {
       try {
-        axiosInstance.post('/feedback/save', feedback);
+        axiosInstance.post('/feedback', feedback);
         return true;
       } catch (error) {
         console.error('Error while saving feedback', error);

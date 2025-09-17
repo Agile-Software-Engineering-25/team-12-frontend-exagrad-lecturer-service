@@ -24,22 +24,10 @@ const DataUploader = (props: DataUploaderProp) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const checkValidFile = (incomingFiles: FileReference[]) => {
-    const validExtensions = ['.doc', '.docx', '.pdf'];
     const validFiles: FileReference[] = [];
 
     for (const file of incomingFiles) {
-      const fileName = file.filename.toLowerCase();
-      const hasValidExtension = validExtensions.some((ext) =>
-        fileName.endsWith(ext)
-      );
-
-      const isDuplicate = props.files.some(
-        (existingFile) => existingFile.filename === file.filename
-      );
-
-      if (hasValidExtension && !isDuplicate) {
-        validFiles.push(file);
-      }
+      validFiles.push(file);
     }
 
     if (validFiles.length > 0) {
@@ -100,7 +88,6 @@ const DataUploader = (props: DataUploaderProp) => {
           <input
             type="file"
             id="file-upload"
-            accept=".pdf,.doc,.docx"
             multiple
             style={{
               position: 'absolute',

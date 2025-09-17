@@ -66,10 +66,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       const index = direction === 'next' ? studentIndex + 1 : studentIndex - 1;
       const student = props.exam.assignedStudents[index];
 
-      if (!student) {
-        return;
-      }
-
       setPoints('');
       setComment('');
       setFiles([]);
@@ -247,7 +243,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             {!isValid && <FormHelperText>{error}</FormHelperText>}
           </Box>
 
-          {/* Feedback File Upload */}
+          {/* Feedback File Upload : NOTE: Data Uploader will be a shared component*/}
           <FormControl>
             <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
             <DataUploader files={files} setFiles={setFiles} />

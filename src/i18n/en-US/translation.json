@@ -35,6 +35,7 @@
         "ungraded": "Ungraded",
         "partial": "Partially graded"
       },
+      "files": "Dateien",
       "examTypes": {
         "EXAM": "Exam",
         "PRESENTATION": "Presentation",

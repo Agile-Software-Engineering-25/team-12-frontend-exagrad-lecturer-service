@@ -2,13 +2,16 @@ import { Box, Button, Card, Chip, Divider, Stack, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
-import type { Feedback } from '@/@custom-types/backendTypes';
+import DownloadIcon from '@mui/icons-material/Download';
+import type { Feedback, Submission } from '@/@custom-types/backendTypes';
 
 interface ExamSubmissionCradProps {
   feedback: Feedback;
   totalPoints?: number;
   matriculationNumber: string;
+  files?: Submission[];
 }
+
 const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
   const { t } = useTranslation();
 
@@ -74,6 +77,42 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           </Button>
         )}
       </Box>
+      {props.files && props.files.length > 0 && (
+        <>
+          <Divider inset="none" />
+          <Typography sx={{ opacity: '50%' }}>
+            {t('components.testCard.files')}
+          </Typography>
+        </>
+      )}
+      {props.files?.map((file) => {
+        return (
+          <Box
+            key={file.fileUpload.filename}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Typography
+              sx={{
+                flex: 1,
+                wordBreak: 'break-word',
+                paddingRight: 3,
+              }}
+            >
+              {file.fileUpload.filename}
+            </Typography>
+            <div
+              style={{ alignSelf: 'flex-start', cursor: 'pointer' }}
+              // TODO: trigger download
+              onClick={() => console.log('wow')}
+            >
+              <DownloadIcon />
+            </div>
+          </Box>
+        );
+      })}
       <Divider inset="none" />
       <Stack>
         <Typography sx={{ opacity: '50%' }}>

@@ -49,7 +49,7 @@
       "placeholder": "Punkte eingeben",
       "grade": "Note",
       "file": "Dateinen",
-      "noFiles": "Keine Dateinen gefunden",
+      "noFiles": "Keine Abgaben existiert",
       "matriculationNumber": "Matrikelnummer",
       "feedback": "Feedback",
       "dropFile": "Zum Hinzufügen einer Feedback-Datei ablegen oder klicken",

@@ -48,7 +48,7 @@
         "placeholder": "Enter Points",
         "grade": "Grade",
         "files": "Files",
-        "noFiles": "No files were found",
+        "noFiles": "No submissions exists",
         "matriculationNumber": "Matriculation Number",
         "feedback": "Feedback",
         "dropFile": "Drop or Click to add feedback file",

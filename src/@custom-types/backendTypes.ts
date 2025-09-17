@@ -20,6 +20,7 @@ export interface Student extends UserEntity {
 
 export interface Exam {
   uuid: string;
+
   module: string;
   name: string;
   lecturer: UserEntity;
@@ -32,6 +33,7 @@ export interface Exam {
   assignedStudents: Student[];
   ects: number;
   room: string;
+  fileUploadRequired: boolean;
 }
 
 export interface Feedback {
@@ -43,6 +45,7 @@ export interface Feedback {
   submissionUuid?: string | null;
   comment: string | null;
   fileReference: FileReference[];
+  fileUpload?: FileReference[];
   grade: number;
   points: number;
 }

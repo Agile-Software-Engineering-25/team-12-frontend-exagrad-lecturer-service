@@ -19,7 +19,12 @@ const feedbackSlice = createSlice({
 
       for (const feedback of feedbackArray) {
         const key = `${feedback.examUuid}:${feedback.studentUuid}`;
-        feedbackMap[key] = feedback;
+
+        if (state.data[key]) {
+          feedbackMap[key] = { ...state.data[key], ...feedback };
+        } else {
+          feedbackMap[key] = feedback;
+        }
       }
 
       state.data = { ...state.data, ...feedbackMap };

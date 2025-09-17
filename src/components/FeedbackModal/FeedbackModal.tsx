@@ -26,7 +26,6 @@ import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
-import { ExamType } from '@/@custom-types/enums';
 import { getGradeFromPoints } from './GradeCalc';
 
 interface FeedbackModalProps {
@@ -49,10 +48,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const [currentStudent, setStudent] = useState<Student>(props.student);
   const [status, setStatus] = useState<'idle' | 'loading' | 'saved'>('idle');
 
-  const examHasSubmissions = [ExamType.PROJECT, ExamType.OTHERS];
   const isValid = !error || grade !== undefined;
+  const submissions = props.feedback?.fileUpload;
 
-  const hasSubmission = examHasSubmissions.includes(props.exam.examType);
   const studentIndex = props.exam.assignedStudents.findIndex(
     (student) => student.uuid === currentStudent.uuid
   );
@@ -181,15 +179,28 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             <Typography>{currentStudent.matriculationNumber}</Typography>
           </FormControl>
 
-          {/* File Submissions (for projects only) */}
-          {hasSubmission && (
+          {/* File Submissions */}
+          {props.exam.fileUploadRequired && (
             <FormControl>
               <FormLabel>{t('components.gradeExam.file')}</FormLabel>
-              <Stack>
-                {files &&
-                  files.map((file, index) => (
-                    <Typography key={index}>{file.filename}</Typography>
-                  ))}
+              <Stack spacing={1}>
+                {submissions && submissions.length > 0 ? (
+                  submissions.map((file, index) => (
+                    <Typography
+                      component={'a'}
+                      color="primary"
+                      href={file.downloadLink!}
+                      key={index}
+                      sx={{
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      {file.filename}
+                    </Typography>
+                  ))
+                ) : (
+                  <Typography>{t('components.gradeExam.noFiles')}</Typography>
+                )}
               </Stack>
             </FormControl>
           )}
@@ -209,7 +220,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                   sx={{
                     width: 17,
                     position: 'absolute',
-                    top: -10,
+                    top: -8,
                     left: 45,
                   }}
                 />

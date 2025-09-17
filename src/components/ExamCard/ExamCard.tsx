@@ -1,7 +1,6 @@
 import { Box, Card, Chip, Divider, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
-import { ExamType } from '@/@custom-types/enums';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import type { RootState } from '@/stores';
@@ -22,12 +21,7 @@ const ExamCard = (props: ExamCardProps) => {
   );
 
   const route = () => {
-    const examWithoutSubmissions = [
-      ExamType.PRESENTATION,
-      ExamType.EXAM,
-      ExamType.ORAL,
-    ];
-    if (examWithoutSubmissions.includes(exam.examType)) {
+    if (!exam.fileUploadRequired) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };

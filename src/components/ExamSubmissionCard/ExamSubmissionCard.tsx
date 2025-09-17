@@ -18,7 +18,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
   return (
     <Card
       color="neutral"
-      variant="outlined"
+      variant={'outlined'}
       sx={{
         display: 'flex',
         width: 270,
@@ -70,7 +70,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           </Stack>
         </Box>
         {props.feedback?.grade ? (
-          <Button size="sm" onClick={() => setOpen(true)}>
+          <Button size="sm" variant="soft" onClick={() => setOpen(true)}>
             {t('components.testCard.editTest')}
           </Button>
         ) : (

@@ -315,7 +315,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             </Box>
           </FormControl>
         </Stack>
-      </DialogContent>
     </GenericModal>
   );
 };

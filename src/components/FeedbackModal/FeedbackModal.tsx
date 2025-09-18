@@ -23,8 +23,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
-  import { useDispatch } from 'react-redux';
-  import { setFeedback } from '@stores/slices/feedbackSlice';
+import { useDispatch } from 'react-redux';
+import { setFeedback } from '@stores/slices/feedbackSlice';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -38,7 +38,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
   const { saveFeedback } = useApi();
   const dispatch = useDispatch();
- // Update with correct path
 
   const [files, setFiles] = useState<FileReference[]>([]);
   const [error, setError] = useState('');

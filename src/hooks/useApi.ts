@@ -1,7 +1,8 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
-import type { Exam, Feedback } from '@custom-types/backendTypes';
+import type { Exam, Feedback, Submission } from '@custom-types/backendTypes';
+import axios from 'axios';
 
 const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
@@ -71,11 +72,25 @@ const useApi = () => {
     [axiosInstance]
   );
 
+  const fetchSubmissionsForExam = useCallback(
+    async (examUuid: string) => {
+      try {
+        const response = await axios.get(`/submissions/for-exam/${examUuid}`);
+        return response.data as Submission[];
+      } catch (error) {
+        console.error('Error while getting submissions: ', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
   return {
     fetchExams,
     fetchFeedbackForSubmission,
     fetchFeedbackForLecturer,
     fetchSubmissionsForLecturer,
+    fetchSubmissionsForExam,
   };
 };
 

@@ -43,7 +43,6 @@
         "OTHERS": "Others"
       },
       "gradeExam": {
-        "subtitle": "Grade the Exam below",
         "points": "Points",
         "placeholder": "Enter Points",
         "grade": "Grade",

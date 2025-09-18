@@ -17,7 +17,6 @@ describe('Feedback Modal', () => {
 
     cy.get('[role="dialog"]').should('be.visible');
     cy.contains('Usability Presentation').should('be.visible');
-    cy.contains('Bewerten Sie die Prüfung unten').should('be.visible');
 
     cy.contains('Matrikelnummer').next().should('contain.text', '991122');
   });

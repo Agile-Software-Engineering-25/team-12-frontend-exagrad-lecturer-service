@@ -44,7 +44,6 @@
       }
     },
     "gradeExam": {
-      "subtitle": "Bewerten Sie die Prüfung unten",
       "points": "Punkte",
       "placeholder": "Punkte eingeben",
       "grade": "Note",

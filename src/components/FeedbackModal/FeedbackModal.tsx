@@ -2,19 +2,17 @@ import {
   Box,
   Button,
   DialogContent,
-  DialogTitle,
   Divider,
   FormControl,
   FormHelperText,
   FormLabel,
   Input,
-  Modal,
-  ModalDialog,
   Stack,
   Textarea,
   Tooltip,
   Typography,
 } from '@mui/joy';
+import GenericModal from '@agile-software/shared-components/src/components/Modal/Modal';
 import DataUploader from './DataUploader';
 import type {
   Exam,
@@ -165,160 +163,163 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   }, [points, validatePoints]);
 
   return (
-    <Modal open={props.open} onClose={() => props.setOpen(false)}>
-      <ModalDialog sx={{ width: '30vw' }}>
-        <DialogTitle>{props.exam.name}</DialogTitle>
-        <DialogContent>
-          <Divider inset="none" />
-          <Stack spacing={2}>
-            {/* Student Information */}
+    <GenericModal
+      header={props.exam.name}
+      open={props.open}
+      setOpen={props.setOpen}
+      disableEscape={false}
+    >
+      <DialogContent>
+        <Divider inset="none" />
+        <Stack spacing={2}>
+          {/* Student Information */}
+          <FormControl>
+            <FormLabel>
+              {t('components.gradeExam.matriculationNumber')}
+            </FormLabel>
+            <Typography>{currentStudent.matriculationNumber}</Typography>
+          </FormControl>
+
+          {/* File Submissions */}
+          {props.exam.fileUploadRequired && (
             <FormControl>
-              <FormLabel>
-                {t('components.gradeExam.matriculationNumber')}
-              </FormLabel>
-              <Typography>{currentStudent.matriculationNumber}</Typography>
-            </FormControl>
-
-            {/* File Submissions */}
-            {props.exam.fileUploadRequired && (
-              <FormControl>
-                <FormLabel>{t('components.gradeExam.file')}</FormLabel>
-                <Stack spacing={1}>
-                  {submissions && submissions.length > 0 ? (
-                    submissions.map((file, index) => (
-                      <Typography
-                        component={'a'}
-                        color="primary"
-                        href={file.downloadLink!}
-                        key={index}
-                        sx={{
-                          textDecoration: 'underline',
-                        }}
-                      >
-                        {file.filename}
-                      </Typography>
-                    ))
-                  ) : (
-                    <Typography>{t('components.gradeExam.noFiles')}</Typography>
-                  )}
-                </Stack>
-              </FormControl>
-            )}
-
-            {/* Points and Grade Input */}
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <FormControl>
-                <FormLabel>{t('components.gradeExam.points')}</FormLabel>
-                <Tooltip title={t('components.gradeExam.hint')}>
-                  <InfoOutlineIcon
-                    sx={{
-                      width: 17,
-                      position: 'absolute',
-                      top: -8,
-                      left: 45,
-                    }}
-                  />
-                </Tooltip>
-                <Input
-                  autoFocus
-                  required
-                  placeholder={t('components.gradeExam.placeholder')}
-                  value={points ?? ''}
-                  onChange={handleInput}
-                  color={!isValid ? 'danger' : 'primary'}
-                  sx={{ width: '20vw' }}
-                  disabled={status == 'saved'}
-                  endDecorator={
+              <FormLabel>{t('components.gradeExam.file')}</FormLabel>
+              <Stack spacing={1}>
+                {submissions && submissions.length > 0 ? (
+                  submissions.map((file, index) => (
                     <Typography
-                      paddingLeft={1}
-                      fontSize="100%"
-                      sx={{ opacity: '80%' }}
+                      component={'a'}
+                      color="primary"
+                      href={file.downloadLink!}
+                      key={index}
+                      sx={{
+                        textDecoration: 'underline',
+                      }}
                     >
-                      {'/ ' + props.exam.totalPoints}
+                      {file.filename}
                     </Typography>
-                  }
+                  ))
+                ) : (
+                  <Typography>{t('components.gradeExam.noFiles')}</Typography>
+                )}
+              </Stack>
+            </FormControl>
+          )}
+
+          {/* Points and Grade Input */}
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <FormControl>
+              <FormLabel>{t('components.gradeExam.points')}</FormLabel>
+              <Tooltip title={t('components.gradeExam.hint')}>
+                <InfoOutlineIcon
+                  sx={{
+                    width: 17,
+                    position: 'absolute',
+                    top: -8,
+                    left: 45,
+                  }}
                 />
-              </FormControl>
-
-              <FormControl sx={{ width: '5vw' }}>
-                <FormLabel>{t('components.gradeExam.grade')}</FormLabel>
-                <Typography height={'100%'} color="primary" paddingBlock={1.5}>
-                  {grade ?? 'N/A'}
-                </Typography>
-              </FormControl>
-            </Box>
-            {!isValid && <FormHelperText>{error}</FormHelperText>}
-
-            {/* Feedback File Upload : NOTE: Data Uploader will be a shared component*/}
-            <FormControl>
-              <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
-              <DataUploader
-                files={files}
-                setFiles={setFiles}
+              </Tooltip>
+              <Input
+                autoFocus
+                required
+                placeholder={t('components.gradeExam.placeholder')}
+                value={points ?? ''}
+                onChange={handleInput}
+                color={!isValid ? 'danger' : 'primary'}
                 disabled={status == 'saved'}
-              />
-            </FormControl>
-
-            {/* Comment Section */}
-            <FormControl>
-              <FormLabel>{t('components.gradeExam.comment.title')}</FormLabel>
-              <Textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder={t('components.gradeExam.comment.placeholder')}
-                sx={{ height: '150px', padding: '10px' }}
-                disabled={status == 'saved'}
-                aria-disabled={status == 'saved'}
-              />
-            </FormControl>
-
-            {/* Action Buttons */}
-            <FormControl>
-              <Box display={'flex'} justifyContent={'space-between'}>
-                <Button
-                  disabled={status === 'loading' || studentIndex === 0}
-                  variant="outlined"
-                  onClick={() => navigateStudent('back')}
-                  sx={{ width: '49%' }}
-                >
-                  {t('components.gradeExam.button.back')}
-                </Button>
-
-                {status === 'idle' && (
-                  <Button onClick={handleSave} sx={{ width: '49%' }}>
-                    {t('components.gradeExam.button.save')}
-                  </Button>
-                )}
-
-                {status === 'loading' && (
-                  <Button disabled sx={{ width: '49%' }}>
-                    {t('components.gradeExam.button.loading')}
-                  </Button>
-                )}
-
-                {status === 'saved' && (
-                  <Button
-                    color="success"
-                    sx={{ width: '49%' }}
-                    onClick={handlePrimaryAction}
+                sx={{ width: { sm: '60vw', lg: '15vw' } }}
+                endDecorator={
+                  <Typography
+                    paddingLeft={1}
+                    fontSize="100%"
+                    sx={{ opacity: '80%' }}
                   >
-                    {isLastStudent
-                      ? t('components.gradeExam.button.done')
-                      : t('components.gradeExam.button.next')}
-                  </Button>
-                )}
-              </Box>
+                    {'/ ' + props.exam.totalPoints}
+                  </Typography>
+                }
+              />
             </FormControl>
-          </Stack>
-        </DialogContent>
-      </ModalDialog>
-    </Modal>
+
+            <FormControl sx={{ width: '3vw', paddingRight: 10 }}>
+              <FormLabel>{t('components.gradeExam.grade')}</FormLabel>
+              <Typography height={'100%'} color="primary" paddingBlock={1.5}>
+                {grade ?? 'N/A'}
+              </Typography>
+            </FormControl>
+          </Box>
+          {!isValid && <FormHelperText>{error}</FormHelperText>}
+
+          {/* Feedback File Upload : NOTE: Data Uploader will be a shared component*/}
+          <FormControl>
+            <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
+            <DataUploader
+              files={files}
+              setFiles={setFiles}
+              disabled={status == 'saved'}
+            />
+          </FormControl>
+
+          {/* Comment Section */}
+          <FormControl>
+            <FormLabel>{t('components.gradeExam.comment.title')}</FormLabel>
+            <Textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={t('components.gradeExam.comment.placeholder')}
+              sx={{ height: '150px', padding: '10px' }}
+              disabled={status == 'saved'}
+              aria-disabled={status == 'saved'}
+            />
+          </FormControl>
+
+          {/* Action Buttons */}
+          <FormControl>
+            <Box display={'flex'} justifyContent={'space-between'}>
+              <Button
+                disabled={status === 'loading' || studentIndex === 0}
+                variant="outlined"
+                onClick={() => navigateStudent('back')}
+                sx={{ width: '49%' }}
+              >
+                {t('components.gradeExam.button.back')}
+              </Button>
+
+              {status === 'idle' && (
+                <Button onClick={handleSave} sx={{ width: '49%' }}>
+                  {t('components.gradeExam.button.save')}
+                </Button>
+              )}
+
+              {status === 'loading' && (
+                <Button disabled sx={{ width: '49%' }}>
+                  {t('components.gradeExam.button.loading')}
+                </Button>
+              )}
+
+              {status === 'saved' && (
+                <Button
+                  color="success"
+                  sx={{ width: '49%' }}
+                  onClick={handlePrimaryAction}
+                >
+                  {isLastStudent
+                    ? t('components.gradeExam.button.done')
+                    : t('components.gradeExam.button.next')}
+                </Button>
+              )}
+            </Box>
+          </FormControl>
+        </Stack>
+      </DialogContent>
+    </GenericModal>
   );
 };
 

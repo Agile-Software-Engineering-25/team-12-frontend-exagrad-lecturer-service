@@ -23,6 +23,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
+  import { useDispatch } from 'react-redux';
+  import { setFeedback } from '@stores/slices/feedbackSlice';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -35,6 +37,8 @@ interface FeedbackModalProps {
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
   const { saveFeedback } = useApi();
+  const dispatch = useDispatch();
+ // Update with correct path
 
   const [files, setFiles] = useState<FileReference[]>([]);
   const [error, setError] = useState('');
@@ -97,6 +101,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     setStatus('saved');
     saveFeedback(gradedExam);
+    dispatch(setFeedback([gradedExam]));
   };
 
   /**
@@ -242,7 +247,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             />
           </FormControl>
 
-          <FormControl sx={{ width: '3vw', paddingRight: 10 }}>
+          <FormControl sx={{ width: '4', paddingRight: 2 }}>
             <FormLabel>{t('components.gradeExam.grade')}</FormLabel>
             <Typography height={'100%'} color="primary" paddingBlock={1.5}>
               {grade ?? 'N/A'}

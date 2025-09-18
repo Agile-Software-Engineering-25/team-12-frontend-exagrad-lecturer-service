@@ -168,7 +168,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       setOpen={props.setOpen}
       disableEscape={false}
     >
-      <DialogContent>
         <Stack spacing={2}>
           {/* Student Information */}
           <FormControl>

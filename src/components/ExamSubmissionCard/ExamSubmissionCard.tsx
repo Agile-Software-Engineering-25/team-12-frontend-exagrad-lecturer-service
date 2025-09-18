@@ -5,14 +5,14 @@ import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import DownloadIcon from '@mui/icons-material/Download';
 import type { Feedback, Submission } from '@/@custom-types/backendTypes';
 
-interface ExamSubmissionCradProps {
+interface ExamSubmissionCardProps {
   feedback: Feedback;
   totalPoints?: number;
   matriculationNumber: string;
   files?: Submission[];
 }
 
-const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
+const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
 
   return (

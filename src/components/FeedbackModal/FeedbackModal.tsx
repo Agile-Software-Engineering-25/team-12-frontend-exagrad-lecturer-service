@@ -17,9 +17,9 @@ import {
 } from '@mui/joy';
 import DataUploader from './DataUploader';
 import type {
-  FileReference,
   Exam,
   Feedback,
+  FileReference,
   Student,
 } from '@/@custom-types/backendTypes';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
@@ -70,7 +70,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       setStatus('idle');
       setStudent(student);
     },
-    [currentStudent.uuid, props.exam.assignedStudents]
+    [props.exam.assignedStudents, studentIndex]
   );
 
   /**
@@ -233,6 +233,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                 onChange={handleInput}
                 color={!isValid ? 'danger' : 'primary'}
                 sx={{ width: '20vw' }}
+                disabled={status == 'saved'}
                 endDecorator={
                   <Typography
                     paddingLeft={1}
@@ -251,13 +252,17 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                 {grade ?? 'N/A'}
               </Typography>
             </FormControl>
-            {!isValid && <FormHelperText>{error}</FormHelperText>}
           </Box>
+          {!isValid && <FormHelperText>{error}</FormHelperText>}
 
           {/* Feedback File Upload : NOTE: Data Uploader will be a shared component*/}
           <FormControl>
             <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
-            <DataUploader files={files} setFiles={setFiles} />
+            <DataUploader
+              files={files}
+              setFiles={setFiles}
+              disabled={status == 'saved'}
+            />
           </FormControl>
 
           {/* Comment Section */}
@@ -267,6 +272,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder={t('components.gradeExam.comment.placeholder')}
+              sx={{ height: '150px', padding: '10px' }}
+              disabled={status == 'saved'}
+              aria-disabled={status == 'saved'}
             />
           </FormControl>
 

@@ -17,6 +17,7 @@ import type { FileReference } from '@/@custom-types/backendTypes';
 interface DataUploaderProp {
   files: FileReference[];
   setFiles: (files: FileReference[]) => void;
+  disabled?: boolean;
 }
 
 const DataUploader = (props: DataUploaderProp) => {
@@ -97,6 +98,7 @@ const DataUploader = (props: DataUploaderProp) => {
               pointerEvents: 'none',
               background: 'var(--joy-palette-background-level1)',
             }}
+            disabled={props.disabled}
             onChange={handleFileChange}
           />
           <label htmlFor="file-upload">
@@ -108,9 +110,16 @@ const DataUploader = (props: DataUploaderProp) => {
                 borderColor: 'neutral.outlinedBorder',
                 borderRadius: 'md',
                 textAlign: 'center',
-                cursor: 'pointer',
-                bgcolor: isDragging ? 'background.level2' : 'background.level1',
-                '&:hover': { bgcolor: 'background.level2' },
+                cursor: !props.disabled ? 'pointer' : undefined,
+                filter: props.disabled ? 'blur(3px)' : 'none',
+                transition: 'filter 0.3s ease',
+                bgcolor:
+                  !props.disabled && isDragging
+                    ? 'background.level2'
+                    : 'background.level1',
+                '&:hover': !props.disabled
+                  ? { bgcolor: 'background.level2' }
+                  : {},
               }}
             >
               <Typography
@@ -123,7 +132,7 @@ const DataUploader = (props: DataUploaderProp) => {
                 paddingInline={9}
                 border={2}
                 borderColor="inherit"
-                borderRadius={50}
+                borderRadius={5}
                 sx={{
                   borderStyle: 'dashed',
                 }}

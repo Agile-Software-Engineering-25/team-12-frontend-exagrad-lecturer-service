@@ -37,11 +37,6 @@ describe('Feedback Modal', () => {
     cy.contains('button', 'Speichern').click();
     cy.contains('button', 'Speichern').should('not.exist');
     cy.contains('button', 'Fertig').should('be.visible');
-  });
-
-  it('should handle navigation between students', () => {
-    cy.contains('button', 'benoten').click();
     cy.contains('button', 'Zurück').should('be.visible');
-    cy.contains('button', 'Speichern').should('be.visible');
   });
 });

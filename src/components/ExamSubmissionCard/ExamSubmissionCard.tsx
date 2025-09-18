@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import DownloadIcon from '@mui/icons-material/Download';
-import type { Feedback, Submission } from '@/@custom-types/backendTypes';
+import type { Feedback, FileReference } from '@/@custom-types/backendTypes';
 
 interface ExamSubmissionCardProps {
   feedback: Feedback;
   totalPoints?: number;
   matriculationNumber: string;
-  files?: Submission[];
+  files?: FileReference[];
 }
 
 const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
@@ -85,34 +85,32 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           </Typography>
         </>
       )}
-      {props.files?.map((file) => {
-        return (
-          <Box
-            key={file.fileUpload.filename}
+      {props.files?.map((file) => (
+        <Box
+          key={file.fileUuid}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
+              flex: 1,
+              wordBreak: 'break-word',
+              paddingRight: 3,
             }}
           >
-            <Typography
-              sx={{
-                flex: 1,
-                wordBreak: 'break-word',
-                paddingRight: 3,
-              }}
-            >
-              {file.fileUpload.filename}
-            </Typography>
-            <div
-              style={{ alignSelf: 'flex-start', cursor: 'pointer' }}
-              // TODO: trigger download
-              onClick={() => console.log('wow')}
-            >
-              <DownloadIcon />
-            </div>
-          </Box>
-        );
-      })}
+            {file.filename}
+          </Typography>
+          <div
+            style={{ alignSelf: 'flex-start', cursor: 'pointer' }}
+            // TODO: trigger download
+            onClick={() => console.log('wow')}
+          >
+            <DownloadIcon />
+          </div>
+        </Box>
+      ))}
       <Divider inset="none" />
       <Stack>
         <Typography sx={{ opacity: '50%' }}>

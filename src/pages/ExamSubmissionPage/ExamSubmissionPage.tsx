@@ -46,24 +46,28 @@ const ExamSubmissionPage = () => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: 3,
-        paddingTop: 3,
-        justifyContent: 'space-around',
+        padding: 3,
+        justifyContent: 'start',
       }}
     >
       {students.map((student) => {
         if (!examUuid) return null;
         const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
         if (submissions !== null) {
-          const filesFromStudent = submissions.filter(
-            (submissions) => submissions.studentId == student.uuid
-          );
+          const submissionsFromStudent: Submission | undefined =
+            submissions.find(
+              (submissions) => submissions.studentId == student.uuid
+            );
+          if (!submissionsFromStudent) {
+            return;
+          }
           return (
             <ExamSubmissionCard
               key={student.uuid}
               matriculationNumber={student.matriculationNumber}
               feedback={gradeFromStudent}
               totalPoints={totalPoints}
-              files={filesFromStudent}
+              files={submissionsFromStudent.fileUpload}
             />
           );
         }

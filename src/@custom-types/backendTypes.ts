@@ -52,5 +52,5 @@ export interface Submission {
   examId: string;
   studentId: string;
   submissionDate: string;
-  fileUpload: FileReference;
+  fileUpload: FileReference[];
 }

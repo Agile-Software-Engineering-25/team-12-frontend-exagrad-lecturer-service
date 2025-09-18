@@ -235,7 +235,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                 onChange={handleInput}
                 color={!isValid ? 'danger' : 'primary'}
                 disabled={status == 'saved'}
-                sx={{ width: { sm: '60vw', lg: '15vw' } }}
+                sx={{ width: { sm: '150%', md: '100%', lg: '100%' } }}
                 endDecorator={
                   <Typography
                     paddingLeft={1}

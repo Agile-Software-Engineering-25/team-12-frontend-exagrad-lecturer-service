@@ -42,5 +42,6 @@ describe('Feedback Modal', () => {
   it('should handle navigation between students', () => {
     cy.contains('button', 'benoten').click();
     cy.contains('button', 'Zurück').should('be.visible');
+    cy.contains('button', 'Speichern').should('be.visible');
   });
 });

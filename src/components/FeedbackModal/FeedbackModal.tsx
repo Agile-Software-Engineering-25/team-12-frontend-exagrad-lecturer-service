@@ -170,7 +170,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       disableEscape={false}
     >
       <DialogContent>
-        <Divider inset="none" />
         <Stack spacing={2}>
           {/* Student Information */}
           <FormControl>

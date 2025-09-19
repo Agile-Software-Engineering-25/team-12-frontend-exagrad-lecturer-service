@@ -52,11 +52,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const [points, setPoints] = useState<string>('');
   const [grade, setGrade] = useState<number | undefined>();
   const [files, setFiles] = useState<FileReference[]>([]);
-
-  // Computed values
-  const feedback = useMemo(() => {
-    return requestedFeedback[`${props.exam.uuid}:${student.uuid}`];
-  }, [props.exam.uuid, student, requestedFeedback]);
+  const [uploadedFiles, setUploadedFiles] = useState<FileReference[]>([]);
 
   const studentIndex = useMemo(() => {
     return props.exam.assignedStudents.findIndex(
@@ -66,16 +62,28 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
   const isLastStudent = studentIndex === props.exam.assignedStudents.length - 1;
 
-  // guarantee that the on modal is of the student that was clicked
+  const initializeForm = useCallback(
+    (targetStudent: Student) => {
+      const targetFeedback =
+        requestedFeedback[`${props.exam.uuid}:${targetStudent.uuid}`];
+
+      setError('');
+      setStatus('idle');
+      setStudent(targetStudent);
+      setComment(targetFeedback?.comment || '');
+      setFiles(targetFeedback?.fileReference || []);
+      setUploadedFiles(targetFeedback?.fileUpload || []);
+      setGrade(targetFeedback?.grade);
+      setPoints(targetFeedback?.points ? String(targetFeedback.points) : '');
+    },
+    [requestedFeedback, props.exam.uuid]
+  );
+
+  // guarantee that the modal is of the student that was clicked
+
   useEffect(() => {
     if (props.open) {
-      setStudent(props.student);
-      setComment(feedback?.comment || '');
-      setError('');
-      setFiles(feedback?.fileReference || []);
-      setGrade(feedback?.grade);
-      setPoints(feedback?.points ? String(feedback.points) : '');
-      setStatus('idle');
+      initializeForm(props.student);
     }
   }, [props.open, props.student]);
 
@@ -84,26 +92,15 @@ const FeedbackModal = (props: FeedbackModalProps) => {
    */
   const navigateStudent = useCallback(
     (direction: 'next' | 'back') => {
-      const index = direction === 'next' ? studentIndex + 1 : studentIndex - 1;
-      const student = props.exam.assignedStudents[index];
-      const nextFeedback =
-        requestedFeedback[`${props.exam.uuid}:${student.uuid}`];
+      const newIndex =
+        direction === 'next' ? studentIndex + 1 : studentIndex - 1;
+      const newStudent = props.exam.assignedStudents[newIndex];
 
-      setError('');
-      setStatus('idle');
-      setStudent(student);
-      setComment(nextFeedback.comment || '');
-      setPoints(nextFeedback?.points ? String(nextFeedback.points) : '');
-      setGrade(nextFeedback.grade);
-      setFiles(nextFeedback?.fileReference || []);
+      if (newStudent) {
+        initializeForm(newStudent);
+      }
     },
-
-    [
-      props.exam.assignedStudents,
-      studentIndex,
-      requestedFeedback,
-      props.exam.uuid,
-    ]
+    [studentIndex, props.exam.assignedStudents, initializeForm]
   );
 
   /**
@@ -122,7 +119,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       examUuid: props.exam.uuid,
       lecturerUuid: crypto.randomUUID.toString(), // TODO: change this the the users ID
       studentUuid: student.uuid,
-      submissionUuid: feedback?.submissionUuid,
+      submissionUuid: crypto.randomUUID.toString(),
       comment: comment,
       points: Number(points),
       fileReference: files,
@@ -143,7 +140,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     (pointsInput: string) => {
       if (!pointsInput) {
         return {
-          grade: feedback?.grade,
+          grade: grade,
           error: '',
         };
       }
@@ -162,7 +159,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
         error: '',
       };
     },
-    [props.exam.totalPoints, feedback?.grade, t]
+    [props.exam.totalPoints, grade, t]
   );
 
   /**
@@ -219,8 +216,8 @@ const FeedbackModal = (props: FeedbackModalProps) => {
           <FormControl>
             <FormLabel>{t('components.gradeExam.file')}</FormLabel>
             <Stack spacing={1}>
-              {feedback?.fileUpload?.length ? (
-                feedback.fileUpload.map((file, index) => (
+              {uploadedFiles?.length ? (
+                uploadedFiles.map((file, index) => (
                   <Typography
                     component={'a'}
                     color="primary"
@@ -312,7 +309,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             placeholder={t('components.gradeExam.comment.placeholder')}
             sx={{ height: '150px', padding: '10px' }}
             disabled={status == 'saved'}
-            aria-disabled={status == 'saved'}
           />
         </FormControl>
 

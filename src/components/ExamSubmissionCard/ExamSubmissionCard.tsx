@@ -83,7 +83,6 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           setOpen={setOpen}
           student={props.student}
           exam={props.exam}
-          feedback={props.feedback}
         />
       </Box>
       <Divider inset="none" />

@@ -144,7 +144,11 @@ const DataUploader = (props: DataUploaderProp) => {
           </label>
         </>
       ) : (
-        <List>
+        <List
+          sx={{
+            minWidth: { md: '400px', xs: '90vw' },
+          }}
+        >
           {props.files.map((file, index) => (
             <ListItem
               sx={{ display: 'flex', justifyItems: 'center' }}
@@ -165,7 +169,6 @@ const DataUploader = (props: DataUploaderProp) => {
               <ListItemContent
                 sx={{
                   paddingTop: 0.7,
-                  maxWidth: '18vw',
                   textOverflow: 'ellipsis',
                 }}
               >

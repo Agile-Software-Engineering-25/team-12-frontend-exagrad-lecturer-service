@@ -146,7 +146,7 @@ const DataUploader = (props: DataUploaderProp) => {
       ) : (
         <List
           sx={{
-            minWidth: { md: '400px', xs: '90vw' },
+            minWidth: 423,
           }}
         >
           {props.files.map((file, index) => (

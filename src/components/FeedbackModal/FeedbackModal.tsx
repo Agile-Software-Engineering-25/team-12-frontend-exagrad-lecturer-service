@@ -102,7 +102,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       }
 
       return {
-        grade: getGradeFromPoints(numericInput),
+        grade: getGradeFromPoints(numericInput, props.exam.totalPoints),
         error: '',
       };
     },

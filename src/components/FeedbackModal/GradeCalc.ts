@@ -12,8 +12,11 @@ export const percentToGrade = [
   { min: 0, max: 49, grade: 5.0 },
 ];
 
-export function getGradeFromPoints(points: number): number | undefined {
-  const percent = Math.round((points / 100) * 100);
+export function getGradeFromPoints(
+  points: number,
+  totalPoints: number
+): number | undefined {
+  const percent = Math.round((points / totalPoints) * 100);
   return percentToGrade.find(({ min, max }) => percent >= min && percent <= max)
     ?.grade;
 }

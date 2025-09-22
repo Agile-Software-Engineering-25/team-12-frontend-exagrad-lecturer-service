@@ -23,24 +23,6 @@ const useApi = () => {
     [axiosInstance]
   );
 
-  const fetchFeedbackForSubmission = useCallback(
-    async (examUuid: string, studentUuid: string) => {
-      try {
-        const response = await axiosInstance.get('/feedback', {
-          params: {
-            examUuid: examUuid,
-            studentUuid: studentUuid,
-          },
-        });
-        return response.data as Feedback;
-      } catch (error) {
-        console.error('Error while getting exam: ', error);
-        return false;
-      }
-    },
-    [axiosInstance]
-  );
-
   const fetchFeedbackForLecturer = useCallback(
     async (lecturerUuid: string) => {
       try {
@@ -86,7 +68,6 @@ const useApi = () => {
 
   return {
     fetchExams,
-    fetchFeedbackForSubmission,
     fetchFeedbackForLecturer,
     fetchSubmissionsForLecturer,
     saveFeedback,

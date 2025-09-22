@@ -38,7 +38,7 @@ export interface Exam {
 
 export interface Feedback {
   uuid?: string;
-  gradedAt: Date;
+  gradedAt: string;
   examUuid: string;
   lecturerUuid: string;
   studentUuid: string;

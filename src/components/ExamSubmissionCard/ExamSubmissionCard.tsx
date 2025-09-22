@@ -3,17 +3,15 @@ import { useTranslation } from 'react-i18next';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import type { Exam, Feedback, Student } from '@/@custom-types/backendTypes';
-import FeedbackModal from '../FeedbackModal/FeedbackModal';
-import { useState } from 'react';
 
-interface ExamSubmissionCradProps {
+interface ExamSubmissionCardProps {
   feedback: Feedback;
   student: Student;
   exam: Exam;
+  onStudentClick: (student: Student) => void;
 }
-const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
+const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
 
   return (
     <Card
@@ -70,21 +68,22 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           </Stack>
         </Box>
         {props.feedback?.grade ? (
-          <Button size="sm" variant="soft" onClick={() => setOpen(true)}>
+          <Button
+            size="sm"
+            variant="soft"
+            onClick={() => props.onStudentClick(props.student)}
+          >
             {t('components.testCard.editTest')}
           </Button>
         ) : (
-          <Button size="sm" variant="outlined" onClick={() => setOpen(true)}>
+          <Button
+            size="sm"
+            variant="outlined"
+            onClick={() => props.onStudentClick(props.student)}
+          >
             {t('components.testCard.gradeTest')}
           </Button>
         )}
-        <FeedbackModal
-          open={open}
-          setOpen={setOpen}
-          student={props.student}
-          exam={props.exam}
-          feedback={props.feedback}
-        />
       </Box>
       <Divider inset="none" />
       <Stack>

@@ -90,7 +90,7 @@ const ExamSubmissionPage = () => {
               student={student}
               exam={exams[examUuid]}
               feedback={gradeFromStudent}
-              onOpen={handleOpenModal}
+              onStudentClick={handleOpenModal}
             />
           );
         })}

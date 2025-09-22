@@ -4,13 +4,13 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import type { Exam, Feedback, Student } from '@/@custom-types/backendTypes';
 
-interface ExamSubmissionCradProps {
+interface ExamSubmissionCardProps {
   feedback: Feedback;
   student: Student;
   exam: Exam;
-  onOpen: (student: Student) => void;
+  onStudentClick: (student: Student) => void;
 }
-const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
+const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
 
   return (
@@ -71,7 +71,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           <Button
             size="sm"
             variant="soft"
-            onClick={() => props.onOpen(props.student)}
+            onClick={() => props.onStudentClick(props.student)}
           >
             {t('components.testCard.editTest')}
           </Button>
@@ -79,7 +79,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCradProps) => {
           <Button
             size="sm"
             variant="outlined"
-            onClick={() => props.onOpen(props.student)}
+            onClick={() => props.onStudentClick(props.student)}
           >
             {t('components.testCard.gradeTest')}
           </Button>

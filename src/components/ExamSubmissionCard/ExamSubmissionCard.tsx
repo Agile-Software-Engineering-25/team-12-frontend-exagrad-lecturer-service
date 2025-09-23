@@ -3,13 +3,20 @@ import { useTranslation } from 'react-i18next';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import DownloadIcon from '@mui/icons-material/Download';
-import type { Feedback, FileReference } from '@/@custom-types/backendTypes';
+import type {
+  Exam,
+  Feedback,
+  FileReference,
+  Student,
+} from '@/@custom-types/backendTypes';
 
 interface ExamSubmissionCardProps {
   feedback: Feedback;
   totalPoints?: number;
-  matriculationNumber: string;
   files?: FileReference[];
+  student: Student;
+  exam: Exam;
+  onStudentClick: (student: Student) => void;
 }
 
 const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
@@ -18,7 +25,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   return (
     <Card
       color="neutral"
-      variant="outlined"
+      variant={'outlined'}
       sx={{
         display: 'flex',
         width: 270,
@@ -56,7 +63,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           </Box>
           <Stack>
             <Typography level="h4" sx={{ pb: 0.5 }}>
-              {props.matriculationNumber}
+              {props.student.matriculationNumber}
             </Typography>
             {props.feedback?.grade ? (
               <Chip size="sm" color="success">
@@ -70,10 +77,20 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           </Stack>
         </Box>
         {props.feedback?.grade ? (
-          <Button size="sm">{t('components.testCard.gradeTest')}</Button>
-        ) : (
-          <Button size="sm" variant="outlined">
+          <Button
+            size="sm"
+            variant="soft"
+            onClick={() => props.onStudentClick(props.student)}
+          >
             {t('components.testCard.editTest')}
+          </Button>
+        ) : (
+          <Button
+            size="sm"
+            variant="outlined"
+            onClick={() => props.onStudentClick(props.student)}
+          >
+            {t('components.testCard.gradeTest')}
           </Button>
         )}
       </Box>
@@ -117,7 +134,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           {t('components.testCard.points')}
         </Typography>
         <Typography>
-          {(props.feedback?.points ?? 0) + '/' + props.totalPoints}
+          {(props.feedback?.points ?? 0) + '/' + props.exam.totalPoints}
         </Typography>
         <Typography sx={{ opacity: '50%', paddingTop: 1 }}>
           {t('components.testCard.grade')}

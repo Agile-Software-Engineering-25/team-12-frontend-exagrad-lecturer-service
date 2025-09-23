@@ -32,17 +32,19 @@ export interface Exam {
   assignedStudents: Student[];
   ects: number;
   room: string;
+  fileUploadRequired: boolean;
 }
 
 export interface Feedback {
-  uuid: string;
-  gradedAt: Date;
+  uuid?: string;
+  gradedAt: string;
   examUuid: string;
   lecturerUuid: string;
   studentUuid: string;
-  submissionUuid: string | null;
+  submissionUuid?: string | null;
   comment: string | null;
-  fileReferenced: FileReference[];
+  fileReference: FileReference[];
+  fileUpload?: FileReference[];
   grade: number;
   points: number;
 }

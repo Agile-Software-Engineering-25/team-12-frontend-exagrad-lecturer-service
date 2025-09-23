@@ -1,13 +1,18 @@
 import ExamSubmissionCard from '@/components/ExamSubmissionCard/ExamSubmissionCard';
 import { Box } from '@mui/joy';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '@/stores/rootReducer';
 import useDataLoading from '@hooks/useDataLoading.tsx';
+import type { Feedback, Student } from '@/@custom-types/backendTypes';
+import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
 
 const ExamSubmissionPage = () => {
   const { loadExamSubmissions } = useDataLoading();
   const { examUuid } = useParams();
+  const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
+  const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
+  const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
   const feedbacks = useTypedSelector((state) => state.feedback.data);
   const submissions = useTypedSelector((state) => state.submission.data);
@@ -30,40 +35,100 @@ const ExamSubmissionPage = () => {
     return currentExam?.assignedStudents || [];
   }, [currentExam]);
 
-  const totalPoints = useMemo(() => {
-    return currentExam?.totalPoints ?? 0;
-  }, [currentExam]);
+  const currentIndex = useMemo(() => {
+    return students.findIndex(
+      (student) => student.uuid === currentStudent?.uuid
+    );
+  }, [currentStudent, students]);
 
-  if (!examUuid) return;
+  const navigationState = useMemo(() => {
+    return {
+      canGoBack: currentIndex > 0,
+      canGoNext: currentIndex < students.length - 1,
+    };
+  }, [currentIndex, students.length]);
+
+  useEffect(() => {
+    if (!currentStudent || !examUuid) {
+      setCurrentFeedback(undefined);
+      return;
+    }
+
+    const feedback = feedbacks[`${examUuid}:${currentStudent.uuid}`];
+    setCurrentFeedback(feedback);
+  }, [currentStudent?.uuid, feedbacks, examUuid]);
+
+  const handleOpenModal = useCallback((student: Student) => {
+    setCurrentStudent(student);
+    setOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setCurrentStudent(null);
+    setOpen(false);
+  }, []);
+
+  const navigateStudent = useCallback(
+    (direction: 'next' | 'back') => {
+      if (!currentExam || currentIndex < 0) return;
+
+      const newIndex =
+        direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+      const newStudent = currentExam.assignedStudents[newIndex];
+
+      if (newStudent) {
+        setCurrentStudent(newStudent);
+      }
+    },
+    [currentExam, currentStudent]
+  );
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'flex-start',
-        gap: 3,
-        padding: 3,
-        justifyContent: 'start',
-      }}
-    >
-      {students.map((student) => {
-        const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
-        if (submissions != undefined) {
-          const submissionsFromStudent = submissions?.find(
-            (submissions) => submissions.studentId == student.uuid
-          );
-          return (
-            <ExamSubmissionCard
-              key={student.uuid}
-              matriculationNumber={student.matriculationNumber}
-              feedback={gradeFromStudent}
-              totalPoints={totalPoints}
-              files={submissionsFromStudent?.fileUpload}
-            />
-          );
-        }
-      })}
-    </Box>
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'flex-start',
+          gap: 3,
+          paddingTop: 3,
+          justifyContent: 'start',
+        }}
+      >
+        {students.map((student) => {
+          const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          if (!examUuid) return;
+          if (submissions != undefined) {
+            const submissionsFromStudent = submissions?.find(
+              (submissions) => submissions.studentId == student.uuid
+            );
+            return (
+              <ExamSubmissionCard
+                key={student.uuid}
+                student={student}
+                exam={exams[examUuid]}
+                feedback={gradeFromStudent}
+                onStudentClick={handleOpenModal}
+                files={submissionsFromStudent?.fileUpload}
+              />
+            );
+          }
+        })}
+      </Box>
+      {currentStudent && (
+        <FeedbackModal
+          key={currentStudent.uuid}
+          open={open}
+          setOpen={handleCloseModal}
+          student={currentStudent}
+          exam={currentExam!}
+          feedback={currentFeedback}
+          backStudentExist={navigationState.canGoBack}
+          nextStudentExist={navigationState.canGoNext}
+          navigation={navigateStudent}
+        />
+      )}
+    </>
   );
 };
 

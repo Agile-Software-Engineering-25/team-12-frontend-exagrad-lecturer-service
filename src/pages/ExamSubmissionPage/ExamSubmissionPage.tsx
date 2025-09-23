@@ -49,7 +49,6 @@ const ExamSubmissionPage = () => {
       {students.map((student) => {
         const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
         if (submissions != undefined) {
-          console.log(submissions);
           const submissionsFromStudent = submissions?.find(
             (submissions) => submissions.studentId == student.uuid
           );

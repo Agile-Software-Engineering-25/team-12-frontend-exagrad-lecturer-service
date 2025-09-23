@@ -100,7 +100,7 @@ const ExamSubmissionPage = () => {
           if (!examUuid) return;
           if (submissions != undefined) {
             const submissionsFromStudent = submissions?.find(
-              (submissions) => submissions.studentId == student.uuid
+              (submissions) => submissions.studentUuid == student.uuid
             );
             return (
               <ExamSubmissionCard

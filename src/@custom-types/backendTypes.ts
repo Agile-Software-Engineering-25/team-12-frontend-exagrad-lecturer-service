@@ -52,7 +52,7 @@ export interface Feedback {
 export interface Submission {
   id: string;
   examId: string;
-  studentId: string;
+  studentUuid: string;
   submissionDate: string;
   fileUpload: FileReference[];
 }

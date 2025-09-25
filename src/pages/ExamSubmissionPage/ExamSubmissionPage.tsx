@@ -3,16 +3,29 @@ import { Box } from '@mui/joy';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '@/stores/rootReducer';
+import useDataLoading from '@hooks/useDataLoading.tsx';
 import type { Feedback, Student } from '@/@custom-types/backendTypes';
 import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
 
 const ExamSubmissionPage = () => {
+  const { loadExamSubmissions } = useDataLoading();
   const { examUuid } = useParams();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
   const feedbacks = useTypedSelector((state) => state.feedback.data);
+  const submissions = useTypedSelector((state) => state.submission.data);
+
+  useEffect(() => {
+    const load = async (examUuid: string | undefined) => {
+      if (!examUuid) {
+        return;
+      }
+      await loadExamSubmissions(examUuid);
+    };
+    load(examUuid);
+  }, [examUuid]);
 
   const currentExam = useMemo(() => {
     return Object.values(exams).find((exam) => exam.uuid === examUuid);
@@ -76,23 +89,30 @@ const ExamSubmissionPage = () => {
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
+          alignItems: 'flex-start',
           gap: 3,
           paddingTop: 3,
-          justifyContent: 'space-around',
+          justifyContent: 'start',
         }}
       >
         {students.map((student) => {
-          if (!examUuid) return null;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
-          return (
-            <ExamSubmissionCard
-              key={student.uuid}
-              student={student}
-              exam={exams[examUuid]}
-              feedback={gradeFromStudent}
-              onStudentClick={handleOpenModal}
-            />
-          );
+          if (!examUuid) return;
+          if (submissions != undefined) {
+            const submissionsFromStudent = submissions?.find(
+              (submissions) => submissions.studentUuid == student.uuid
+            );
+            return (
+              <ExamSubmissionCard
+                key={student.uuid}
+                student={student}
+                exam={exams[examUuid]}
+                feedback={gradeFromStudent}
+                onStudentClick={handleOpenModal}
+                files={submissionsFromStudent?.fileUpload}
+              />
+            );
+          }
         })}
       </Box>
       {currentStudent && (

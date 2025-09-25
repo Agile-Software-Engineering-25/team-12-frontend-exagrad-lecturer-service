@@ -3,11 +3,16 @@ import { useDispatch } from 'react-redux';
 import useApi from '@/hooks/useApi';
 import { setFeedback } from '@/stores/slices/feedbackSlice';
 import { setExams } from '@/stores/slices/examSlice';
+import { setSubmissions } from '@stores/slices/submissionSlice.ts';
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
-  const { fetchExams, fetchSubmissionsForLecturer, fetchFeedbackForLecturer } =
-    useApi();
+  const {
+    fetchExams,
+    fetchSubmissionsForLecturer,
+    fetchFeedbackForLecturer,
+    fetchSubmissionsForExam,
+  } = useApi();
 
   const loadExams = useCallback(
     async (lecturerUuid: string) => {
@@ -35,10 +40,19 @@ const useDataLoading = () => {
     [dispatch, fetchSubmissionsForLecturer]
   );
 
+  const loadExamSubmissions = useCallback(
+    async (examUuid: string) => {
+      const results = await fetchSubmissionsForExam(examUuid);
+      dispatch(setSubmissions(results || []));
+    },
+    [dispatch, fetchSubmissionsForExam]
+  );
+
   return {
     loadExams,
     loadFeedback,
     loadSubmissions,
+    loadExamSubmissions,
   };
 };
 

@@ -20,7 +20,6 @@ export interface Student extends UserEntity {
 
 export interface Exam {
   uuid: string;
-
   module: string;
   name: string;
   lecturer: UserEntity;

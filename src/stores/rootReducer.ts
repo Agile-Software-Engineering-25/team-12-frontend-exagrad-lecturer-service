@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
+import { useSelector } from 'react-redux';
 import type { RootState } from './index';
 import examReducer from '@/stores/slices/examSlice';
 import feedbackReducer from './slices/feedbackSlice';

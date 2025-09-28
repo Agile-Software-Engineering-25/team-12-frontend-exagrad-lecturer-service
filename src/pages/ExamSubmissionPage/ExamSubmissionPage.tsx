@@ -76,14 +76,15 @@ const ExamSubmissionPage = () => {
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
+          alignItems: 'flex-start',
           gap: 3,
           paddingTop: 3,
-          justifyContent: 'space-around',
+          justifyContent: 'start',
         }}
       >
         {students.map((student) => {
-          if (!examUuid) return null;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          if (!examUuid) return;
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -91,6 +92,7 @@ const ExamSubmissionPage = () => {
               exam={exams[examUuid]}
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
+              files={gradeFromStudent?.fileUpload}
             />
           );
         })}

@@ -35,6 +35,7 @@
         "ungraded": "Unbenotet",
         "partial": "Teilweise benotet"
       },
+      "files": "Dateien",
       "examTypes": {
         "EXAM": "Klausur",
         "PRESENTATION": "Präsentation",

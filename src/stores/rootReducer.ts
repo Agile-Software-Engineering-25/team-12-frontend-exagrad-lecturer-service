@@ -4,12 +4,10 @@ import { useSelector } from 'react-redux';
 import type { RootState } from './index';
 import examReducer from '@/stores/slices/examSlice';
 import feedbackReducer from './slices/feedbackSlice';
-import submissionReducer from './slices/submissionSlice';
 
 const appReducer = combineReducers({
   exam: examReducer,
   feedback: feedbackReducer,
-  submission: submissionReducer,
 });
 
 const rootReducer = appReducer;

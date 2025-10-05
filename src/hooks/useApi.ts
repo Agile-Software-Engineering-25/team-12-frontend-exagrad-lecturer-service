@@ -44,7 +44,7 @@ const useApi = () => {
         const response = await axiosInstance.get(
           `/submissions/for-lecturer/${lecturerUuid}`
         );
-        return response.data as Feedback[];
+        return response.data as Submission[];
       } catch (error) {
         console.error('Error while getting exam: ', error);
         return false;

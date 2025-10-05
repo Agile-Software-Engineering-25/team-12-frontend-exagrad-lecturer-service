@@ -13,6 +13,7 @@ const ExamSubmissionPage = () => {
   const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
   const feedbacks = useTypedSelector((state) => state.feedback.data);
+  const submissions = useTypedSelector((state) => state.submission.data);
 
   const currentExam = useMemo(() => {
     return Object.values(exams).find((exam) => exam.uuid === examUuid);
@@ -84,6 +85,7 @@ const ExamSubmissionPage = () => {
       >
         {students.map((student) => {
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
           if (!examUuid) return;
           return (
             <ExamSubmissionCard
@@ -92,7 +94,7 @@ const ExamSubmissionPage = () => {
               exam={exams[examUuid]}
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
-              files={gradeFromStudent?.fileUpload}
+              files={studentSubmissions?.fileUpload}
             />
           );
         })}

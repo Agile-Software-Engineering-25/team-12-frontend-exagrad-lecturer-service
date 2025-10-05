@@ -48,3 +48,11 @@ export interface Feedback {
   grade: number;
   points: number;
 }
+
+export interface Submission {
+  id: string;
+  examUuid: string;
+  studentUuid: string;
+  submissionDate: string;
+  fileUpload: FileReference[];
+}

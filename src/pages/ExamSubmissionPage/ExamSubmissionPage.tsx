@@ -80,7 +80,7 @@ const ExamSubmissionPage = () => {
           alignItems: 'flex-start',
           gap: 3,
           paddingTop: 3,
-          justifyContent: 'start',
+          justifyContent: 'space-around',
         }}
       >
         {students.map((student) => {
@@ -94,7 +94,7 @@ const ExamSubmissionPage = () => {
               exam={exams[examUuid]}
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
-              files={studentSubmissions?.fileUpload}
+              submission={studentSubmissions}
             />
           );
         })}

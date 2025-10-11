@@ -6,14 +6,14 @@ import DownloadIcon from '@mui/icons-material/Download';
 import type {
   Exam,
   Feedback,
-  FileReference,
   Student,
+  Submission,
 } from '@/@custom-types/backendTypes';
 
 interface ExamSubmissionCardProps {
   feedback: Feedback;
   totalPoints?: number;
-  files?: FileReference[];
+  submission?: Submission;
   student: Student;
   exam: Exam;
   onStudentClick: (student: Student) => void;
@@ -94,7 +94,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           </Button>
         )}
       </Box>
-      {props.files && props.files.length > 0 && (
+      {props.submission && props.submission.fileUpload.length > 0 && (
         <>
           <Divider inset="none" />
           <Typography sx={{ opacity: '50%' }}>
@@ -102,7 +102,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           </Typography>
         </>
       )}
-      {props.files?.map((file) => (
+      {props.submission?.fileUpload?.map((file) => (
         <Box
           key={file.fileUuid}
           sx={{

@@ -1,27 +1,31 @@
 import { Box, Chip, Option, Select, Stack, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 
-interface FilterProps {
+interface FilterProps<T, K extends keyof T> {
   placeholder: string;
   label: string;
-  listObject?: Record<string, any>[];
+  listObject?: T[];
   customList?: string[];
-  filterThis?: string;
+  filterThis?: K;
   onChange?: (selectedValues: string[]) => void;
 }
 
-const Filter = ({
+const Filter = <T, K extends keyof T>({
   label,
   listObject,
   filterThis,
   placeholder,
   customList,
   onChange,
-}: FilterProps) => {
+}: FilterProps<T, K>) => {
   const { t } = useTranslation();
   const uniqueValues = customList
     ? customList
-    : [...new Set(listObject?.map((obj) => obj[filterThis!]).filter(Boolean))];
+    : [
+        ...new Set(
+          listObject?.map((obj) => obj[filterThis!] as T[K] & (string | number))
+        ),
+      ];
   return (
     <Stack gap={1}>
       <Typography sx={{ paddingTop: 2, paddingLeft: 1 }}>{label}</Typography>

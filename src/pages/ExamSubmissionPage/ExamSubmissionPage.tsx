@@ -5,14 +5,18 @@ import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '@/stores/rootReducer';
 import type { Feedback, Student } from '@/@custom-types/backendTypes';
 import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
+import { useTranslation } from 'react-i18next';
+import Filter from '@/components/ExamCard/Filter';
 
 const ExamSubmissionPage = () => {
+  const { t } = useTranslation();
   const { examUuid } = useParams();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
   const feedbacks = useTypedSelector((state) => state.feedback.data);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
 
   const currentExam = useMemo(() => {
     return Object.values(exams).find((exam) => exam.uuid === examUuid);
@@ -70,8 +74,31 @@ const ExamSubmissionPage = () => {
     [currentExam, currentStudent]
   );
 
+  const filteredStudents = students.filter((student) => {
+    const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+
+    const isGraded = gradeFromStudent?.grade > 0;
+    const isUngraded =
+      gradeFromStudent == null || gradeFromStudent.grade == null;
+
+    if (selectedStatuses.length === 0) return true;
+
+    return (
+      (selectedStatuses.includes('graded') && isGraded) ||
+      (selectedStatuses.includes('ungraded') && isUngraded)
+    );
+  });
+
   return (
     <>
+      <Box display={'flex'} justifyContent={'end'} gap={2} paddingInline={2}>
+        <Filter
+          label={t('components.testCard.filter.labelStatus')}
+          customList={['graded', 'ungraded']}
+          placeholder={t('components.testCard.filter.placeholderStatus')}
+          onChange={setSelectedStatuses}
+        />
+      </Box>
       <Box
         sx={{
           display: 'flex',
@@ -81,7 +108,7 @@ const ExamSubmissionPage = () => {
           justifyContent: 'space-around',
         }}
       >
-        {students.map((student) => {
+        {filteredStudents.map((student) => {
           if (!examUuid) return null;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           return (

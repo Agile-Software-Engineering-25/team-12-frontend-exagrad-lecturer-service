@@ -18,7 +18,7 @@
       "time": "Zeit in min:",
       "date": "Deadline:",
       "exams": "Abgaben:",
-      "type": "Type:"
+      "type": "Prüfungstyp:"
     }
   },
   "components": {
@@ -41,6 +41,16 @@
         "ORAL": "Mündlich",
         "PROJECT": "Projekt",
         "OTHERS": "Anderes"
+      },
+      "filter": {
+        "labelModul": "Module",
+        "placeholderModul": "Module auswählen",
+        "labelTime": "Zeiten",
+        "placeholderTime": "Zeiten auswählen",
+        "labelType": "Prüfungstypen",
+        "placeholderType": "Prüfungstypen auswählen",
+        "labelStatus": "Benotungsarte",
+        "placeholderStatus": "Benotungsarte auswählen"
       }
     },
     "gradeExam": {

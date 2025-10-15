@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import useApi from '@/hooks/useApi';
 import { setFeedback } from '@/stores/slices/feedbackSlice';
 import { setExams } from '@/stores/slices/examSlice';
+import { setSubmissions } from '@stores/slices/submissionSlice.ts';
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const useDataLoading = () => {
   const loadSubmissions = useCallback(
     async (lecturerUuid: string) => {
       const results = await fetchSubmissionsForLecturer(lecturerUuid);
-      dispatch(setFeedback(results || []));
+      dispatch(setSubmissions(results || []));
     },
     [dispatch, fetchSubmissionsForLecturer]
   );

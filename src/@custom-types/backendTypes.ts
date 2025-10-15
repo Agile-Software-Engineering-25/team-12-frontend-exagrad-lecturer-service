@@ -49,3 +49,23 @@ export interface Feedback {
   grade: number;
   points: number;
 }
+
+export interface FeedbackRequest {
+  gradedAt: string;
+  examUuid: string;
+  lecturerUuid: string;
+  studentUuid: string;
+  submissionUuid?: string | null;
+  comment: string | null;
+  grade: number;
+  points: number;
+}
+
+export interface FeedbackDocumentResponse {
+  uuid: string;
+  feedbackUuid: string;
+  lecturerUuid: string;
+  uploadDate: string;
+  downloadUrl: string;
+  fileName: string;
+}

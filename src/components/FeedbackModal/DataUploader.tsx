@@ -15,8 +15,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import type { FileReference } from '@/@custom-types/backendTypes';
 
 interface DataUploaderProp {
-  files: FileReference[];
-  setFiles: (files: FileReference[]) => void;
+  files: File[];
+  setFiles: (files: File[]) => void;
   disabled?: boolean;
 }
 
@@ -24,36 +24,11 @@ const DataUploader = (props: DataUploaderProp) => {
   const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
 
-  const checkValidFile = (incomingFiles: FileReference[]) => {
-    const validFiles: FileReference[] = [];
-
-    for (const file of incomingFiles) {
-      validFiles.push(file);
-    }
-
-    if (validFiles.length > 0) {
-      props.setFiles([...props.files, ...validFiles]);
-    }
-  };
-
-  const handleDelete = (indexToDelete: number) => {
-    const updatedFiles = props.files.filter(
-      (_, index) => index !== indexToDelete
-    );
-    props.setFiles(updatedFiles);
-  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const fileReferences: FileReference[] = Array.from(
-        event.target.files
-      ).map((file) => ({
-        fileUuid: crypto.randomUUID(),
-        filename: file.name,
-        downloadLink: null,
-      }));
-
-      checkValidFile(fileReferences);
+     const selectedFiles = Array.from(event.target.files);
+      props.setFiles([...props.files, ...selectedFiles]);
     }
   };
 
@@ -70,17 +45,18 @@ const DataUploader = (props: DataUploaderProp) => {
     event.preventDefault();
     setIsDragging(false);
     if (event.dataTransfer.files) {
-      const fileReferences: FileReference[] = Array.from(
-        event.dataTransfer.files
-      ).map((file) => ({
-        fileUuid: crypto.randomUUID(),
-        filename: file.name,
-        downloadLink: null,
-      }));
-
-      checkValidFile(fileReferences);
+      const droppedFiles = Array.from(event.dataTransfer.files);
+      props.setFiles([...props.files, ...droppedFiles]);
     }
   };
+
+   const handleDelete = (indexToDelete: number) => {
+    const updatedFiles = props.files.filter(
+      (_, index) => index !== indexToDelete
+    );
+    props.setFiles(updatedFiles);
+  };
+
 
   return (
     <>
@@ -152,7 +128,7 @@ const DataUploader = (props: DataUploaderProp) => {
           {props.files.map((file, index) => (
             <ListItem
               sx={{ display: 'flex', justifyItems: 'center' }}
-              key={file.filename + index}
+              key={file.name + index}
               endAction={
                 <IconButton
                   variant="plain"
@@ -172,7 +148,7 @@ const DataUploader = (props: DataUploaderProp) => {
                   textOverflow: 'ellipsis',
                 }}
               >
-                {file.filename}
+                {file.name}
               </ListItemContent>
             </ListItem>
           ))}

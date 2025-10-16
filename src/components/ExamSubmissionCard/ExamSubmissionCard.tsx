@@ -25,7 +25,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   return (
     <Card
       color="neutral"
-      variant={'outlined'}
+      variant={props.submission ? 'outlined' : 'soft'}
       sx={{
         display: 'flex',
         width: 270,

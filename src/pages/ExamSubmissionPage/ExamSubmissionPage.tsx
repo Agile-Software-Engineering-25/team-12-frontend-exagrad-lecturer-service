@@ -71,6 +71,17 @@ const ExamSubmissionPage = () => {
     [currentExam, currentStudent]
   );
 
+  const studentsWithSubmission = [];
+  const studentsWithoutSubmission = [];
+
+  for (let i = 0; i < students.length; i++) {
+    if (submissions[`${examUuid}:${students[i].uuid}`]) {
+      studentsWithSubmission.push(students[i]);
+    } else {
+      studentsWithoutSubmission.push(students[i]);
+    }
+  }
+
   return (
     <>
       <Box
@@ -83,7 +94,7 @@ const ExamSubmissionPage = () => {
           justifyContent: 'space-around',
         }}
       >
-        {students.map((student) => {
+        {studentsWithSubmission.map((student) => {
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
           if (!examUuid) return;
@@ -95,6 +106,19 @@ const ExamSubmissionPage = () => {
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
               submission={studentSubmissions}
+            />
+          );
+        })}
+        {studentsWithoutSubmission.map((student) => {
+          const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          if (!examUuid) return;
+          return (
+            <ExamSubmissionCard
+              key={student.uuid}
+              student={student}
+              exam={exams[examUuid]}
+              feedback={gradeFromStudent}
+              onStudentClick={handleOpenModal}
             />
           );
         })}

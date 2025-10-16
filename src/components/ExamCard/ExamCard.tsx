@@ -38,7 +38,7 @@ const ExamCard = (props: ExamCardProps) => {
         },
       }}
     >
-      <Typography level="h4" fontWeight={'bold'} lineHeight={1.2}>
+      <Typography level="h4" lineHeight={1.2}>
         {exam.name}
       </Typography>
       <Divider inset="none" />
@@ -53,9 +53,7 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.module')}
           </Typography>
-          <Typography fontWeight={'bold'} sx={{ fontSize: 'md' }}>
-            {exam.module}
-          </Typography>
+          <Typography sx={{ fontSize: 'md' }}>{exam.module}</Typography>
         </Box>
         <Box>
           <Typography sx={{ opacity: '50%' }}>

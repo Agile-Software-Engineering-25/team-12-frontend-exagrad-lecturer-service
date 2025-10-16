@@ -16,6 +16,7 @@ const ExamSubmissionPage = () => {
   const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
   const feedbacks = useTypedSelector((state) => state.feedback.data);
+  const submissions = useTypedSelector((state) => state.submission.data);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
 
   const currentExam = useMemo(() => {
@@ -103,6 +104,7 @@ const ExamSubmissionPage = () => {
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
+          alignItems: 'flex-start',
           gap: 3,
           paddingTop: 3,
           justifyContent: 'space-around',
@@ -111,6 +113,8 @@ const ExamSubmissionPage = () => {
         {filteredStudents.map((student) => {
           if (!examUuid) return null;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
+          if (!examUuid) return;
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -118,6 +122,7 @@ const ExamSubmissionPage = () => {
               exam={exams[examUuid]}
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
+              submission={studentSubmissions}
             />
           );
         })}

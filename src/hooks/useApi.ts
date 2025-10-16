@@ -1,7 +1,7 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
-import type { Exam, Feedback, Submission } from '@custom-types/backendTypes';
+import type { Exam, Feedback } from '@custom-types/backendTypes';
 
 const useApi = () => {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
@@ -44,7 +44,7 @@ const useApi = () => {
         const response = await axiosInstance.get(
           `/submissions/for-lecturer/${lecturerUuid}`
         );
-        return response.data as Submission[];
+        return response.data as Feedback[];
       } catch (error) {
         console.error('Error while getting exam: ', error);
         return false;
@@ -56,37 +56,30 @@ const useApi = () => {
   const saveFeedback = useCallback(
     async (feedback: Feedback) => {
       try {
-        axiosInstance.post('/feedback', feedback);
+        if (feedback.uuid) {
+          // Existierendes Feedback → PUT
+          await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
+          console.log("PUT /feedback → Feedback aktualisiert");
+        } else {
+          // Neues Feedback → POST
+          await axiosInstance.post('/feedback', feedback);
+          console.log("POST /feedback → Neues Feedback erstellt");
+        }
         return true;
       } catch (error) {
-        console.error('Error while saving feedback', error);
+        console.error('Error while saving or updating feedback', error);
         return false;
       }
     },
     [axiosInstance]
   );
 
-  const fetchSubmissionsForExam = useCallback(
-    async (examUuid: string) => {
-      try {
-        const response = await axiosInstance.get(
-          `/submissions/for-exam/${examUuid}`
-        );
-        return response.data as Submission[];
-      } catch (error) {
-        console.error('Error while getting submissions: ', error);
-        return false;
-      }
-    },
-    [axiosInstance]
-  );
 
   return {
     fetchExams,
     fetchFeedbackForLecturer,
     fetchSubmissionsForLecturer,
     saveFeedback,
-    fetchSubmissionsForExam,
   };
 };
 

@@ -60,13 +60,16 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     }
 
     setStatus('loading');
+
     const gradedExam: Feedback = {
+      uuid: props.feedback?.uuid,
+
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid: crypto.randomUUID.toString(), // TODO: change this the the users ID
+      lecturerUuid: props.feedback?.lecturerUuid || "TODO_LECTURER_UUID",
       studentUuid: props.student.uuid,
-      submissionUuid: crypto.randomUUID.toString(),
+      submissionUuid: props.feedback?.submissionUuid || crypto.randomUUID().toString(),
       comment: comment || '',
       points: Number(points),
       fileReference: files || [],
@@ -74,10 +77,23 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     await new Promise((resolve) => setTimeout(resolve, 600));
 
-    setStatus('saved');
-    saveFeedback(gradedExam);
-    dispatch(setFeedback([gradedExam]));
+    const success = await saveFeedback(gradedExam);
+
+    if (success) {
+      console.log(
+        gradedExam.uuid
+          ? "Feedback wurde erfolgreich aktualisiert (PUT)."
+          : "Neues Feedback wurde gespeichert (POST)."
+      );
+
+      setStatus('saved');
+      dispatch(setFeedback([gradedExam]));
+    } else {
+      setStatus('idle');
+      setError("Fehler beim Speichern des Feedbacks");
+    }
   };
+
 
   /**
    * Validates points input and updates grade accordingly

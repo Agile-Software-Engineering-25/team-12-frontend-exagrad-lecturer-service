@@ -2,13 +2,12 @@ import { Box, Card, Chip, Divider, Typography } from '@mui/joy';
 import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
 import { useNavigate } from 'react-router-dom';
-import { useMemo } from 'react';
-import type { RootState } from '@/stores';
-import { useSelector } from 'react-redux';
 import i18n from '@/i18n';
+import type { ExamGradingState } from '@/@custom-types/enums';
 
 interface ExamCardProps {
   exam: Exam;
+  gradeStatus: ExamGradingState;
 }
 
 const ExamCard = (props: ExamCardProps) => {
@@ -16,32 +15,11 @@ const ExamCard = (props: ExamCardProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const allGrades = useSelector(
-    (state: RootState) => state.feedback.data || []
-  );
-
   const route = () => {
     if (!exam.fileUploadRequired) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };
-
-  const gradeStatus = useMemo(() => {
-    const examGrades = Object.values(allGrades).filter(
-      (grade) => grade.examUuid === exam.uuid
-    );
-
-    const totalStudents = exam.assignedStudents.length;
-    const gradeCount = examGrades.length;
-
-    if (gradeCount === 0) {
-      return 'ungraded';
-    }
-    if (gradeCount === totalStudents) {
-      return 'graded';
-    }
-    return 'partial';
-  }, [allGrades, exam.uuid, exam.assignedStudents.length]);
 
   return (
     <Card
@@ -61,7 +39,7 @@ const ExamCard = (props: ExamCardProps) => {
         },
       }}
     >
-      <Typography level="h4" fontWeight={'bold'} lineHeight={1.2}>
+      <Typography level="h4" lineHeight={1.2}>
         {exam.name}
       </Typography>
       <Divider inset="none" />
@@ -76,9 +54,7 @@ const ExamCard = (props: ExamCardProps) => {
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.module')}
           </Typography>
-          <Typography fontWeight={'bold'} sx={{ fontSize: 'md' }}>
-            {exam.module}
-          </Typography>
+          <Typography sx={{ fontSize: 'md' }}>{exam.module}</Typography>
         </Box>
         <Box>
           <Typography sx={{ opacity: '50%' }}>
@@ -130,14 +106,14 @@ const ExamCard = (props: ExamCardProps) => {
         <Box>
           <Chip
             color={
-              gradeStatus == 'graded'
+              props.gradeStatus == 'graded'
                 ? 'success'
-                : gradeStatus == 'ungraded'
+                : props.gradeStatus == 'ungraded'
                   ? 'warning'
                   : 'primary'
             }
           >
-            {t('components.testCard.gradeStatus.' + gradeStatus)}
+            {t('components.testCard.gradeStatus.' + props.gradeStatus)}
           </Chip>
         </Box>
       </Box>

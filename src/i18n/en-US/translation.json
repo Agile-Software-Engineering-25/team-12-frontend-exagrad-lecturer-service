@@ -43,6 +43,16 @@
         "PROJECT": "Project",
         "OTHERS": "Others"
       },
+      "filter": {
+        "labelModul": "Modules",
+        "placeholderModul": "Select modules",
+        "labelTime": "Time",
+        "placeholderTime": "Select times",
+        "labelType": "Exam Typs",
+        "placeholderType": "Select exam types",
+        "labelStatus": "Status",
+        "placeholderStatus": "Select status"
+      },
       "gradeExam": {
         "points": "Points",
         "placeholder": "Enter Points",

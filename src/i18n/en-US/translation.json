@@ -68,7 +68,12 @@
         "comment": {
           "title": "Comment",
           "placeholder": "Enter a comment"
-        }
+        },
+        "groupMembers": {
+          "title": "Group members",
+          "placeholder": "Enter group members"
+        },
+        "close": "close"
       }
     }
   }

@@ -134,6 +134,14 @@
         "email": "fiona@example.com",
         "UserType": "STUDENT",
         "matriculationNumber": "991122"
+      },
+      {
+        "uuid": "c6666666-cccc-4ccc-8ccc-cccccccccccc",
+        "first_name": "George",
+        "last_name": "Benson",
+        "email": "george@example.com",
+        "userType": "STUDENT",
+        "matriculationNumber": "991123"
       }
     ]
   }

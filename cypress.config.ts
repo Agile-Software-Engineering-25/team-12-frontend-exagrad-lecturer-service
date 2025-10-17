@@ -1,5 +1,8 @@
 // cypress.config.ts or cypress.config.js
-module.exports = {
+
+import { defineConfig } from 'cypress'
+
+export default defineConfig({
   e2e: {
     baseUrl: "http://localhost:5173",
   },
@@ -13,4 +16,4 @@ module.exports = {
       bundler: "vite",
     },
   },
-};
+});

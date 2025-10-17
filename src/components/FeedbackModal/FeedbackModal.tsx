@@ -89,7 +89,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     saveFeedback(feedbackData, files);
     setStatus('saved');
     dispatch(setFeedback([gradedExam]));
-    await new Promise((resolve) => setTimeout(resolve, 600));
   };
 
   /**

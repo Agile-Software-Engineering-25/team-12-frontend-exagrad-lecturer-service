@@ -59,11 +59,9 @@ const useApi = () => {
         if (feedback.uuid) {
           // Existierendes Feedback → PUT
           await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
-          console.log('PUT /feedback → Feedback aktualisiert');
         } else {
           // Neues Feedback → POST
           await axiosInstance.post('/feedback', feedback);
-          console.log('POST /feedback → Neues Feedback erstellt');
         }
         return true;
       } catch (error) {

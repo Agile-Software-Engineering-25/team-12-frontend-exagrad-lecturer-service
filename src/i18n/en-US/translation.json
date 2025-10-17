@@ -63,7 +63,11 @@
         "errorMessage": {
           "notPositiveNumber": "Must be a positive number",
           "numberToHigh": "Must be equal or lower than the total points",
-          "notGraded": "No grade noted"
+          "notGraded": "No grade noted",
+          "saveFailed": "Error saving Feedback"
+        },
+        "successMessage": {
+          "saved": "Feedback saved successfully"
         },
         "comment": {
           "title": "Comment",

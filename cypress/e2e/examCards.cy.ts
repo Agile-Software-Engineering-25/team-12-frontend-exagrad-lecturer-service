@@ -44,8 +44,8 @@ describe('Exam Page', () => {
     });
   });
 
-  context('Filter functionality', function () {
-    it('should filter by module', function () {
+  context('Filter functionality', () => {
+    it('should filter by module', () => {
       // Open module filter dropdown
       cy.contains('Module');
       cy.contains('Module auswählen').parent().click();
@@ -57,7 +57,7 @@ describe('Exam Page', () => {
       });
     });
 
-    it('should filter by time', function () {
+    it('should filter by time', () => {
       // Open module filter dropdown
       cy.contains('Zeiten');
       cy.contains('Zeiten auswählen').parent().click();
@@ -75,7 +75,7 @@ describe('Exam Page', () => {
         });
     });
 
-    it('should filter by type', function () {
+    it('should filter by type', () => {
       cy.contains('Prüfungstypen');
       cy.contains('Prüfungstypen auswählen').parent().click();
       cy.get('ul[role="listbox"]:visible')
@@ -92,7 +92,7 @@ describe('Exam Page', () => {
         });
     });
 
-    it('should filter by status', function () {
+    it('should filter by status', () => {
       cy.contains('Benotungs Status');
       cy.contains('Benotungs Status auswählen').parent().click();
       cy.get('ul[role="listbox"]:visible')

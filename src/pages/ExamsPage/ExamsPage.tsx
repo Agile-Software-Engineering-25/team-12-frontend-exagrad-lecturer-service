@@ -3,9 +3,10 @@ import Filter from '@/components/ExamCard/Filter';
 import type { RootState } from '@/stores';
 import ExamCard from '@components/ExamCard/ExamCard';
 import { Box } from '@mui/joy';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ExamGradingState } from '@/@custom-types/enums';
 
 const ExamsPage = () => {
   const { t } = useTranslation();
@@ -30,28 +31,37 @@ const ExamsPage = () => {
     const gradeCount = examGrades.length;
 
     if (gradeCount === 0) {
-      return 'ungraded';
+      return ExamGradingState.UNGRADED;
     }
     if (gradeCount === totalStudents) {
-      return 'graded';
+      return ExamGradingState.GRADED;
     }
-    return 'partial';
+    return ExamGradingState.PARTIALLY;
   };
 
-  const filteredExams = exams.filter((exam) => {
-    const status = gradeStatus(exam);
+  const filteredExams = useMemo(() => {
+    return exams.filter((exam) => {
+      const status = gradeStatus(exam);
 
-    const matchesModule =
-      selectedModules.length === 0 || selectedModules.includes(exam.module);
-    const matchesTime =
-      selectedTimes.length === 0 || selectedTimes.includes(String(exam.time));
-    const matchesType =
-      selectedTypes.length === 0 || selectedTypes.includes(exam.examType);
-    const matchesStatus =
-      selectedStatuses.length === 0 || selectedStatuses.includes(status);
+      const matchesModule =
+        selectedModules.length === 0 || selectedModules.includes(exam.module);
+      const matchesTime =
+        selectedTimes.length === 0 || selectedTimes.includes(String(exam.time));
+      const matchesType =
+        selectedTypes.length === 0 || selectedTypes.includes(exam.examType);
+      const matchesStatus =
+        selectedStatuses.length === 0 || selectedStatuses.includes(status);
 
-    return matchesModule && matchesTime && matchesType && matchesStatus;
-  });
+      return matchesModule && matchesTime && matchesType && matchesStatus;
+    });
+  }, [
+    exams,
+    selectedModules,
+    selectedTimes,
+    selectedTypes,
+    selectedStatuses,
+    gradeStatus,
+  ]);
 
   return (
     <>

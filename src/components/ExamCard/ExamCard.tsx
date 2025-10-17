@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
 import { useNavigate } from 'react-router-dom';
 import i18n from '@/i18n';
+import type { ExamGradingState } from '@/@custom-types/enums';
 
 interface ExamCardProps {
   exam: Exam;
-  gradeStatus: string;
+  gradeStatus: ExamGradingState;
 }
 
 const ExamCard = (props: ExamCardProps) => {

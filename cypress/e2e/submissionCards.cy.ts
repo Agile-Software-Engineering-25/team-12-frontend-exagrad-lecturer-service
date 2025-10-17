@@ -57,8 +57,8 @@ describe('Exam Page Navigation', () => {
     });
   });
 
-  context('Filter functionality', function () {
-    it('should filter by status', function () {
+  context('Filter functionality', () => {
+    it('should filter by status', () => {
       cy.contains('Benotungs Status');
       cy.contains('Benotungs Status auswählen').parent().click();
       cy.get('ul[role="listbox"]:visible')

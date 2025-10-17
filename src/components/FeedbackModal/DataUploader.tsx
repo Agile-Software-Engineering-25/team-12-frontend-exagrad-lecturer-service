@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DescriptionIcon from '@mui/icons-material/Description';
-import type { FileReference } from '@/@custom-types/backendTypes';
 
 interface DataUploaderProp {
   files: File[];
@@ -24,10 +23,9 @@ const DataUploader = (props: DataUploaderProp) => {
   const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
 
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-     const selectedFiles = Array.from(event.target.files);
+      const selectedFiles = Array.from(event.target.files);
       props.setFiles([...props.files, ...selectedFiles]);
     }
   };
@@ -50,13 +48,12 @@ const DataUploader = (props: DataUploaderProp) => {
     }
   };
 
-   const handleDelete = (indexToDelete: number) => {
+  const handleDelete = (indexToDelete: number) => {
     const updatedFiles = props.files.filter(
       (_, index) => index !== indexToDelete
     );
     props.setFiles(updatedFiles);
   };
-
 
   return (
     <>

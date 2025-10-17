@@ -13,7 +13,6 @@ import {
 import GenericModal from '@agile-software/shared-components/src/components/Modal/Modal';
 import FileChip from '@agile-software/shared-components/src/components/FileChip/FileChip';
 import Dropzone from '@agile-software/shared-components/src/components/Dropzone/Dropzone';
-import DataUploader from './DataUploader';
 import type {
   Exam,
   Feedback,
@@ -28,7 +27,6 @@ import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
 import { useDispatch } from 'react-redux';
 import { setFeedback } from '@stores/slices/feedbackSlice';
-import { BorderColor } from '@mui/icons-material';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -52,7 +50,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'saved'>('idle');
   const [points, setPoints] = useState<string>();
   const [grade, setGrade] = useState<number | undefined>();
-  const [uploadedDocuments, setUploadedDocuments] = useState<FeedbackDocumentResponse[]>([]);
+  const [uploadedDocuments, setUploadedDocuments] = useState<
+    FeedbackDocumentResponse[]
+  >([]);
 
   /**
    * Saves the feedback for the current student
@@ -64,22 +64,32 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     }
 
     const feedbackData: FeedbackRequest = {
-      gradedAt: new Date().toISOString(), // Wichtig: Datum hinzufügen
+      gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid: "LE12345", // TODO: Ersetzen
+      lecturerUuid: 'LE12345', // TODO: Ersetzen
       studentUuid: props.student.uuid,
       submissionUuid: props.feedback?.submissionUuid,
       comment: comment,
       points: Number(points),
     };
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    const gradedExam: Feedback = {
+      gradedAt: new Date().toISOString(),
+      grade: grade,
+      examUuid: props.exam.uuid,
+      lecturerUuid: 'LE12345', // TODO: Ersetzen
+      studentUuid: props.student.uuid,
+      submissionUuid: props.feedback?.submissionUuid,
+      comment: comment,
+      points: Number(points),
+      fileReference: [],
+    };
 
-    setStatus('saved');
-    console.log(feedbackData);
-    console.log(files);
     saveFeedback(feedbackData, files);
+    setStatus('saved');
+    dispatch(setFeedback([gradedExam]));
+    await new Promise((resolve) => setTimeout(resolve, 600));
   };
 
   /**
@@ -137,19 +147,20 @@ const FeedbackModal = (props: FeedbackModalProps) => {
    */
 
   const handleFileSelection = (selectedFiles: File | File[]) => {
-    setFiles(prevFiles => Array.isArray(selectedFiles) ? [...prevFiles, ...selectedFiles] : [...prevFiles, selectedFiles]);
+    setFiles((prevFiles) =>
+      Array.isArray(selectedFiles)
+        ? [...prevFiles, ...selectedFiles]
+        : [...prevFiles, selectedFiles]
+    );
   };
 
   const onDeleteFile = (fileName: string) => {
-    setFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
   };
 
   const onDownload = (downloadUrl: string, fileName: string) => {
     downloadDocument(downloadUrl, fileName);
   };
-
-  //http://80.158.79.52:9000/feedback-documents/feedback-documents/2025/675b12a4-ac73-444d-97e7-8ee302c8d24d-Zwischenzeugnis.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=my-access-key%2F20251015%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20251015T073530Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=818444aad283f834c7649959cb8e8a56e2033411bc2ebf4a988b2b0e4be86f60
-
 
   // Validate points and update grade with debounce
   useEffect(() => {
@@ -170,7 +181,8 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   useEffect(() => {
     if (props.open) {
       setComment(props.feedback?.comment || '');
-      setFiles(/* props.feedback?.fileReference || */[]);
+      setFiles(/* props.feedback?.fileReference || */ []);
+      setUploadedDocuments(props.feedback?.fileReference || []);
       setGrade(props.feedback?.grade);
       setPoints(
         props.feedback?.points != null ? String(props.feedback.points) : ''
@@ -274,10 +286,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
         <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
         <Dropzone
           onFileSelect={handleFileSelection}
-          dragDropText='Dateien hochladen'
-          browseText='Durchsuchen'
+          dragDropText="Dateien hochladen"
+          browseText="Durchsuchen"
         />
-
 
         {uploadedDocuments.length > 0 && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.8 }}>
@@ -289,10 +300,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                   t('components.dokumentModal.unknownFile', 'Unbekannte Datei')
                 }
                 onDelete={() => console.log('Delete file ' + doc.fileName)}
-                onClick={() => onDownload(
-                  doc.downloadUrl,
-                  doc.fileName
-                )}
+                onClick={() => onDownload(doc.downloadUrl, doc.fileName)}
               />
             ))}
           </Box>
@@ -305,18 +313,22 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                 <FileChip
                   filename={
                     doc.name ||
-                    t('components.dokumentModal.unknownFile', 'Unbekannte Datei')
+                    t(
+                      'components.dokumentModal.unknownFile',
+                      'Unbekannte Datei'
+                    )
                   }
                   onDelete={() => onDeleteFile(doc.name)}
-                  containerSX={{ opacity: 0.6, borderColor: '#C2CAD5', color: '#6B7280' }}
+                  containerSX={{
+                    opacity: 0.6,
+                    borderColor: '#C2CAD5',
+                    color: '#6B7280',
+                  }}
                 />
               ))}
             </Box>
           </Tooltip>
         )}
-
-
-
 
         {/* Comment Section */}
         <FormControl>

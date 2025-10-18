@@ -56,13 +56,7 @@ const useApi = () => {
   const saveFeedback = useCallback(
     async (feedback: Feedback) => {
       try {
-        if (feedback.uuid) {
-          // Existierendes Feedback → PUT
-          await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
-        } else {
-          // Neues Feedback → POST
-          await axiosInstance.post('/feedback', feedback);
-        }
+        await axiosInstance.post('/feedback', feedback);
         return true;
       } catch (error) {
         console.error('Error while saving or updating feedback', error);
@@ -72,12 +66,25 @@ const useApi = () => {
     [axiosInstance]
   );
 
+  const updateFeedback = useCallback(
+    async (feedback: Feedback) => {
+      try {
+        await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
+        return true;
+      } catch (error) {
+        console.error('Error while updating feedback', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
 
   return {
     fetchExams,
     fetchFeedbackForLecturer,
     fetchSubmissionsForLecturer,
     saveFeedback,
+    updateFeedback,
   };
 };
 

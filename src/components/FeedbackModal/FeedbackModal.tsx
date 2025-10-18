@@ -39,7 +39,7 @@ interface FeedbackModalProps {
 
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
-  const { saveFeedback } = useApi();
+  const { saveFeedback, updateFeedback } = useApi();
   const dispatch = useDispatch();
 
   // Form state
@@ -78,7 +78,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     await new Promise((resolve) => setTimeout(resolve, 600));
 
-    const success = await saveFeedback(gradedExam);
+    const success: boolean = gradedExam.uuid
+  ? await updateFeedback(gradedExam)
+  : await saveFeedback(gradedExam);
 
     if (success) {
       setStatus('saved');

@@ -79,8 +79,8 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     await new Promise((resolve) => setTimeout(resolve, 600));
 
     const success: boolean = gradedExam.uuid
-  ? await updateFeedback(gradedExam)
-  : await saveFeedback(gradedExam);
+      ? await updateFeedback(gradedExam)
+      : await saveFeedback(gradedExam);
 
     if (success) {
       setStatus('saved');

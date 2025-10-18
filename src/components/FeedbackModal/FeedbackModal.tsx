@@ -81,7 +81,6 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     const success: boolean = gradedExam.uuid
       ? await updateFeedback(gradedExam)
       : await saveFeedback(gradedExam);
-
     if (success) {
       setStatus('saved');
       dispatch(setFeedback([gradedExam]));

@@ -76,7 +76,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       fileReference: files || [],
     };
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     const success: boolean = gradedExam.uuid
       ? await updateFeedback(gradedExam)

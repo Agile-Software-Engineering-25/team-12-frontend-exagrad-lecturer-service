@@ -36,7 +36,6 @@ describe('Feedback Modal', () => {
 
     cy.contains('button', 'Speichern').click();
     cy.contains('button', 'Speichern').should('not.exist');
-    cy.wait(5000);
     cy.contains('button', 'Fertig').should('be.visible');
     cy.contains('button', 'Zurück').should('be.visible');
   });

@@ -71,16 +71,16 @@ const ExamSubmissionPage = () => {
     [currentExam, currentStudent]
   );
 
-  const studentsWithSubmission = [];
-  const studentsWithoutSubmission = [];
-
-  for (let i = 0; i < students.length; i++) {
-    if (submissions[`${examUuid}:${students[i].uuid}`]) {
-      studentsWithSubmission.push(students[i]);
-    } else {
-      studentsWithoutSubmission.push(students[i]);
-    }
-  }
+  const studentsWithSubmission = useMemo(
+    () =>
+      students.filter((student) => submissions[`${examUuid}:${student.uuid}`]),
+    [students, submissions, examUuid]
+  );
+  const studentsWithoutSubmission = useMemo(
+    () =>
+      students.filter((student) => !submissions[`${examUuid}:${student.uuid}`]),
+    [students, submissions, examUuid]
+  );
 
   return (
     <>

@@ -70,14 +70,14 @@ const useApi = () => {
     async (feedback: Feedback) => {
       try {
         axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
-        return true
+        return true;
       } catch {
         console.error('Error while updating feedback', error);
-        return false
+        return false;
       }
     },
     [axiosInstance]
-  )
+  );
 
   const fetchSubmissionsForExam = useCallback(
     async (examUuid: string) => {

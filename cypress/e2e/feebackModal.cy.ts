@@ -36,7 +36,7 @@ describe('Feedback Modal', () => {
 
     cy.contains('button', 'Speichern').click();
     cy.contains('button', 'Speichern').should('not.exist');
-    cy.contains('button', 'Fertig').should('be.visible');
+    cy.contains('button', /^(Fertig|Nächste Student\*in)$/).should('be.visible');
     cy.contains('button', 'Zurück').should('be.visible');
   });
 

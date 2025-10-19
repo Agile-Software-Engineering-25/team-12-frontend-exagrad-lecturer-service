@@ -56,4 +56,23 @@ describe('Exam Page Navigation', () => {
       }
     });
   });
+
+  context('Filter functionality', () => {
+    it('should filter by status', () => {
+      cy.contains('Benotungs Status');
+      cy.contains('Benotungs Status auswählen').parent().click();
+      cy.get('ul[role="listbox"]:visible')
+        .should('be.visible')
+        .find('li')
+        .last()
+        .click();
+
+      cy.get('.MuiCard-root.MuiCard-vertical')
+        .should('have.length', 6)
+        .first()
+        .within(() => {
+          cy.get('.MuiChip-label').should('contain.text', 'Unbenotet');
+        });
+    });
+  });
 });

@@ -39,7 +39,7 @@ interface FeedbackModalProps {
 
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
-  const { saveFeedback } = useApi();
+  const { saveFeedback, updateFeedback } = useApi();
   const dispatch = useDispatch();
 
   // Form state
@@ -61,12 +61,15 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     setStatus('loading');
     const gradedExam: Feedback = {
+      uuid: props.feedback?.uuid,
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid: crypto.randomUUID.toString(), // TODO: change this the the users ID
+      lecturerUuid:
+        props.feedback?.lecturerUuid || crypto.randomUUID.toString(), // TODO: change this the the users ID
       studentUuid: props.student.uuid,
-      submissionUuid: crypto.randomUUID.toString(),
+      submissionUuid:
+        props.feedback?.submissionUuid || crypto.randomUUID.toString(), // TODO: change this to the right submissionUuid
       comment: comment || '',
       points: Number(points),
       fileReference: files || [],
@@ -74,9 +77,17 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     await new Promise((resolve) => setTimeout(resolve, 600));
 
-    setStatus('saved');
-    saveFeedback(gradedExam);
-    dispatch(setFeedback([gradedExam]));
+    const success: boolean = gradedExam.uuid
+      ? await updateFeedback(gradedExam)
+      : await saveFeedback(gradedExam);
+
+    if (success) {
+      setStatus('saved');
+      dispatch(setFeedback([gradedExam]));
+    } else {
+      setStatus('idle');
+      setError(t('components.gradeExam.errorMessage.saveFailed'));
+    }
   };
 
   /**

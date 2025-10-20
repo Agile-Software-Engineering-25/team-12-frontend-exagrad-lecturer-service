@@ -90,6 +90,21 @@ const ExamSubmissionPage = () => {
     );
   });
 
+  const studentsWithSubmission = useMemo(
+    () =>
+      filteredStudents.filter(
+        (student) => submissions[`${examUuid}:${student.uuid}`]
+      ),
+    [filteredStudents, submissions, examUuid]
+  );
+  const studentsWithoutSubmission = useMemo(
+    () =>
+      filteredStudents.filter(
+        (student) => !submissions[`${examUuid}:${student.uuid}`]
+      ),
+    [filteredStudents, submissions, examUuid]
+  );
+
   return (
     <>
       <Box display={'flex'} justifyContent={'end'} gap={2} paddingInline={2}>
@@ -110,11 +125,10 @@ const ExamSubmissionPage = () => {
           justifyContent: 'space-around',
         }}
       >
-        {filteredStudents.map((student) => {
-          if (!examUuid) return null;
+        {studentsWithSubmission.map((student) => {
+          if (!examUuid) return;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
-          if (!examUuid) return;
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -123,6 +137,19 @@ const ExamSubmissionPage = () => {
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
               submission={studentSubmissions}
+            />
+          );
+        })}
+        {studentsWithoutSubmission.map((student) => {
+          if (!examUuid) return;
+          const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          return (
+            <ExamSubmissionCard
+              key={student.uuid}
+              student={student}
+              exam={exams[examUuid]}
+              feedback={gradeFromStudent}
+              onStudentClick={handleOpenModal}
             />
           );
         })}

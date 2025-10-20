@@ -74,7 +74,8 @@
       "errorMessage": {
         "notPositiveNumber": "Muss eine positive Zahl sein",
         "numberToHigh": "Muss gleich oder kleiner als die Gesamtpunktzahl sein",
-        "notGraded": "Keine Note eingetragen"
+        "notGraded": "Keine Note eingetragen",
+        "saveFailed": "Fehler beim Speichern der Note"
       },
       "comment": {
         "title": "Kommentar",

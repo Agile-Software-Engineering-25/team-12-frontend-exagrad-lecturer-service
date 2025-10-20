@@ -106,6 +106,21 @@ const ExamSubmissionPage = () => {
     );
   });
 
+  const studentsWithSubmission = useMemo(
+    () =>
+      filteredStudents.filter(
+        (student) => submissions[`${examUuid}:${student.uuid}`]
+      ),
+    [filteredStudents, submissions, examUuid]
+  );
+  const studentsWithoutSubmission = useMemo(
+    () =>
+      filteredStudents.filter(
+        (student) => !submissions[`${examUuid}:${student.uuid}`]
+      ),
+    [filteredStudents, submissions, examUuid]
+  );
+
   const submit = async () => {
     const feedbackList: Feedback[] = students.map((student) => {
       return feedbacks[`${examUuid}:${student.uuid}`];
@@ -196,14 +211,10 @@ const ExamSubmissionPage = () => {
           justifyContent: 'space-around',
         }}
       >
-        {filteredStudents.map((student) => {
-          if (!examUuid) return null;
+        {studentsWithSubmission.map((student) => {
+          if (!examUuid) return;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
-
-          const publishStatus =
-            gradeFromStudent?.publishStatus ?? ExamPublishState.UNPUBLISHED;
-
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -212,7 +223,32 @@ const ExamSubmissionPage = () => {
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
               submission={studentSubmissions}
-              published={publishStatus}
+            />
+          );
+        })}
+        {studentsWithoutSubmission.map((student) => {
+          if (!examUuid) return;
+          const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          return (
+            <ExamSubmissionCard
+              key={student.uuid}
+              student={student}
+              exam={exams[examUuid]}
+              feedback={gradeFromStudent}
+              onStudentClick={handleOpenModal}
+            />
+          );
+        })}
+        {studentsWithoutSubmission.map((student) => {
+          if (!examUuid) return;
+          const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+          return (
+            <ExamSubmissionCard
+              key={student.uuid}
+              student={student}
+              exam={exams[examUuid]}
+              feedback={gradeFromStudent}
+              onStudentClick={handleOpenModal}
             />
           );
         })}

@@ -98,14 +98,14 @@ describe('Exam Page', () => {
       cy.get('ul[role="listbox"]:visible')
         .should('be.visible')
         .find('li')
-        .last()
+        .first()
         .click();
 
       cy.get('.MuiCard-root.MuiCard-vertical')
         .should('have.length', 6)
         .first()
         .within(() => {
-          cy.get('.MuiChip-label').should('contain.text', 'Unbenotet');
+          cy.get('.MuiChip-label').should('contain.text', 'Offen');
         });
     });
   });

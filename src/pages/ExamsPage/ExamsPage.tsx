@@ -6,7 +6,6 @@ import { Box } from '@mui/joy';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ExamPublishState } from '@/@custom-types/enums';
 import usePublishStatus from '@/hooks/usePublishStatus';
 
 const ExamsPage = () => {
@@ -48,22 +47,24 @@ const ExamsPage = () => {
     gradeStatus,
   ]);
 
-  const sortedExams = [...filteredExams].sort((a, b) => {
-    const aStatus = getFeedbackStatus(a.uuid);
-    const bStatus = getFeedbackStatus(b.uuid);
+  const examWithMetadata = filteredExams.map((exam) => ({
+    exam,
+    status: getFeedbackStatus(exam.uuid),
+    dateTime: new Date(exam.date).getTime(),
+  }));
 
-    const aPriority = statusPriority[aStatus] ?? 999;
-    const bPriority = statusPriority[bStatus] ?? 999;
+  const sortedExams = examWithMetadata
+    .sort((a, b) => {
+      const aPriority = statusPriority[a.status] ?? 999;
+      const bPriority = statusPriority[b.status] ?? 999;
 
-    if (aPriority !== bPriority) {
-      return aPriority - bPriority;
-    }
+      if (aPriority !== bPriority) {
+        return aPriority - bPriority;
+      }
 
-    const aDate = new Date(a.date).getTime();
-    const bDate = new Date(b.date).getTime();
-
-    return aDate - bDate;
-  });
+      return a.dateTime - b.dateTime;
+    })
+    .map(({ exam }) => exam);
 
   return (
     <>

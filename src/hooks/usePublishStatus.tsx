@@ -10,51 +10,57 @@ const usePublishStatus = () => {
   const dispatch = useDispatch();
 
   const getFeedbackStatus = (examUuid: string): ExamProcess => {
-    const entries = Object.entries(feedbacks);
-    const relevantFeedbacks = entries
+    const relevantFeedbacks = Object.entries(feedbacks)
       .filter(([key]) => key.startsWith(`${examUuid}:`))
       .map(([, feedback]) => feedback);
 
     const exam = exams[examUuid];
     const total = exam.assignedStudents.length;
 
-    const graded = relevantFeedbacks.filter(
-      (fb) => typeof fb?.grade === 'number' && fb.grade > 0
-    );
-    const unpublished = relevantFeedbacks.filter(
-      (fb) => fb?.publishStatus == ExamPublishState.UNPUBLISHED
-    );
-    const published = relevantFeedbacks.filter(
-      (fb) => fb?.publishStatus === ExamPublishState.PUBLISHED
-    );
-    const approved = relevantFeedbacks.filter(
-      (fb) => fb?.publishStatus === ExamPublishState.APPROVED
-    );
-    const rejected = relevantFeedbacks.filter(
-      (fb) => fb?.publishStatus === ExamPublishState.REJECTED
+    const counts = relevantFeedbacks.reduce(
+      (acc, feedback) => {
+        if (feedback.grade > 0) acc.graded++;
+
+        switch (feedback?.publishStatus) {
+          case ExamPublishState.UNPUBLISHED:
+            acc.unpublished++;
+            break;
+          case ExamPublishState.PUBLISHED:
+            acc.published++;
+            break;
+          case ExamPublishState.APPROVED:
+            acc.approved++;
+            break;
+          case ExamPublishState.REJECTED:
+            acc.rejected++;
+            break;
+        }
+        return acc;
+      },
+      { graded: 0, unpublished: 0, published: 0, approved: 0, rejected: 0 }
     );
 
-    if (new Date(exam.date).getTime() > Date.now() && unpublished) {
+    if (new Date(exam.date).getTime() > Date.now() && counts.unpublished > 0) {
       return ExamProcess.COMMINGUP;
     }
 
-    if (rejected.length > 0) {
+    if (counts.rejected > 0) {
       return ExamProcess.REJECTED;
     }
 
-    if (approved.length === total) {
+    if (counts.approved === total) {
       return ExamProcess.APPROVED;
     }
 
-    if (published.length === total) {
+    if (counts.published === total) {
       return ExamProcess.PENDING;
     }
 
-    if (graded.length === total && unpublished) {
+    if (counts.graded === total && counts.unpublished > 0) {
       return ExamProcess.READY;
     }
 
-    if (graded.length > 0 && graded.length < total) {
+    if (counts.graded > 0 && counts.graded < total) {
       return ExamProcess.PARTIALLY;
     }
 

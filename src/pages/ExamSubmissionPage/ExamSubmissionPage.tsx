@@ -215,7 +215,6 @@ const ExamSubmissionPage = () => {
           if (!examUuid) return;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
-
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -230,7 +229,6 @@ const ExamSubmissionPage = () => {
         {studentsWithoutSubmission.map((student) => {
           if (!examUuid) return;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
-
           return (
             <ExamSubmissionCard
               key={student.uuid}

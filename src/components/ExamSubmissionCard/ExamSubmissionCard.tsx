@@ -18,12 +18,12 @@ interface ExamSubmissionCardProps {
   student: Student;
   exam: Exam;
   onStudentClick: (student: Student) => void;
-  published: ExamPublishState;
 }
 
 const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
-  const isPublished = props.published === ExamPublishState.PUBLISHED;
+  const isPublished =
+    props.feedback?.publishStatus === ExamPublishState.PUBLISHED;
 
   return (
     <Card

@@ -40,7 +40,7 @@ const usePublishStatus = () => {
       { graded: 0, unpublished: 0, published: 0, approved: 0, rejected: 0 }
     );
 
-    if (new Date(exam.date).getTime() > Date.now() && counts.unpublished > 0) {
+    if (new Date(exam.date).getTime() > Date.now() && counts.unpublished >= 0) {
       return ExamProcess.COMMINGUP;
     }
 

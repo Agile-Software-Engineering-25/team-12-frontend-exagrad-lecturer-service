@@ -216,9 +216,6 @@ const ExamSubmissionPage = () => {
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
 
-          const publishStatus =
-            gradeFromStudent?.publishStatus ?? ExamPublishState.UNPUBLISHED;
-
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -227,7 +224,6 @@ const ExamSubmissionPage = () => {
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
               submission={studentSubmissions}
-              published={publishStatus}
             />
           );
         })}
@@ -235,8 +231,6 @@ const ExamSubmissionPage = () => {
           if (!examUuid) return;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
 
-          const publishStatus =
-            gradeFromStudent?.publishStatus ?? ExamPublishState.UNPUBLISHED;
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -244,7 +238,6 @@ const ExamSubmissionPage = () => {
               exam={exams[examUuid]}
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
-              published={publishStatus}
             />
           );
         })}

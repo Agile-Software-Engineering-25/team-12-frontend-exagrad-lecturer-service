@@ -9,6 +9,7 @@ import type {
   Student,
   Submission,
 } from '@/@custom-types/backendTypes';
+import { ExamPublishState } from '@/@custom-types/enums';
 
 interface ExamSubmissionCardProps {
   feedback: Feedback;
@@ -17,15 +18,17 @@ interface ExamSubmissionCardProps {
   student: Student;
   exam: Exam;
   onStudentClick: (student: Student) => void;
+  published: ExamPublishState;
 }
 
 const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
+  const isPublished = props.published === ExamPublishState.PUBLISHED;
 
   return (
     <Card
-      color="neutral"
-      variant={'outlined'}
+      color={'neutral'}
+      variant={isPublished ? 'soft' : 'outlined'}
       sx={{
         display: 'flex',
         width: 270,
@@ -80,6 +83,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           <Button
             size="sm"
             variant="soft"
+            disabled={isPublished}
             onClick={() => props.onStudentClick(props.student)}
           >
             {t('components.testCard.editTest')}
@@ -88,6 +92,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           <Button
             size="sm"
             variant="outlined"
+            disabled={isPublished}
             onClick={() => props.onStudentClick(props.student)}
           >
             {t('components.testCard.gradeTest')}

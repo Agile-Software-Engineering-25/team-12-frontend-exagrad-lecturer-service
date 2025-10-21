@@ -1,23 +1,39 @@
 import ExamSubmissionCard from '@/components/ExamSubmissionCard/ExamSubmissionCard';
-import { Box } from '@mui/joy';
+import {
+  Box,
+  Button,
+  FormHelperText,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/joy';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '@/stores/rootReducer';
 import type { Feedback, Student } from '@/@custom-types/backendTypes';
 import FeedbackModal from '@/components/FeedbackModal/FeedbackModal';
+import Filter from '@/components/Filter/Filter';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { useTranslation } from 'react-i18next';
-import Filter from '@/components/ExamCard/Filter';
+import useApi from '@/hooks/useApi';
+import { ExamPublishState } from '@/@custom-types/enums';
+import usePublishStatus from '@/hooks/usePublishStatus';
 
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
   const { examUuid } = useParams();
+  const { submitFeedback } = useApi();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
+  const [publishStatus, setIsPublished] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitted'>('idle');
+  const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
   const feedbacks = useTypedSelector((state) => state.feedback.data);
   const submissions = useTypedSelector((state) => state.submission.data);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const { setFeedbackStatus } = usePublishStatus();
 
   const currentExam = useMemo(() => {
     return Object.values(exams).find((exam) => exam.uuid === examUuid);
@@ -90,15 +106,85 @@ const ExamSubmissionPage = () => {
     );
   });
 
+  const submit = async () => {
+    const feedbackList: Feedback[] = students.map((student) => {
+      return feedbacks[`${examUuid}:${student.uuid}`];
+    });
+    const success = await submitFeedback(feedbackList);
+
+    if (success && examUuid) {
+      setStatus('submitted');
+      setError(false);
+      setFeedbackStatus(examUuid, ExamPublishState.PUBLISHED);
+    } else {
+      setStatus('idle');
+      setError(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!examUuid) return;
+
+    const anyPublished = students.some((student) => {
+      const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
+      return gradeFromStudent?.publishStatus === ExamPublishState.PUBLISHED;
+    });
+
+    setIsPublished(anyPublished);
+  }, [students, feedbacks, examUuid]);
+
   return (
     <>
-      <Box display={'flex'} justifyContent={'end'} gap={2} paddingInline={2}>
+      <Box display={'flex'} justifyContent={'end'} gap={2} paddingInline={3}>
         <Filter
           label={t('components.testCard.filter.labelStatus')}
           customList={['graded', 'ungraded']}
           placeholder={t('components.testCard.filter.placeholderStatus')}
           onChange={setSelectedStatuses}
         />
+        <Stack gap={1}>
+          <Tooltip title={t('components.testCard.submit.info')}>
+            <InfoOutlineIcon
+              sx={{
+                opacity: 0.65,
+                width: 17,
+                top: 65,
+                right: 38,
+                position: 'absolute',
+              }}
+            />
+          </Tooltip>
+          <Typography sx={{ paddingTop: 2, paddingLeft: 1 }}>
+            {t('components.testCard.submit.submit')}
+          </Typography>
+          <Box>
+            {status === 'idle' && !publishStatus && (
+              <Button
+                disabled={publishStatus}
+                onClick={submit}
+                sx={{ width: '8em' }}
+              >
+                {t('components.testCard.submit.submit')}
+              </Button>
+            )}
+            {(status === 'submitted' || publishStatus) && (
+              <Button variant="soft" color={'success'} sx={{ width: '8em' }}>
+                {t('components.testCard.submit.done')}
+              </Button>
+            )}
+          </Box>
+        </Stack>
+      </Box>
+      <Box
+        display={'flex'}
+        flexDirection={'row-reverse'}
+        sx={{ paddingInline: 3 }}
+      >
+        {error && (
+          <FormHelperText sx={{ color: '#f50057' }}>
+            {t('components.testCard.submit.failed')}
+          </FormHelperText>
+        )}
       </Box>
       <Box
         sx={{
@@ -114,7 +200,10 @@ const ExamSubmissionPage = () => {
           if (!examUuid) return null;
           const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
           const studentSubmissions = submissions[`${examUuid}:${student.uuid}`];
-          if (!examUuid) return;
+
+          const publishStatus =
+            gradeFromStudent?.publishStatus ?? ExamPublishState.UNPUBLISHED;
+
           return (
             <ExamSubmissionCard
               key={student.uuid}
@@ -123,6 +212,7 @@ const ExamSubmissionPage = () => {
               feedback={gradeFromStudent}
               onStudentClick={handleOpenModal}
               submission={studentSubmissions}
+              published={publishStatus}
             />
           );
         })}

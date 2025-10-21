@@ -33,7 +33,14 @@
       "gradeStatus": {
         "graded": "Benotet",
         "ungraded": "Unbenotet",
-        "partial": "Teilweise benotet"
+        "partial": "Teilweise benotet",
+        "open": "Offen",
+        "pending": "In Bearbeitung",
+        "partially": "Teilweise Benotet",
+        "approved": "Genehmigt ",
+        "rejected": "Abgeleht",
+        "comming_up": "Demnächst",
+        "ready": "Absendbar"
       },
       "files": "Dateien",
       "examTypes": {
@@ -52,6 +59,13 @@
         "placeholderType": "Prüfungstypen auswählen",
         "labelStatus": "Benotungs Status",
         "placeholderStatus": "Benotungs Status auswählen"
+      },
+      "submit": {
+        "submit": "Abschicken",
+        "loading": "Lädt...",
+        "done": "Fertig",
+        "info": "Wenn alles benotet wurde, können Sie die Abgaben an das Prüfungsamt weiterleiten.",
+        "failed": "Ein Fehler ist aufgetaucht beim abschicken."
       }
     },
     "gradeExam": {

@@ -71,7 +71,7 @@ const useApi = () => {
       try {
         axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
         return true;
-      } catch {
+      } catch (error) {
         console.error('Error while updating feedback', error);
         return false;
       }
@@ -94,6 +94,19 @@ const useApi = () => {
     [axiosInstance]
   );
 
+  const submitFeedback = useCallback(
+    async (feedbacks: Feedback[]) => {
+      try {
+        await axiosInstance.post(`/feedback/submit`, feedbacks);
+        return true;
+      } catch (error) {
+        console.error('Error while submitting feedback', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
   return {
     fetchExams,
     fetchFeedbackForLecturer,
@@ -101,6 +114,7 @@ const useApi = () => {
     saveFeedback,
     updateFeedback,
     fetchSubmissionsForExam,
+    submitFeedback,
   };
 };
 

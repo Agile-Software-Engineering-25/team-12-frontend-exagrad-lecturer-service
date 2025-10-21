@@ -25,6 +25,7 @@ import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
 import { useDispatch } from 'react-redux';
 import { setFeedback } from '@stores/slices/feedbackSlice';
+import { ExamPublishState } from '@/@custom-types/enums';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -73,6 +74,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       comment: comment || '',
       points: Number(points),
       fileReference: files || [],
+      publishStatus: ExamPublishState.UNPUBLISHED,
     };
 
     await new Promise((resolve) => setTimeout(resolve, 600));

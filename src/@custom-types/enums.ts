@@ -17,3 +17,20 @@ export enum ExamGradingState {
   UNGRADED = 'ungraded',
   PARTIALLY = 'partial',
 }
+
+export enum ExamProcess {
+  COMMINGUP = 'comming_up',
+  OPEN = 'open',
+  PARTIALLY = 'partially',
+  READY = 'ready',
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
+
+export enum ExamPublishState {
+  UNPUBLISHED = 'UNPUBLISHED',
+  PUBLISHED = 'PUBLISHED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}

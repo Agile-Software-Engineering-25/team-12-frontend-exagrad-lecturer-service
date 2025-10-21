@@ -3,20 +3,31 @@ import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
 import { useNavigate } from 'react-router-dom';
 import i18n from '@/i18n';
-import type { ExamGradingState } from '@/@custom-types/enums';
+import { ExamProcess } from '@/@custom-types/enums';
+import { useEffect, useState } from 'react';
 
 interface ExamCardProps {
   exam: Exam;
-  gradeStatus: ExamGradingState;
+  gradeStatus: ExamProcess;
 }
 
 const ExamCard = (props: ExamCardProps) => {
   const { exam } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (
+      props.gradeStatus == ExamProcess.APPROVED ||
+      props.gradeStatus == ExamProcess.COMMINGUP
+    ) {
+      setIsValid(false);
+    }
+  }, [props.gradeStatus]);
 
   const route = () => {
-    if (!exam.fileUploadRequired) {
+    if (isValid) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };
@@ -25,7 +36,7 @@ const ExamCard = (props: ExamCardProps) => {
     <Card
       onClick={route}
       color="neutral"
-      variant="outlined"
+      variant={isValid ? 'outlined' : 'soft'}
       sx={{
         display: 'flex',
         width: 270,
@@ -33,10 +44,12 @@ const ExamCard = (props: ExamCardProps) => {
         boxShadow: 'sm',
         transition: 'all ease .3s',
         cursor: 'pointer',
-        ':hover': {
-          transform: 'scale(1.03)',
-          boxShadow: 'lg',
-        },
+        ...(isValid && {
+          ':hover': {
+            transform: 'scale(1.03)',
+            boxShadow: 'lg',
+          },
+        }),
       }}
     >
       <Typography level="h4" lineHeight={1.2}>
@@ -106,11 +119,16 @@ const ExamCard = (props: ExamCardProps) => {
         <Box>
           <Chip
             color={
-              props.gradeStatus == 'graded'
+              props.gradeStatus == 'open' ||
+              props.gradeStatus == 'partially' ||
+              props.gradeStatus == 'approved'
                 ? 'success'
-                : props.gradeStatus == 'ungraded'
-                  ? 'warning'
-                  : 'primary'
+                : props.gradeStatus == 'ready'
+                  ? 'primary'
+                  : props.gradeStatus == 'pending' ||
+                      props.gradeStatus == 'comming_up'
+                    ? 'warning'
+                    : 'danger'
             }
           >
             {t('components.testCard.gradeStatus.' + props.gradeStatus)}

@@ -16,7 +16,7 @@ import Filter from '@/components/Filter/Filter';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
-import { ExamPublishState } from '@/@custom-types/enums';
+import { FeedbackPublishStatus } from '@/@custom-types/enums';
 import usePublishStatus from '@/hooks/usePublishStatus';
 
 const ExamSubmissionPage = () => {
@@ -130,7 +130,7 @@ const ExamSubmissionPage = () => {
     if (success && examUuid) {
       setStatus('submitted');
       setError(false);
-      setFeedbackStatus(examUuid, ExamPublishState.PUBLISHED);
+      setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
     } else {
       setStatus('idle');
       setError(true);
@@ -142,7 +142,9 @@ const ExamSubmissionPage = () => {
 
     const anyPublished = students.some((student) => {
       const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
-      return gradeFromStudent?.publishStatus === ExamPublishState.PUBLISHED;
+      return (
+        gradeFromStudent?.publishStatus === FeedbackPublishStatus.PUBLISHED
+      );
     });
 
     setIsPublished(anyPublished);

@@ -1,15 +1,14 @@
-import { ExamPublishState } from '@/@custom-types/enums';
+import { ExamStatus, FeedbackPublishStatus } from '@/@custom-types/enums';
 import { useTypedSelector } from '@/stores/rootReducer';
 import { setFeedback } from '@/stores/slices/feedbackSlice';
 import { useDispatch } from 'react-redux';
-import { ExamProcess } from '@/@custom-types/enums';
 
 const usePublishStatus = () => {
   const feedbacks = useTypedSelector((state) => state.feedback.data);
   const exams = useTypedSelector((state) => state.exam.data);
   const dispatch = useDispatch();
 
-  const getFeedbackStatus = (examUuid: string): ExamProcess => {
+  const getFeedbackStatus = (examUuid: string): ExamStatus => {
     const relevantFeedbacks = Object.entries(feedbacks)
       .filter(([key]) => key.startsWith(`${examUuid}:`))
       .map(([, feedback]) => feedback);
@@ -22,16 +21,16 @@ const usePublishStatus = () => {
         if (feedback.grade > 0) acc.graded++;
 
         switch (feedback?.publishStatus) {
-          case ExamPublishState.UNPUBLISHED:
+          case FeedbackPublishStatus.UNPUBLISHED:
             acc.unpublished++;
             break;
-          case ExamPublishState.PUBLISHED:
+          case FeedbackPublishStatus.PUBLISHED:
             acc.published++;
             break;
-          case ExamPublishState.APPROVED:
+          case FeedbackPublishStatus.APPROVED:
             acc.approved++;
             break;
-          case ExamPublishState.REJECTED:
+          case FeedbackPublishStatus.REJECTED:
             acc.rejected++;
             break;
         }
@@ -41,35 +40,35 @@ const usePublishStatus = () => {
     );
 
     if (new Date(exam.date).getTime() > Date.now() && counts.unpublished >= 0) {
-      return ExamProcess.COMMINGUP;
+      return ExamStatus.COMMING_UP;
     }
 
     if (counts.rejected > 0) {
-      return ExamProcess.REJECTED;
+      return ExamStatus.REJECTED;
     }
 
     if (counts.approved === total) {
-      return ExamProcess.APPROVED;
+      return ExamStatus.APPROVED;
     }
 
     if (counts.published === total) {
-      return ExamProcess.PENDING;
+      return ExamStatus.PENDING_REVIEW;
     }
 
     if (counts.graded === total && counts.unpublished > 0) {
-      return ExamProcess.READY;
+      return ExamStatus.SUBMITTABLE;
     }
 
     if (counts.graded > 0 && counts.graded < total) {
-      return ExamProcess.PARTIALLY;
+      return ExamStatus.PARTIALLY_GRADED;
     }
 
-    return ExamProcess.OPEN;
+    return ExamStatus.OPEN;
   };
 
   const findFeedbackByStatus = (
     examUuid: string,
-    publishStatus: ExamPublishState
+    publishStatus: FeedbackPublishStatus
   ): boolean => {
     const entries = Object.entries(feedbacks);
 
@@ -86,7 +85,7 @@ const usePublishStatus = () => {
 
   const setFeedbackStatus = (
     examUuid: string,
-    publishStatus: ExamPublishState
+    publishStatus: FeedbackPublishStatus
   ): void => {
     const updatedFeedbacks = Object.fromEntries(
       Object.entries(feedbacks).map(([key, feedback]) => {
@@ -103,9 +102,9 @@ const usePublishStatus = () => {
 
   const statusPriority: Record<string, number> = {
     open: 0,
-    partially: 1,
-    ready: 2,
-    pending: 3,
+    partially_graded: 1,
+    submittable: 2,
+    pending_review: 3,
     rejected: 4,
     comming_up: 5,
     approved: 6,

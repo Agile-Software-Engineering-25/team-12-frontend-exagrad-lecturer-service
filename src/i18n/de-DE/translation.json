@@ -33,14 +33,13 @@
       "gradeStatus": {
         "graded": "Benotet",
         "ungraded": "Unbenotet",
-        "partial": "Teilweise benotet",
         "open": "Offen",
-        "pending": "In Bearbeitung",
-        "partially": "Teilweise Benotet",
+        "pending_review": "In Bearbeitung",
+        "partially_graded": "Teilweise Benotet",
         "approved": "Genehmigt ",
         "rejected": "Abgeleht",
         "comming_up": "Demnächst",
-        "ready": "Absendbar"
+        "submittable": "Absendbar"
       },
       "files": "Dateien",
       "examTypes": {

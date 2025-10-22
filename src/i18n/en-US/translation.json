@@ -33,7 +33,13 @@
       "gradeStatus": {
         "graded": "Graded",
         "ungraded": "Ungraded",
-        "partial": "Partially graded"
+        "open": "Open",
+        "pending_review": "Pending Review",
+        "partially_graded": "Partially Graded",
+        "approved": "Approved ",
+        "rejected": "Rejected",
+        "comming_up": "Comming Up",
+        "submittable": "Submittable"
       },
       "files": "Files",
       "examTypes": {

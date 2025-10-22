@@ -9,7 +9,7 @@ import type {
   Student,
   Submission,
 } from '@/@custom-types/backendTypes';
-import { ExamPublishState } from '@/@custom-types/enums';
+import { FeedbackPublishStatus } from '@/@custom-types/enums';
 
 interface ExamSubmissionCardProps {
   feedback: Feedback;
@@ -23,7 +23,7 @@ interface ExamSubmissionCardProps {
 const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
   const isPublished =
-    props.feedback?.publishStatus === ExamPublishState.PUBLISHED;
+    props.feedback?.publishStatus === FeedbackPublishStatus.PUBLISHED;
 
   return (
     <Card

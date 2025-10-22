@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
 import { useNavigate } from 'react-router-dom';
 import i18n from '@/i18n';
-import { ExamProcess } from '@/@custom-types/enums';
+import { ExamStatus } from '@/@custom-types/enums';
 import { useEffect, useState } from 'react';
 
 interface ExamCardProps {
   exam: Exam;
-  gradeStatus: ExamProcess;
+  gradeStatus: ExamStatus;
 }
 
 const ExamCard = (props: ExamCardProps) => {
@@ -19,8 +19,8 @@ const ExamCard = (props: ExamCardProps) => {
 
   useEffect(() => {
     if (
-      props.gradeStatus == ExamProcess.APPROVED ||
-      props.gradeStatus == ExamProcess.COMMINGUP
+      props.gradeStatus == ExamStatus.APPROVED ||
+      props.gradeStatus == ExamStatus.COMMING_UP
     ) {
       setIsValid(false);
     }
@@ -120,12 +120,12 @@ const ExamCard = (props: ExamCardProps) => {
           <Chip
             color={
               props.gradeStatus == 'open' ||
-              props.gradeStatus == 'partially' ||
+              props.gradeStatus == 'partially_graded' ||
               props.gradeStatus == 'approved'
                 ? 'success'
-                : props.gradeStatus == 'ready'
+                : props.gradeStatus == 'submittable'
                   ? 'primary'
-                  : props.gradeStatus == 'pending' ||
+                  : props.gradeStatus == 'pending_review' ||
                       props.gradeStatus == 'comming_up'
                     ? 'warning'
                     : 'danger'

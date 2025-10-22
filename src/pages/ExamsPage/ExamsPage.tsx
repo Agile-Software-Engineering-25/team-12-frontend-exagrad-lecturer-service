@@ -97,12 +97,12 @@ const ExamsPage = () => {
           label={t('components.testCard.filter.labelStatus')}
           customList={[
             'open',
-            'partially',
-            'ready',
+            'partially_graded',
+            'submittable',
             'rejected',
             'approved',
             'comming_up',
-            'pending',
+            'pending_review',
           ]}
           placeholder={t('components.testCard.filter.placeholderStatus')}
           onChange={setSelectedStatuses}

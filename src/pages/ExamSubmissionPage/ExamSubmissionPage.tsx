@@ -241,19 +241,6 @@ const ExamSubmissionPage = () => {
             />
           );
         })}
-        {studentsWithoutSubmission.map((student) => {
-          if (!examUuid) return;
-          const gradeFromStudent = feedbacks[`${examUuid}:${student.uuid}`];
-          return (
-            <ExamSubmissionCard
-              key={student.uuid}
-              student={student}
-              exam={exams[examUuid]}
-              feedback={gradeFromStudent}
-              onStudentClick={handleOpenModal}
-            />
-          );
-        })}
       </Box>
       {currentStudent && (
         <FeedbackModal

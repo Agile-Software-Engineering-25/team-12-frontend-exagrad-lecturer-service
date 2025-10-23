@@ -110,11 +110,11 @@ const ExamsPage = () => {
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
           gap: 2,
-          paddingTop: 3,
-          justifyContent: 'space-around',
+          pt: 3,
+          paddingLeft: 3,
         }}
       >
         {sortedExams.map((exam) => {

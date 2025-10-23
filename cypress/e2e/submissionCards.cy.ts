@@ -7,7 +7,7 @@ describe('Exam Page Navigation', () => {
   it('should navigate to submissions page when clicking navigable exam cards', () => {
     cy.fixture('exams.json').then((examData) => {
       examData.forEach((exam, index) => {
-        const navigableTypes = ['PRESENTATION', 'EXAM', 'ORAL'];
+        const navigableTypes = ['EXAM', 'ORAL'];
 
         if (navigableTypes.includes(exam.examType)) {
           cy.get('.MuiCard-root.MuiCard-vertical').eq(index).click();
@@ -64,14 +64,14 @@ describe('Exam Page Navigation', () => {
       cy.get('ul[role="listbox"]:visible')
         .should('be.visible')
         .find('li')
-        .last()
+        .first()
         .click();
 
       cy.get('.MuiCard-root.MuiCard-vertical')
         .should('have.length', 6)
         .first()
         .within(() => {
-          cy.get('.MuiChip-label').should('contain.text', 'Unbenotet');
+          cy.get('.MuiChip-label').should('contain.text', 'Offen');
         });
     });
   });

@@ -23,25 +23,25 @@
     ]
   },
   {
-    "uuid": "a2222222-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-    "module": "Software Engineering",
-    "name": "Project Presentation",
-    "totalPoints": 50,
-    "examType": "PROJECT",
-    "examDisplay": "Projekt",
-    "date": "2025-10-01",
-    "displayDate": "1.10.2025",
+    "uuid": "a6666666-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Human-Computer Interaction",
+    "name": "Usability Presentation",
+    "totalPoints": 30,
+    "examType": "PRESENTATION",
+    "examDisplay": "Präsentation",
+    "date": "2025-09-28",
+    "displayDate": "28.9.2025",
     "time": 5400,
     "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
-        "uuid": "b2222222-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
-        "first_name": "Bob",
-        "last_name": "Johnson",
-        "email": "bob@example.com",
+        "uuid": "b6666666-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Fiona",
+        "last_name": "Khan",
+        "email": "fiona@example.com",
         "UserType": "STUDENT",
-        "matriculationNumber": "654321"
+        "matriculationNumber": "991122"
       }
     ]
   },
@@ -69,25 +69,25 @@
     ]
   },
   {
-    "uuid": "a4444444-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-    "module": "Databases",
-    "name": "Written Test",
-    "totalPoints": 75,
-    "examType": "EXAM",
-    "examDisplay": "Klausur",
-    "date": "2025-10-10",
-    "displayDate": "10.10.2025",
+    "uuid": "a2222222-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Software Engineering",
+    "name": "Project Presentation",
+    "totalPoints": 50,
+    "examType": "PROJECT",
+    "examDisplay": "Projekt",
+    "date": "2025-10-01",
+    "displayDate": "1.10.2025",
     "time": 5400,
     "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
-        "uuid": "b4444444-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
-        "first_name": "Diana",
-        "last_name": "Wang",
-        "email": "diana@example.com",
+        "uuid": "b2222222-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Bob",
+        "last_name": "Johnson",
+        "email": "bob@example.com",
         "UserType": "STUDENT",
-        "matriculationNumber": "445566"
+        "matriculationNumber": "654321"
       }
     ]
   },
@@ -115,25 +115,25 @@
     ]
   },
   {
-    "uuid": "a6666666-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-    "module": "Human-Computer Interaction",
-    "name": "Usability Presentation",
-    "totalPoints": 30,
-    "examType": "PRESENTATION",
-    "examDisplay": "Präsentation",
-    "date": "2025-09-28",
-    "displayDate": "28.9.2025",
+    "uuid": "a4444444-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Databases",
+    "name": "Written Test",
+    "totalPoints": 75,
+    "examType": "EXAM",
+    "examDisplay": "Klausur",
+    "date": "2025-10-10",
+    "displayDate": "10.10.2025",
     "time": 5400,
     "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
-        "uuid": "b6666666-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
-        "first_name": "Fiona",
-        "last_name": "Khan",
-        "email": "fiona@example.com",
+        "uuid": "b4444444-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Diana",
+        "last_name": "Wang",
+        "email": "diana@example.com",
         "UserType": "STUDENT",
-        "matriculationNumber": "991122"
+        "matriculationNumber": "445566"
       }
     ]
   }

@@ -1,4 +1,4 @@
-import type { ExamPublishState, ExamType, UserType } from './enums';
+import type { FeedbackPublishStatus, ExamType, UserType } from './enums';
 
 interface UserEntity {
   uuid: string;
@@ -47,7 +47,7 @@ export interface Feedback {
   fileUpload?: FileReference[];
   grade: number;
   points: number;
-  publishStatus: ExamPublishState;
+  publishStatus: FeedbackPublishStatus;
 }
 
 export interface Submission {

@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
-    "cy:open": "NODE_OPTIONS=--import-tsx cypress open",
-    "cy:run": "NODE_OPTIONS=--import=tsx cypress run",
+    "cy:open": "cross-env NODE_OPTIONS=--import-tsx cypress open",
+    "cy:run": "cross-env NODE_OPTIONS=--import=tsx cypress run",
     "init": "sh ./scripts/prepare.sh",
     "updateSharedComponents": "sh ./scripts/updateSharedComponents.sh",
     "ci": "start-server-and-test dev http://localhost:5173 cy:run"
@@ -56,6 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "cross-env": "^10.1.0",
     "cypress": "^15.5.0",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",

@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
+    "cy:open": "NODE_OPTIONS=--import-tsx cypress open",
+    "cy:run": "NODE_OPTIONS=--import=tsx cypress run",
     "init": "sh ./scripts/prepare.sh",
     "updateSharedComponents": "sh ./scripts/updateSharedComponents.sh",
     "ci": "start-server-and-test dev http://localhost:5173 cy:run"

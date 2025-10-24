@@ -1,4 +1,3 @@
-process.env.NODE_OPTIONS = '--import tsx';
 // cypress.config.ts or cypress.config.js
 
 import { defineConfig } from 'cypress'

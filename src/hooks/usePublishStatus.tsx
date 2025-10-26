@@ -106,7 +106,7 @@ const usePublishStatus = () => {
     submittable: 2,
     pending_review: 3,
     rejected: 4,
-    comming_up: 5,
+    coming_up: 5,
     approved: 6,
   };
 

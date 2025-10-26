@@ -19,7 +19,7 @@ export enum GradingStatus {
 }
 
 export enum ExamStatus {
-  COMMING_UP = 'comming_up',
+  COMING_UP = 'coming_up',
   OPEN = 'open',
   PARTIALLY_GRADED = 'partially_graded',
   SUBMITTABLE = 'submittable',

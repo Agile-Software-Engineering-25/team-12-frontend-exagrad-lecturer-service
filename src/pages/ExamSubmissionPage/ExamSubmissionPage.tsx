@@ -27,6 +27,7 @@ const ExamSubmissionPage = () => {
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
   const [fullyGraded, setFullyGraded] = useState(false);
+  const [inReview, setInReview] = useState(false);
   const [status, setStatus] = useState<'idle' | 'submitted'>('idle');
   const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
@@ -203,14 +204,14 @@ const ExamSubmissionPage = () => {
           <Box>
             {status === 'idle' && (
               <Button
-                disabled={!fullyGraded}
+                disabled={!fullyGraded || publishStatus}
                 onClick={submit}
                 sx={{ width: '8em' }}
               >
                 {t('components.testCard.submit.submit')}
               </Button>
             )}
-            {status === 'submitted' && publishStatus && (
+            {status === 'submitted' && publishStatus && fullyGraded && (
               <Button
                 variant="soft"
                 color={'success'}

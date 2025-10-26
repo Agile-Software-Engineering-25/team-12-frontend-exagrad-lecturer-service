@@ -20,7 +20,7 @@ const ExamCard = (props: ExamCardProps) => {
   useEffect(() => {
     if (
       props.gradeStatus == ExamStatus.APPROVED ||
-      props.gradeStatus == ExamStatus.COMMING_UP
+      props.gradeStatus == ExamStatus.COMING_UP
     ) {
       setIsValid(false);
     }
@@ -43,8 +43,8 @@ const ExamCard = (props: ExamCardProps) => {
         justifyContent: 'space-around',
         boxShadow: 'sm',
         transition: 'all ease .3s',
-        cursor: 'pointer',
         ...(isValid && {
+          cursor: 'pointer',
           ':hover': {
             transform: 'scale(1.03)',
             boxShadow: 'lg',
@@ -69,12 +69,16 @@ const ExamCard = (props: ExamCardProps) => {
           </Typography>
           <Typography sx={{ fontSize: 'md' }}>{exam.module}</Typography>
         </Box>
-        <Box>
+        <Box sx={{ textAlign: 'right' }}>
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
           <Typography>
-            {new Date(exam.date).toLocaleDateString(i18n.language)}
+            {new Date(exam.date).toLocaleDateString(i18n.language, {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
           </Typography>
         </Box>
       </Box>
@@ -126,7 +130,7 @@ const ExamCard = (props: ExamCardProps) => {
                 : props.gradeStatus == 'submittable'
                   ? 'primary'
                   : props.gradeStatus == 'pending_review' ||
-                      props.gradeStatus == 'comming_up'
+                      props.gradeStatus == 'coming_up'
                     ? 'warning'
                     : 'danger'
             }

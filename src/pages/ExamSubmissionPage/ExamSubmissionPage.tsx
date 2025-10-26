@@ -27,7 +27,6 @@ const ExamSubmissionPage = () => {
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
   const [fullyGraded, setFullyGraded] = useState(false);
-  const [inReview, setInReview] = useState(false);
   const [status, setStatus] = useState<'idle' | 'submitted'>('idle');
   const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);

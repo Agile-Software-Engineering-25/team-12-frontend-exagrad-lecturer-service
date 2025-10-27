@@ -22,12 +22,14 @@ import usePublishStatus from '@/hooks/usePublishStatus';
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
   const { examUuid } = useParams();
-  const { submitFeedback } = useApi();
+  const { saveFeedback, updateFeedback, submitFeedback } = useApi();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
   const [fullyGraded, setFullyGraded] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'submitted'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'submitted'>(
+    'idle'
+  );
   const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
   const exams = useTypedSelector((state) => state.exam.data);
@@ -137,6 +139,7 @@ const ExamSubmissionPage = () => {
   const allStudents = [...studentsWithSubmission, ...studentsWithoutSubmission];
 
   const submit = async () => {
+    setStatus('loading');
     const feedbackList = students
       .map((student) => getFeedback(student.uuid))
       .filter(Boolean);
@@ -147,6 +150,17 @@ const ExamSubmissionPage = () => {
       setStatus('submitted');
       setError(false);
       setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
+
+      await Promise.all(
+        feedbackList.map((feedback) => {
+          feedback.publishStatus == FeedbackPublishStatus.PUBLISHED;
+          if (feedback.uuid) {
+            return updateFeedback(feedback);
+          } else {
+            return saveFeedback(feedback);
+          }
+        })
+      );
     } else {
       setStatus('idle');
       setError(true);
@@ -208,6 +222,11 @@ const ExamSubmissionPage = () => {
                 sx={{ width: '8em' }}
               >
                 {t('components.testCard.submit.submit')}
+              </Button>
+            )}
+            {status === 'loading' && (
+              <Button disabled sx={{ width: '8em' }}>
+                {t('components.testCard.submit.loading')}
               </Button>
             )}
             {status === 'submitted' && publishStatus && fullyGraded && (

@@ -153,7 +153,7 @@ const ExamSubmissionPage = () => {
 
       await Promise.all(
         feedbackList.map((feedback) => {
-          feedback.publishStatus == FeedbackPublishStatus.PUBLISHED;
+          feedback.publishStatus = FeedbackPublishStatus.PUBLISHED;
           if (feedback.uuid) {
             return updateFeedback(feedback);
           } else {

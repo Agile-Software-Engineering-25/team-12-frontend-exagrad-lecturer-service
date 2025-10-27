@@ -178,50 +178,57 @@ const ExamSubmissionPage = () => {
 
   return (
     <>
-      <Box display={'flex'} justifyContent={'end'} gap={2} paddingInline={3}>
-        <Filter
-          label={t('components.testCard.filter.labelStatus')}
-          customList={['graded', 'ungraded']}
-          placeholder={t('components.testCard.filter.placeholderStatus')}
-          onChange={setSelectedStatuses}
-        />
-        <Stack gap={1}>
-          <Tooltip title={t('components.testCard.submit.info')}>
-            <InfoOutlineIcon
-              sx={{
-                opacity: 0.65,
-                width: 17,
-                top: 65,
-                right: 38,
-                position: 'absolute',
-              }}
-            />
-          </Tooltip>
-          <Typography sx={{ paddingTop: 2, paddingLeft: 1 }}>
-            {t('components.testCard.submit.submit')}
-          </Typography>
-          <Box>
-            {status === 'idle' && (
-              <Button
-                disabled={!fullyGraded || publishStatus}
-                onClick={submit}
-                sx={{ width: '8em' }}
-              >
-                {t('components.testCard.submit.submit')}
-              </Button>
-            )}
-            {status === 'submitted' && publishStatus && fullyGraded && (
-              <Button
-                variant="soft"
-                color={'success'}
-                onClick={handleGoBack}
-                sx={{ width: '8em' }}
-              >
-                {t('components.testCard.submit.done')}
-              </Button>
-            )}
-          </Box>
-        </Stack>
+      <Box display={'flex'} justifyContent={'space-between'}>
+        <Box display={'flex'} alignItems={'center'} paddingInline={3}>
+          <Button variant={'outlined'} onClick={() => navigate('/')}>
+            {t('components.backButton.label')}
+          </Button>
+        </Box>
+        <Box display={'flex'} gap={2} paddingInline={3}>
+          <Filter
+            label={t('components.testCard.filter.labelStatus')}
+            customList={['graded', 'ungraded']}
+            placeholder={t('components.testCard.filter.placeholderStatus')}
+            onChange={setSelectedStatuses}
+          />
+          <Stack gap={1}>
+            <Tooltip title={t('components.testCard.submit.info')}>
+              <InfoOutlineIcon
+                sx={{
+                  opacity: 0.65,
+                  width: 17,
+                  top: 65,
+                  right: 38,
+                  position: 'absolute',
+                }}
+              />
+            </Tooltip>
+            <Typography sx={{ paddingTop: 2, paddingLeft: 1 }}>
+              {t('components.testCard.submit.submit')}
+            </Typography>
+            <Box>
+              {status === 'idle' && (
+                <Button
+                  disabled={!fullyGraded || publishStatus}
+                  onClick={submit}
+                  sx={{ width: '8em' }}
+                >
+                  {t('components.testCard.submit.submit')}
+                </Button>
+              )}
+              {status === 'submitted' && publishStatus && fullyGraded && (
+                <Button
+                  variant="soft"
+                  color={'success'}
+                  onClick={handleGoBack}
+                  sx={{ width: '8em' }}
+                >
+                  {t('components.testCard.submit.done')}
+                </Button>
+              )}
+            </Box>
+          </Stack>
+        </Box>
       </Box>
       <Box
         display={'flex'}

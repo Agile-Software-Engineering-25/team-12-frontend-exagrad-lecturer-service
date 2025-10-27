@@ -101,11 +101,11 @@ const usePublishStatus = () => {
   };
 
   const statusPriority: Record<string, number> = {
-    open: 0,
-    partially_graded: 1,
-    submittable: 2,
-    pending_review: 3,
-    rejected: 4,
+    rejected: 0,
+    open: 1,
+    partially_graded: 2,
+    submittable: 3,
+    pending_review: 4,
     coming_up: 5,
     approved: 6,
   };

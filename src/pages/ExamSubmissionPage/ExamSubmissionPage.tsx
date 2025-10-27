@@ -82,7 +82,7 @@ const ExamSubmissionPage = () => {
 
     const feedback = getFeedback(currentStudent.uuid);
     setCurrentFeedback(feedback);
-  }, [currentStudent?.uuid, getFeedback, examUuid]);
+  }, [currentStudent, getFeedback, examUuid]);
 
   const handleOpenModal = useCallback((student: Student) => {
     setCurrentStudent(student);

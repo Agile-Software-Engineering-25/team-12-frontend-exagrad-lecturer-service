@@ -62,7 +62,9 @@ const useApi = () => {
       const formData = new FormData();
       //formData.append('feedbackData', JSON.stringify(feedbackData));
       console.log(feedbackData);
-      const feedbackBlob = new Blob([JSON.stringify(feedbackData)], { type: 'application/json' });
+      const feedbackBlob = new Blob([JSON.stringify(feedbackData)], {
+        type: 'application/json',
+      });
       formData.append('feedbackData', feedbackBlob);
 
       if (files.length > 0) {

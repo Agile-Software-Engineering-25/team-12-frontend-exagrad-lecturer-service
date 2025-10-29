@@ -60,8 +60,6 @@ const useApi = () => {
   const saveFeedback = useCallback(
     async (feedbackData: FeedbackRequest, files: File[]) => {
       const formData = new FormData();
-      //formData.append('feedbackData', JSON.stringify(feedbackData));
-      console.log(feedbackData);
       const feedbackBlob = new Blob([JSON.stringify(feedbackData)], {
         type: 'application/json',
       });

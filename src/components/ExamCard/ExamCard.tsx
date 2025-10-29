@@ -3,20 +3,31 @@ import { useTranslation } from 'react-i18next';
 import type { Exam } from '@/@custom-types/backendTypes';
 import { useNavigate } from 'react-router-dom';
 import i18n from '@/i18n';
-import type { ExamGradingState } from '@/@custom-types/enums';
+import { ExamStatus } from '@/@custom-types/enums';
+import { useEffect, useState } from 'react';
 
 interface ExamCardProps {
   exam: Exam;
-  gradeStatus: ExamGradingState;
+  gradeStatus: ExamStatus;
 }
 
 const ExamCard = (props: ExamCardProps) => {
   const { exam } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (
+      props.gradeStatus == ExamStatus.APPROVED ||
+      props.gradeStatus == ExamStatus.COMING_UP
+    ) {
+      setIsValid(false);
+    }
+  }, [props.gradeStatus]);
 
   const route = () => {
-    if (!exam.fileUploadRequired) {
+    if (isValid) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };
@@ -25,18 +36,20 @@ const ExamCard = (props: ExamCardProps) => {
     <Card
       onClick={route}
       color="neutral"
-      variant="outlined"
+      variant={isValid ? 'outlined' : 'soft'}
       sx={{
         display: 'flex',
         width: 270,
         justifyContent: 'space-around',
         boxShadow: 'sm',
         transition: 'all ease .3s',
-        cursor: 'pointer',
-        ':hover': {
-          transform: 'scale(1.03)',
-          boxShadow: 'lg',
-        },
+        ...(isValid && {
+          cursor: 'pointer',
+          ':hover': {
+            transform: 'scale(1.03)',
+            boxShadow: 'lg',
+          },
+        }),
       }}
     >
       <Typography level="h4" lineHeight={1.2}>
@@ -56,12 +69,16 @@ const ExamCard = (props: ExamCardProps) => {
           </Typography>
           <Typography sx={{ fontSize: 'md' }}>{exam.module}</Typography>
         </Box>
-        <Box>
+        <Box sx={{ textAlign: 'right' }}>
           <Typography sx={{ opacity: '50%' }}>
             {t('pages.exam.date')}
           </Typography>
           <Typography>
-            {new Date(exam.date).toLocaleDateString(i18n.language)}
+            {new Date(exam.date).toLocaleDateString(i18n.language, {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
           </Typography>
         </Box>
       </Box>
@@ -106,11 +123,16 @@ const ExamCard = (props: ExamCardProps) => {
         <Box>
           <Chip
             color={
-              props.gradeStatus == 'graded'
+              props.gradeStatus == 'open' ||
+              props.gradeStatus == 'partially_graded' ||
+              props.gradeStatus == 'approved'
                 ? 'success'
-                : props.gradeStatus == 'ungraded'
-                  ? 'warning'
-                  : 'primary'
+                : props.gradeStatus == 'submittable'
+                  ? 'primary'
+                  : props.gradeStatus == 'pending_review' ||
+                      props.gradeStatus == 'coming_up'
+                    ? 'warning'
+                    : 'danger'
             }
           >
             {t('components.testCard.gradeStatus.' + props.gradeStatus)}

@@ -7,7 +7,7 @@
     "examType": "EXAM",
     "examDisplay": "Klausur",
     "date": "2025-09-25",
-    "displayDate": "25.9.2025",
+    "displayDate": "25.09.2025",
     "time": 5400,
     "displayTime": 90,
     "gradeStatus": "Unbenoted",
@@ -23,6 +23,52 @@
     ]
   },
   {
+    "uuid": "a6666666-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Human-Computer Interaction",
+    "name": "Usability Presentation",
+    "totalPoints": 30,
+    "examType": "PRESENTATION",
+    "examDisplay": "Präsentation",
+    "date": "2025-09-28",
+    "displayDate": "28.09.2025",
+    "time": 5400,
+    "displayTime": 90,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b6666666-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Fiona",
+        "last_name": "Khan",
+        "email": "fiona@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "991122"
+      }
+    ]
+  },
+  {
+    "uuid": "a3333333-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "Algorithms",
+    "name": "Oral Defense",
+    "totalPoints": 40,
+    "examType": "ORAL",
+    "examDisplay": "Mündlich",
+    "date": "2025-09-30",
+    "displayDate": "30.09.2025",
+    "time": 5400,
+    "displayTime": 90,
+    "gradeStatus": "Unbenoted",
+    "assignedStudents": [
+      {
+        "uuid": "b3333333-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Charlie",
+        "last_name": "Lee",
+        "email": "charlie@example.com",
+        "UserType": "STUDENT",
+        "matriculationNumber": "112233"
+      }
+    ]
+  },
+  {
     "uuid": "a2222222-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
     "module": "Software Engineering",
     "name": "Project Presentation",
@@ -30,7 +76,7 @@
     "examType": "PROJECT",
     "examDisplay": "Projekt",
     "date": "2025-10-01",
-    "displayDate": "1.10.2025",
+    "displayDate": "01.10.2025",
     "time": 5400,
     "displayTime": 90,
     "gradeStatus": "Unbenoted",
@@ -46,25 +92,25 @@
     ]
   },
   {
-    "uuid": "a3333333-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-    "module": "Algorithms",
-    "name": "Oral Defense",
-    "totalPoints": 40,
-    "examType": "ORAL",
-    "examDisplay": "Mündlich",
-    "date": "2025-09-30",
-    "displayDate": "30.9.2025",
+    "uuid": "a5555555-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "module": "AI Fundamentals",
+    "name": "Final Oral Exam",
+    "totalPoints": 60,
+    "examType": "OTHERS",
+    "examDisplay": "Anderes",
+    "date": "2025-10-05",
+    "displayDate": "05.10.2025",
     "time": 5400,
     "displayTime": 90,
     "gradeStatus": "Unbenoted",
     "assignedStudents": [
       {
-        "uuid": "b3333333-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
-        "first_name": "Charlie",
-        "last_name": "Lee",
-        "email": "charlie@example.com",
+        "uuid": "b5555555-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "first_name": "Evan",
+        "last_name": "Martinez",
+        "email": "evan@example.com",
         "UserType": "STUDENT",
-        "matriculationNumber": "112233"
+        "matriculationNumber": "778899"
       }
     ]
   },
@@ -86,52 +132,6 @@
         "first_name": "Diana",
         "last_name": "Wang",
         "email": "diana@example.com",
-        "UserType": "STUDENT",
-        "matriculationNumber": "445566"
-      }
-    ]
-  },
-  {
-    "uuid": "a5555555-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-    "module": "AI Fundamentals",
-    "name": "Final Oral Exam",
-    "totalPoints": 60,
-    "examType": "OTHERS",
-    "examDisplay": "Anderes",
-    "date": "2025-10-05",
-    "displayDate": "5.10.2025",
-    "time": 5400,
-    "displayTime": 90,
-    "gradeStatus": "Unbenoted",
-    "assignedStudents": [
-      {
-        "uuid": "b5555555-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
-        "first_name": "Evan",
-        "last_name": "Martinez",
-        "email": "evan@example.com",
-        "UserType": "STUDENT",
-        "matriculationNumber": "778899"
-      }
-    ]
-  },
-  {
-    "uuid": "a6666666-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
-    "module": "Human-Computer Interaction",
-    "name": "Usability Presentation",
-    "totalPoints": 30,
-    "examType": "PRESENTATION",
-    "examDisplay": "Präsentation",
-    "date": "2025-09-28",
-    "displayDate": "28.9.2025",
-    "time": 5400,
-    "displayTime": 90,
-    "gradeStatus": "Unbenoted",
-    "assignedStudents": [
-      {
-        "uuid": "b6666666-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
-        "first_name": "Fiona",
-        "last_name": "Khan",
-        "email": "fiona@example.com",
         "UserType": "STUDENT",
         "matriculationNumber": "991122"
       },

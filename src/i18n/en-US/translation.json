@@ -33,7 +33,13 @@
       "gradeStatus": {
         "graded": "Graded",
         "ungraded": "Ungraded",
-        "partial": "Partially graded"
+        "open": "Open",
+        "pending_review": "Pending Review",
+        "partially_graded": "Partially Graded",
+        "approved": "Approved ",
+        "rejected": "Rejected",
+        "coming_up": "Coming Up",
+        "submittable": "Submittable"
       },
       "files": "Files",
       "examTypes": {
@@ -73,7 +79,8 @@
         "errorMessage": {
           "notPositiveNumber": "Must be a positive number",
           "numberToHigh": "Must be equal or lower than the total points",
-          "notGraded": "No grade noted"
+          "notGraded": "No grade noted",
+          "saveFailed": "Error while saving Grade"
         },
         "comment": {
           "title": "Comment",

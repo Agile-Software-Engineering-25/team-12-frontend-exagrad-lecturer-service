@@ -27,6 +27,7 @@ import { getGradeFromPoints } from './GradeCalc';
 import GroupMemberCard from '@components/GroupMemberCard/GroupMemberCard.tsx';
 import { useDispatch } from 'react-redux';
 import { setFeedback } from '@stores/slices/feedbackSlice';
+import { FeedbackPublishStatus } from '@/@custom-types/enums';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -41,7 +42,7 @@ interface FeedbackModalProps {
 
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
-  const { saveFeedback } = useApi();
+  const { saveFeedback, updateFeedback } = useApi();
   const dispatch = useDispatch();
 
   // Form state
@@ -67,29 +68,41 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     setStatus('loading');
     const gradedExam: Feedback = {
+      uuid: props.feedback?.uuid,
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid: crypto.randomUUID.toString(), // TODO: change this the the users ID
+      lecturerUuid:
+        props.feedback?.lecturerUuid || crypto.randomUUID.toString(), // TODO: change this the the users ID
       studentUuid: props.student.uuid,
-      submissionUuid: crypto.randomUUID.toString(),
+      submissionUuid:
+        props.feedback?.submissionUuid || crypto.randomUUID.toString(), // TODO: change this to the right submissionUuid
       comment: comment || '',
       points: Number(points),
       fileReference: files || [],
+      publishStatus: FeedbackPublishStatus.UNPUBLISHED,
     };
 
     await new Promise((resolve) => setTimeout(resolve, 600));
 
-    setStatus('saved');
-    saveFeedback(gradedExam);
-    dispatch(setFeedback([gradedExam]));
+    const success: boolean = gradedExam.uuid
+      ? await updateFeedback(gradedExam)
+      : await saveFeedback(gradedExam);
 
-    for (let i = 0; i < groupMemberFeedbacks.length; i++) {
-      const groupMemberFeedback = groupMemberFeedbacks[i];
-      saveFeedback(groupMemberFeedback);
-      dispatch(setFeedback([groupMemberFeedback]));
+    if (success) {
+      setStatus('saved');
+      saveFeedback(gradedExam);
+      dispatch(setFeedback([gradedExam]));
+      for (let i = 0; i < groupMemberFeedbacks.length; i++) {
+        const groupMemberFeedback = groupMemberFeedbacks[i];
+        saveFeedback(groupMemberFeedback);
+        dispatch(setFeedback([groupMemberFeedback]));
+      }
+      setGroupMemberFeedbacks([]);
+    } else {
+      setStatus('idle');
+      setError(t('components.gradeExam.errorMessage.saveFailed'));
     }
-    setGroupMemberFeedbacks([]);
   };
 
   /**

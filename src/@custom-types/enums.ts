@@ -12,8 +12,25 @@ export enum ExamType {
   OTHERS = 'OTHERS',
 }
 
-export enum ExamGradingState {
+export enum GradingStatus {
   GRADED = 'graded',
   UNGRADED = 'ungraded',
-  PARTIALLY = 'partial',
+  PARTIALLY_GRADED = 'partially_graded',
+}
+
+export enum ExamStatus {
+  COMING_UP = 'coming_up',
+  OPEN = 'open',
+  PARTIALLY_GRADED = 'partially_graded',
+  SUBMITTABLE = 'submittable',
+  PENDING_REVIEW = 'pending_review',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
+
+export enum FeedbackPublishStatus {
+  UNPUBLISHED = 'UNPUBLISHED',
+  PUBLISHED = 'PUBLISHED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }

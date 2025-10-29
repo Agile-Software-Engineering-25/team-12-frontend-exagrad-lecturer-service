@@ -3,6 +3,7 @@ import ReactDOMClient from 'react-dom/client';
 import singleSpaReact from 'single-spa-react';
 import { cssLifecycleFactory } from 'vite-plugin-single-spa/ex';
 import App from './App';
+import { setGlobalUser } from '@hooks/useUser';
 
 const lifecycle = singleSpaReact({
   React,
@@ -11,7 +12,13 @@ const lifecycle = singleSpaReact({
     const message = err instanceof Error ? err.message : String(err);
     return <div>Error: {message}</div>;
   },
-  rootComponent: App,
+  rootComponent: (props: any) => {
+    const { user, ...appProps } = props;
+
+    setGlobalUser(user);
+
+    return <App {...appProps} />;
+  },
 });
 // IMPORTANT:  Because the file is named spa.tsx, the string 'spa'
 // must be passed to the call to cssLifecycleFactory.

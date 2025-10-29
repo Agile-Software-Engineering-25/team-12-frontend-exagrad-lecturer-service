@@ -46,7 +46,7 @@ const useApi = () => {
         );
         return response.data as Submission[];
       } catch (error) {
-        console.error('Error while getting exam: ', error);
+        console.error('Error while getting submission: ', error);
         return false;
       }
     },

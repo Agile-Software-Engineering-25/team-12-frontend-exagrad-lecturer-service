@@ -2,9 +2,9 @@ describe('Feedback Modal', () => {
   beforeEach(() => {
     cy.fixture('exams.json').then((examData) => {
       const presentationExam = examData.find(
-        (exam) => exam.examType === 'PRESENTATION'
+        (exam) => exam.examType === 'PRAESENTATION'
       );
-      expect(presentationExam, 'PRESENTATION exam should exist in fixture').to
+      expect(presentationExam, 'PREASENTATION exam should exist in fixture').to
         .exist;
 
       cy.visit(`/submissions/${presentationExam.uuid}`);

@@ -4,6 +4,12 @@ import singleSpaReact from 'single-spa-react';
 import { cssLifecycleFactory } from 'vite-plugin-single-spa/ex';
 import App from './App';
 import { setGlobalUser } from '@hooks/useUser';
+import { User } from 'oidc-client-ts';
+
+interface SingleSpaProps {
+  user?: User | null;
+  [key: string]: unknown;
+}
 
 const lifecycle = singleSpaReact({
   React,
@@ -12,10 +18,10 @@ const lifecycle = singleSpaReact({
     const message = err instanceof Error ? err.message : String(err);
     return <div>Error: {message}</div>;
   },
-  rootComponent: (props: any) => {
+  rootComponent: (props: SingleSpaProps) => {
     const { user, ...appProps } = props;
 
-    setGlobalUser(user);
+    setGlobalUser(user ?? null);
 
     return <App {...appProps} />;
   },

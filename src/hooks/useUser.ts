@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { User } from 'oidc-client-ts';
 import { jwtDecode } from 'jwt-decode';
 
+interface JwtPayload {
+  realm_access?: {
+    roles?: string[];
+  };
+}
+
 // Global user state
 let globalUser: User | null = null;
 let subscribers: Array<(user: User | null) => void> = [];
@@ -55,7 +61,7 @@ export const useUser = () => {
     const token = getAccessToken();
     if (!token) return false;
 
-    const decoded: any = jwtDecode(token);
+    const decoded: JwtPayload = jwtDecode(token);
     const roles: string[] = decoded?.realm_access?.roles || [];
 
     if (!Array.isArray(roles) || roles.length === 0) return false;

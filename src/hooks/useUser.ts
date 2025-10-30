@@ -55,10 +55,8 @@ export const useUser = () => {
     const token = getAccessToken();
     if (!token) return false;
 
-    const decoded: unknown = jwtDecode(token);
-    const roles: string[] =
-      (decoded as { realm_access?: { roles?: string[] } })?.realm_access
-        ?.roles || [];
+    const decoded: any = jwtDecode(token);
+    const roles: string[] = decoded?.realm_access?.roles || [];
 
     if (!Array.isArray(roles) || roles.length === 0) return false;
     return roles.includes(role);

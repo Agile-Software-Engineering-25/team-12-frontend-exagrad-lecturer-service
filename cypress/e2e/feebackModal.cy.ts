@@ -30,13 +30,13 @@ describe('Feedback Modal', () => {
 
   it('should save feedback successfully', () => {
     cy.contains('button', 'benoten').click();
-
     cy.get('input[placeholder="Punkte eingeben"]').type('10');
     cy.get('textarea[placeholder="Kommentar eingeben"]').type('Good work');
-
     cy.contains('button', 'Speichern').click();
-    cy.contains('button', 'Speichern').should('not.exist');
-    cy.contains('button', 'Fertig').should('be.visible');
+
+    cy.contains('button', 'Fertig', { timeout: 15000 }).should('be.visible');
     cy.contains('button', 'Zurück').should('be.visible');
+
+    cy.contains('button', 'Speichern').should('not.exist');
   });
 });

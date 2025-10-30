@@ -27,7 +27,7 @@ const ExamCard = (props: ExamCardProps) => {
   }, [props.gradeStatus]);
 
   const route = () => {
-    if (!isValid) {
+    if (isValid) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };

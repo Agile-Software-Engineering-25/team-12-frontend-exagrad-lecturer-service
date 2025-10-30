@@ -42,6 +42,7 @@ const ExamSubmissionPage = () => {
   }, [exams, examUuid]);
 
   const students = useMemo(() => {
+    console.log('assigned', currentExam?.assignedStudents);
     return currentExam?.assignedStudents || [];
   }, [currentExam]);
 
@@ -245,6 +246,7 @@ const ExamSubmissionPage = () => {
       >
         {allStudents.map((student) => {
           if (!examUuid) return;
+          console.log('currentStudent', student.uuid);
           const gradeFromStudent = getFeedback(student.uuid);
           const studentSubmissions = getSubmission(student.uuid);
           return (

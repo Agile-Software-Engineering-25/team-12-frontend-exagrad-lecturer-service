@@ -43,11 +43,11 @@
       },
       "files": "Files",
       "examTypes": {
-        "EXAM": "Exam",
-        "PRESENTATION": "Presentation",
-        "ORAL": "Oral",
-        "PROJECT": "Project",
-        "OTHERS": "Others"
+        "KLAUSUR": "Exam",
+        "PRAESENTATION": "Presentation",
+        "MUENDLICH": "Oral",
+        "PROJEKT": "Project",
+        "ANDERES": "Others"
       },
       "filter": {
         "labelModul": "Modules",

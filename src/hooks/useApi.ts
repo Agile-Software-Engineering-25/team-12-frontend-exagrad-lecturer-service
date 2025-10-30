@@ -56,11 +56,11 @@ const useApi = () => {
   const saveFeedback = useCallback(
     async (feedback: Feedback) => {
       try {
-        axiosInstance.post('/feedback', feedback);
-        return true;
+        return (await axiosInstance.post('/feedback', feedback))
+          .data as Feedback;
       } catch (error) {
         console.error('Error while saving feedback', error);
-        return false;
+        return null;
       }
     },
     [axiosInstance]
@@ -69,11 +69,11 @@ const useApi = () => {
   const updateFeedback = useCallback(
     async (feedback: Feedback) => {
       try {
-        axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
-        return true;
+        return (await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback))
+          .data as Feedback;
       } catch (error) {
         console.error('Error while updating feedback', error);
-        return false;
+        return null;
       }
     },
     [axiosInstance]

@@ -27,7 +27,7 @@ const ExamCard = (props: ExamCardProps) => {
   }, [props.gradeStatus]);
 
   const route = () => {
-    if (isValid) {
+    if (!isValid) {
       navigate(`/submissions/${exam.uuid}`);
     }
   };
@@ -52,7 +52,13 @@ const ExamCard = (props: ExamCardProps) => {
         }),
       }}
     >
-      <Typography level="h4" lineHeight={1.2}>
+      <Typography
+        level="h4"
+        lineHeight={1.2}
+        sx={{
+          overflowWrap: 'anywhere',
+        }}
+      >
         {exam.name}
       </Typography>
       <Divider inset="none" />

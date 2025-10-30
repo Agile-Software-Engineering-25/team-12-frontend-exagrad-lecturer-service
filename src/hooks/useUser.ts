@@ -51,14 +51,14 @@ export const useUser = () => {
     return user?.access_token ?? '';
   };
 
-  // Function to check if user has a specific role
   const hasRole = (role: string): boolean => {
     const token = getAccessToken();
     if (!token) return false;
 
-    // Decode JWT to extract roles
-    const decoded: any = jwtDecode(token);
-    const roles: string[] = decoded?.realm_access?.roles || [];
+    const decoded: unknown = jwtDecode(token);
+    const roles: string[] =
+      (decoded as { realm_access?: { roles?: string[] } })?.realm_access
+        ?.roles || [];
 
     if (!Array.isArray(roles) || roles.length === 0) return false;
     return roles.includes(role);

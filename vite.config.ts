@@ -22,7 +22,7 @@ const NPM_EXTERNALS: string[] = [
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '/' : BASE_URL_DEPLOYMENT,
+  base: command === 'serve' ? '/' : '/api/ase-12/',
   plugins: [
     react(),
     command === 'serve' && vitePluginReactHMR(ENTRY_POINT),

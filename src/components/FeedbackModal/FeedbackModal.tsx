@@ -71,7 +71,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       lecturerUuid: lecturerUuid,
       studentUuid: props.student.uuid,
       submissionUuid:
-        props.feedback?.submissionUuid || crypto.randomUUID.toString(), // TODO: change this to the right submissionUuid
+        props.feedback?.submissionUuid || crypto.randomUUID().toString(), // TODO: change this to the right submissionUuid
       comment: comment || '',
       points: Number(points),
       fileReference: files || [],

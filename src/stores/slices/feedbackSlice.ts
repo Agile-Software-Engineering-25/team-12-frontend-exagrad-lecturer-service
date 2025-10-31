@@ -29,10 +29,29 @@ const feedbackSlice = createSlice({
 
       state.data = { ...state.data, ...feedbackMap };
     },
+    deleteFeedback: (state, action: PayloadAction<Feedback>) => {
+      const feedback = action.payload;
+      const key = `${feedback.examUuid}:${feedback.studentUuid}`;
+      delete state.data[key];
+    },
+    updateFeedbackSlice: (state, action: PayloadAction<Feedback>) => {
+      const updatedFeedback = action.payload;
+      const key = `${updatedFeedback.examUuid}:${updatedFeedback.studentUuid}`;
+
+      if (state.data[key]) {
+        state.data[key] = {
+          ...state.data[key],
+          ...updatedFeedback,
+        };
+      } else {
+        state.data[key] = updatedFeedback;
+      }
+    },
   },
 });
 
-const { setFeedback } = feedbackSlice.actions;
+const { setFeedback, deleteFeedback, updateFeedbackSlice } =
+  feedbackSlice.actions;
 
-export { setFeedback };
+export { setFeedback, deleteFeedback, updateFeedbackSlice };
 export default feedbackSlice.reducer;

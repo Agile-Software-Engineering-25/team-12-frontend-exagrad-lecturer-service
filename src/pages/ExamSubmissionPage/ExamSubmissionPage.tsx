@@ -258,7 +258,7 @@ const ExamSubmissionPage = () => {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
           gap: 2,
-          pt: 3,
+          paddingTop: 3,
           paddingLeft: 3,
         }}
       >

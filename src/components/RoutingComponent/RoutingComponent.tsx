@@ -3,10 +3,12 @@ import ExamSubmissionPage from '@/pages/ExamSubmissionPage/ExamSubmissionPage';
 import { Route, Routes } from 'react-router';
 import { useEffect } from 'react';
 import useDataLoading from '@hooks/useDataLoading.tsx';
+import { useUser } from '@hooks/useUser';
 
 const RoutingComponent = () => {
+  const { getUserId } = useUser();
   const { loadExams, loadFeedback, loadSubmissions } = useDataLoading();
-  const lecturerUuid = '12345678-62hj-jhj2-h23j-901234567890';
+  const lecturerUuid = getUserId() || 'fc6ac29a-b9dd-4b35-889f-2baff71f3be1';
 
   useEffect(() => {
     const load = async () => {

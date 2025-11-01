@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
 import { FeedbackPublishStatus } from '@/@custom-types/enums';
 import usePublishStatus from '@/hooks/usePublishStatus';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
@@ -195,6 +196,7 @@ const ExamSubmissionPage = () => {
       <Box display={'flex'} justifyContent={'space-between'}>
         <Box display={'flex'} alignItems={'center'} paddingInline={3}>
           <Button variant={'outlined'} onClick={() => navigate('/')}>
+            <ArrowBackIcon />
             {t('components.backButton.label')}
           </Button>
         </Box>

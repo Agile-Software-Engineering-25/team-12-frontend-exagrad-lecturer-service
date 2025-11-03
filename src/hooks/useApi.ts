@@ -3,7 +3,7 @@ import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
 import type {
   Exam,
-  Feedback,
+  Feedback, Submission,
   FeedbackRequest,
 } from '@custom-types/backendTypes';
 
@@ -48,7 +48,7 @@ const useApi = () => {
         const response = await axiosInstance.get(
           `/submissions/for-lecturer/${lecturerUuid}`
         );
-        return response.data as Feedback[];
+        return response.data as Submission[];
       } catch (error) {
         console.error('Error while getting exam: ', error);
         return false;
@@ -76,6 +76,47 @@ const useApi = () => {
         return true;
       } catch (error) {
         console.error('Error while saving feedback', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
+  const updateFeedback = useCallback(
+    async (feedback: Feedback) => {
+      try {
+        axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
+        return true;
+      } catch (error) {
+        console.error('Error while updating feedback', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
+  const fetchSubmissionsForExam = useCallback(
+    async (examUuid: string) => {
+      try {
+        const response = await axiosInstance.get(
+          `/submissions/for-exam/${examUuid}`
+        );
+        return response.data as Submission[];
+      } catch (error) {
+        console.error('Error while updating submissions: ', error);
+        return false;
+      }
+    },
+    [axiosInstance]
+  );
+
+  const submitFeedback = useCallback(
+    async (feedbacks: Feedback[]) => {
+      try {
+        await axiosInstance.post(`/feedback/submit`, feedbacks);
+        return true;
+      } catch (error) {
+        console.error('Error while submitting feedback', error);
         return false;
       }
     },
@@ -115,6 +156,9 @@ const useApi = () => {
     fetchFeedbackForLecturer,
     fetchSubmissionsForLecturer,
     saveFeedback,
+    updateFeedback,
+    fetchSubmissionsForExam,
+    submitFeedback,
     downloadDocument,
   };
 };

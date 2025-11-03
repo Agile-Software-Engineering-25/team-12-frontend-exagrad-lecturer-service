@@ -18,10 +18,13 @@
       "time": "Zeit in min:",
       "date": "Deadline:",
       "exams": "Abgaben:",
-      "type": "Type:"
+      "type": "Prüfungstyp:"
     }
   },
   "components": {
+    "backButton": {
+      "label": "Zurück"
+    },
     "testCard": {
       "title": "Matrikelnummer",
       "grade": "Note",
@@ -33,14 +36,38 @@
       "gradeStatus": {
         "graded": "Benotet",
         "ungraded": "Unbenotet",
-        "partial": "Teilweise benotet"
+        "open": "Offen",
+        "pending_review": "In Bearbeitung",
+        "partially_graded": "Teilweise Benotet",
+        "approved": "Genehmigt ",
+        "rejected": "Abgeleht",
+        "coming_up": "Demnächst",
+        "submittable": "Absendbar"
       },
+      "files": "Dateien",
       "examTypes": {
         "EXAM": "Klausur",
         "PRESENTATION": "Präsentation",
         "ORAL": "Mündlich",
         "PROJECT": "Projekt",
         "OTHERS": "Anderes"
+      },
+      "filter": {
+        "labelModul": "Module",
+        "placeholderModul": "Module auswählen",
+        "labelTime": "Zeiten",
+        "placeholderTime": "Zeiten auswählen",
+        "labelType": "Prüfungstypen",
+        "placeholderType": "Prüfungstypen auswählen",
+        "labelStatus": "Benotungs Status",
+        "placeholderStatus": "Benotungs Status auswählen"
+      },
+      "submit": {
+        "submit": "Abschicken",
+        "loading": "Lädt...",
+        "done": "Fertig",
+        "info": "Wenn alles benotet wurde, können Sie die Abgaben an das Prüfungsamt weiterleiten.",
+        "failed": "Ein Fehler ist aufgetaucht beim abschicken."
       }
     },
     "gradeExam": {
@@ -63,7 +90,8 @@
       "errorMessage": {
         "notPositiveNumber": "Muss eine positive Zahl sein",
         "numberToHigh": "Muss gleich oder kleiner als die Gesamtpunktzahl sein",
-        "notGraded": "Keine Note eingetragen"
+        "notGraded": "Keine Note eingetragen",
+        "saveFailed": "Fehler beim Speichern der Note"
       },
       "comment": {
         "title": "Kommentar",

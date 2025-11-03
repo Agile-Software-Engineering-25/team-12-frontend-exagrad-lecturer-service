@@ -2,6 +2,7 @@ describe('Exam Page', () => {
   beforeEach(() => {
     cy.visit('/');
     cy.wait('@getExams');
+    cy.fixture('exams.json').as('examData');
   });
 
   it('should load the exam page', () => {
@@ -34,12 +35,78 @@ describe('Exam Page', () => {
             cy.contains('Abgaben:')
               .next()
               .should('contain.text', exam.assignedStudents.length);
-            cy.contains('Type:')
+            cy.contains('Prüfungstyp:')
               .next()
               .should('contain.text', exam.examDisplay);
             cy.get('[class*="Chip"]').should('exist').and('be.visible');
           });
       });
+    });
+  });
+
+  context('Filter functionality', () => {
+    it('should filter by module', () => {
+      // Open module filter dropdown
+      cy.contains('Module');
+      cy.contains('Module auswählen').parent().click();
+      cy.get('ul[role="listbox"] > li').first().click();
+
+      // Assert only exams with that module are visible
+      cy.get('.MuiCard-root.MuiCard-vertical').within(() => {
+        cy.contains('Module:').next().should('contain.text', 'Mathematics I');
+      });
+    });
+
+    it('should filter by time', () => {
+      // Open module filter dropdown
+      cy.contains('Zeiten');
+      cy.contains('Zeiten auswählen').parent().click();
+      cy.get('ul[role="listbox"]:visible')
+        .should('be.visible')
+        .find('li')
+        .first()
+        .click();
+
+      cy.get('.MuiCard-root.MuiCard-vertical')
+        .should('have.length', 6)
+        .first()
+        .within(() => {
+          cy.contains('Zeit in min:').parent().should('contain.text', '90');
+        });
+    });
+
+    it('should filter by type', () => {
+      cy.contains('Prüfungstypen');
+      cy.contains('Prüfungstypen auswählen').parent().click();
+      cy.get('ul[role="listbox"]:visible')
+        .should('be.visible')
+        .find('li')
+        .first()
+        .click();
+
+      cy.get('.MuiCard-root.MuiCard-vertical')
+        .should('have.length', 2)
+        .first()
+        .within(() => {
+          cy.contains('Zeit in min:').parent().should('contain.text', '90');
+        });
+    });
+
+    it('should filter by status', () => {
+      cy.contains('Benotungs Status');
+      cy.contains('Benotungs Status auswählen').parent().click();
+      cy.get('ul[role="listbox"]:visible')
+        .should('be.visible')
+        .find('li')
+        .first()
+        .click();
+
+      cy.get('.MuiCard-root.MuiCard-vertical')
+        .should('have.length', 6)
+        .first()
+        .within(() => {
+          cy.get('.MuiChip-label').should('contain.text', 'Offen');
+        });
     });
   });
 });

@@ -22,6 +22,9 @@
     }
   },
   "components": {
+    "backButton": {
+      "label": "Back"
+    },
     "testCard": {
       "title": "Matriculation Number",
       "grade": "Grade",
@@ -33,8 +36,15 @@
       "gradeStatus": {
         "graded": "Graded",
         "ungraded": "Ungraded",
-        "partial": "Partially graded"
+        "open": "Open",
+        "pending_review": "Pending Review",
+        "partially_graded": "Partially Graded",
+        "approved": "Approved ",
+        "rejected": "Rejected",
+        "coming_up": "Coming Up",
+        "submittable": "Submittable"
       },
+      "files": "Files",
       "examTypes": {
         "EXAM": "Exam",
         "PRESENTATION": "Presentation",
@@ -42,32 +52,50 @@
         "PROJECT": "Project",
         "OTHERS": "Others"
       },
-      "gradeExam": {
-        "points": "Points",
-        "placeholder": "Enter Points",
-        "grade": "Grade",
-        "files": "Files",
-        "noFiles": "No submissions exists",
-        "matriculationNumber": "Matriculation Number",
-        "feedback": "Feedback",
-        "dropFile": "Drop or Click to add feedback file",
-        "hint": "The grade will be automaticly calculated",
-        "button": {
-          "next": "Next",
-          "back": "Back",
-          "save": "Save",
-          "loading": "Loading...",
-          "done": "Done"
-        },
-        "errorMessage": {
-          "notPositiveNumber": "Must be a positive number",
-          "numberToHigh": "Must be equal or lower than the total points",
-          "notGraded": "No grade noted"
-        },
-        "comment": {
-          "title": "Comment",
-          "placeholder": "Enter a comment"
-        }
+      "filter": {
+        "labelModul": "Modules",
+        "placeholderModul": "Select modules",
+        "labelTime": "Time",
+        "placeholderTime": "Select times",
+        "labelType": "Exam Typs",
+        "placeholderType": "Select exam types",
+        "labelStatus": "Status",
+        "placeholderStatus": "Select status"
+      },
+      "submit": {
+        "submit": "Submit",
+        "loading": "Loading...",
+        "done": "Done",
+        "info": "Once everything has been graded, you can submit the submissions to the Examination Office.",
+        "failed": "Failed to submit results."
+      }
+    },
+    "gradeExam": {
+      "points": "Points",
+      "placeholder": "Enter Points",
+      "grade": "Grade",
+      "files": "Files",
+      "noFiles": "No submissions exists",
+      "matriculationNumber": "Matriculation Number",
+      "feedback": "Feedback",
+      "dropFile": "Drop or Click to add feedback file",
+      "hint": "The grade will be automaticly calculated",
+      "button": {
+        "next": "Next",
+        "back": "Back",
+        "save": "Save",
+        "loading": "Loading...",
+        "done": "Done"
+      },
+      "errorMessage": {
+        "notPositiveNumber": "Must be a positive number",
+        "numberToHigh": "Must be equal or lower than the total points",
+        "notGraded": "No grade noted",
+        "saveFailed": "Error while saving Grade"
+      },
+      "comment": {
+        "title": "Comment",
+        "placeholder": "Enter a comment"
       }
     }
   }

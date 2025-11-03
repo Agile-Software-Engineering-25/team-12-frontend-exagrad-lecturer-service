@@ -27,6 +27,7 @@ import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
 import { useDispatch } from 'react-redux';
 import { setFeedback } from '@stores/slices/feedbackSlice';
+import { FeedbackPublishStatus } from '@/@custom-types/enums';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -41,7 +42,7 @@ interface FeedbackModalProps {
 
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
-  const { saveFeedback, downloadDocument } = useApi();
+  const { saveFeedback, updateFeedback, downloadDocument } = useApi();
   const dispatch = useDispatch();
 
   const [files, setFiles] = useState<File[]>([]);
@@ -75,20 +76,34 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     };
 
     const gradedExam: Feedback = {
+      uuid: props.feedback?.uuid,
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid: 'LE12345', // TODO: Ersetzen
+      lecturerUuid:
+        props.feedback?.lecturerUuid || crypto.randomUUID.toString(), // TODO: change this the the users ID
       studentUuid: props.student.uuid,
-      submissionUuid: props.feedback?.submissionUuid,
-      comment: comment,
+      submissionUuid:
+        props.feedback?.submissionUuid || crypto.randomUUID.toString(), // TODO: change this to the right submissionUuid
+      comment: comment || '',
       points: Number(points),
       fileReference: [],
+      publishStatus: FeedbackPublishStatus.UNPUBLISHED,
     };
 
-    saveFeedback(feedbackData, files);
-    setStatus('saved');
-    dispatch(setFeedback([gradedExam]));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    const success: boolean = gradedExam.uuid
+      ? await updateFeedback(gradedExam)
+      : await saveFeedback(gradedExam, files);
+
+    if (success) {
+      setStatus('saved');
+      dispatch(setFeedback([gradedExam]));
+    } else {
+      setStatus('idle');
+      setError(t('components.gradeExam.errorMessage.saveFailed'));
+    }
   };
 
   /**

@@ -77,8 +77,11 @@ const ExamSubmissionPage = () => {
       setCurrentFeedback(undefined);
       return;
     }
-
-    const feedback = getFeedback(currentStudent.uuid);
+    const submission = getSubmission(currentStudent.uuid);
+    const feedback = {
+      ...getFeedback(currentStudent.uuid),
+      submissionUuid: submission?.id,
+    };
     setCurrentFeedback(feedback);
   }, [currentStudent?.uuid, getFeedback, examUuid]);
 

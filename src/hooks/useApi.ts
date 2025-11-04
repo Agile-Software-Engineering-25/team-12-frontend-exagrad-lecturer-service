@@ -3,7 +3,8 @@ import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
 import type {
   Exam,
-  Feedback, Submission,
+  Feedback,
+  Submission,
   FeedbackRequest,
 } from '@custom-types/backendTypes';
 

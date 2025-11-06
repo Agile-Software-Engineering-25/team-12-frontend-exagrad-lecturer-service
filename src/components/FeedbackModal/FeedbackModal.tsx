@@ -26,8 +26,9 @@ import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
 import GroupMemberCard from '@components/GroupMemberCard/GroupMemberCard.tsx';
 import { useDispatch } from 'react-redux';
-import { setFeedback } from '@stores/slices/feedbackSlice';
+import { updateFeedbackSlice } from '@stores/slices/feedbackSlice';
 import { FeedbackPublishStatus } from '@/@custom-types/enums';
+import { useUser } from '@hooks/useUser';
 
 interface FeedbackModalProps {
   open: boolean;
@@ -43,8 +44,9 @@ interface FeedbackModalProps {
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
   const { saveFeedback, updateFeedback } = useApi();
+  const { getUserId } = useUser();
   const dispatch = useDispatch();
-
+  const lecturerUuid = getUserId() || 'fc6ac29a-b9dd-4b35-889f-2baff71f3be1';
   // Form state
   const [error, setError] = useState('');
   const [comment, setComment] = useState<string>('');
@@ -72,24 +74,20 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid:
-        props.feedback?.lecturerUuid || crypto.randomUUID.toString(), // TODO: change this the the users ID
+      lecturerUuid: lecturerUuid,
       studentUuid: props.student.uuid,
-      submissionUuid:
-        props.feedback?.submissionUuid || crypto.randomUUID.toString(), // TODO: change this to the right submissionUuid
+      submissionUuid: props.feedback?.submissionUuid,
       comment: comment || '',
       points: Number(points),
       fileReference: files || [],
       publishStatus: FeedbackPublishStatus.UNPUBLISHED,
     };
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
-    const success: boolean = gradedExam.uuid
+    const updatedFeedback: Feedback | null = gradedExam.uuid
       ? await updateFeedback(gradedExam)
       : await saveFeedback(gradedExam);
 
-    if (success) {
+    if (updatedFeedback) {
       setStatus('saved');
       saveFeedback(gradedExam);
       dispatch(setFeedback([gradedExam]));
@@ -99,6 +97,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
         dispatch(setFeedback([groupMemberFeedback]));
       }
       setGroupMemberFeedbacks([]);
+      dispatch(updateFeedbackSlice(updatedFeedback));
     } else {
       setStatus('idle');
       setError(t('components.gradeExam.errorMessage.saveFailed'));

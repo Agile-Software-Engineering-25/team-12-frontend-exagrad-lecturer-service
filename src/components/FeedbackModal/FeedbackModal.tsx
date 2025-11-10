@@ -64,7 +64,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       return;
     }
 
-    const feedbackData: FeedbackRequest = {
+    setStatus('loading');
+
+    const feedbackRequest: FeedbackRequest = {
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
@@ -75,6 +77,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       points: Number(points),
     };
 
+    //TODO: change this datatype so that feedback can be updated
     const gradedExam: Feedback = {
       uuid: props.feedback?.uuid,
       gradedAt: new Date().toISOString(),
@@ -95,7 +98,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     const success: boolean = gradedExam.uuid
       ? await updateFeedback(gradedExam)
-      : await saveFeedback(feedbackData, files);
+      : await saveFeedback(feedbackRequest, files);
 
     if (success) {
       setStatus('saved');
@@ -195,7 +198,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   useEffect(() => {
     if (props.open) {
       setComment(props.feedback?.comment || '');
-      setFiles(/* props.feedback?.fileReference || */ []);
+      setFiles(/* props.feedback?.fileReference || */ []); // TODO: change this to actual files and not reference
       setUploadedDocuments(props.feedback?.fileReference || []);
       setGrade(props.feedback?.grade);
       setPoints(

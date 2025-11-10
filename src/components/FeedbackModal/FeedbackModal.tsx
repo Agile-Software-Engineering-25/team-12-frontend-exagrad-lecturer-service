@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   FormControl,
@@ -23,7 +24,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
 import { getGradeFromPoints } from './GradeCalc';
+import GroupMemberCard from '@components/GroupMemberCard/GroupMemberCard.tsx';
 import { useDispatch } from 'react-redux';
+import { setFeedback } from '@stores/slices/feedbackSlice';
 import { updateFeedbackSlice } from '@stores/slices/feedbackSlice';
 import { FeedbackPublishStatus } from '@/@custom-types/enums';
 import { useUser } from '@hooks/useUser';
@@ -49,6 +52,10 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const [error, setError] = useState('');
   const [comment, setComment] = useState<string>('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'saved'>('idle');
+  const [groupMemberFeedbacks, setGroupMemberFeedbacks] = useState<Feedback[]>(
+    []
+  );
+
   const [points, setPoints] = useState<string>();
   const [grade, setGrade] = useState<number | undefined>();
   const [files, setFiles] = useState<FileReference[] | undefined>();
@@ -83,6 +90,14 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
     if (updatedFeedback) {
       setStatus('saved');
+      saveFeedback(gradedExam);
+      dispatch(setFeedback([gradedExam]));
+      for (let i = 0; i < groupMemberFeedbacks.length; i++) {
+        const groupMemberFeedback = groupMemberFeedbacks[i];
+        saveFeedback(groupMemberFeedback);
+        dispatch(setFeedback([groupMemberFeedback]));
+      }
+      setGroupMemberFeedbacks([]);
       dispatch(updateFeedbackSlice(updatedFeedback));
     } else {
       setStatus('idle');
@@ -281,6 +296,94 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             disabled={status == 'saved'}
           />
         </FormControl>
+
+        {/* Group Members Input */}
+        <FormControl>
+          <FormLabel>{t('components.gradeExam.groupMembers.title')}</FormLabel>
+          <Autocomplete
+            sx={{
+              width: 500,
+            }}
+            multiple
+            placeholder={t('components.gradeExam.groupMembers.placeholder')}
+            options={props.exam.assignedStudents.filter((student) => {
+              return student != props.student;
+            })}
+            getOptionLabel={(option) =>
+              `${option.matriculationNumber} ${option.first_name} ${option.last_name}`
+            }
+            onChange={(e, value) => {
+              for (let i = 0; i < value.length; i++) {
+                if (
+                  !groupMemberFeedbacks.some(
+                    (groupMemberFeedback) =>
+                      groupMemberFeedback.studentUuid === value[i].uuid
+                  )
+                ) {
+                  groupMemberFeedbacks.push({
+                    studentUuid: value[i].uuid,
+                    grade: grade,
+                    examUuid: props.exam.uuid,
+                    comment: comment,
+                    points: Number(points),
+                    gradedAt: new Date().toISOString(),
+                    lecturerUuid: crypto.randomUUID.toString(), // TODO: change this the the users ID
+                    fileReference: files,
+                    submissionUuid: crypto.randomUUID.toString(),
+                  } as Feedback);
+                }
+              }
+              setGroupMemberFeedbacks(
+                groupMemberFeedbacks.filter((groupMemberFeedback) =>
+                  value.some(
+                    (groupMember) =>
+                      groupMember.uuid === groupMemberFeedback.studentUuid
+                  )
+                )
+              );
+            }}
+            data-testid={'group-member-autocomplete'}
+          />
+        </FormControl>
+
+        {/* Display Selected Group Members */}
+        <Box
+          sx={{
+            display: 'flex',
+            overflowX: 'auto',
+            gap: 2,
+          }}
+        >
+          {groupMemberFeedbacks.map((groupMemberFeedback) => (
+            <GroupMemberCard
+              groupMemberFeedback={groupMemberFeedback}
+              matriculationNumber={
+                props.exam.assignedStudents.find(
+                  (assignedStudent) =>
+                    assignedStudent.uuid === groupMemberFeedback.studentUuid
+                )?.matriculationNumber ?? ''
+              }
+              updateComment={(groupMemberFeedbackUuid, newComment) => {
+                setGroupMemberFeedbacks(
+                  groupMemberFeedbacks.map((groupMemberFeedback) =>
+                    groupMemberFeedback.uuid === groupMemberFeedbackUuid
+                      ? { ...groupMemberFeedback, comment: newComment }
+                      : groupMemberFeedback
+                  )
+                );
+              }}
+              updateGrade={(groupMemberFeedbackUuid, newGrade) => {
+                setGroupMemberFeedbacks(
+                  groupMemberFeedbacks.map((groupMemberFeedback) =>
+                    groupMemberFeedback.uuid === groupMemberFeedbackUuid
+                      ? { ...groupMemberFeedback, grade: newGrade }
+                      : groupMemberFeedback
+                  )
+                );
+              }}
+            />
+          ))}
+        </Box>
 
         {/* Action Buttons */}
         <FormControl>

@@ -40,14 +40,24 @@ describe('Feedback Modal', () => {
     cy.get('input[placeholder="Punkte eingeben"]').type('10');
     cy.get('textarea[placeholder="Kommentar eingeben"]').type('Good work');
     cy.contains('button', 'Speichern').click();
-
     cy.wait('@saveFeedback').then((interception) => {
       expect(interception.response).to.exist;
       expect(interception.response?.statusCode).to.be.oneOf([200, 201]);
     });
 
-    cy.contains('button', 'Fertig').should('be.visible');
+    cy.contains('button', /^(Fertig|Nächste Student\*in)$/).should('be.visible');
     cy.contains('button', 'Zurück').should('be.visible');
     cy.contains('button', 'Speichern').should('not.exist');
+  });
+
+  it('should add and remove group members successfully', () => {
+    cy.contains('button', 'benoten').click();
+    cy.get('[data-testid="group-member-autocomplete"] input').click().type('991123', { delay: 100 });
+    cy.get('ul[role="listbox"]').should('be.visible');
+    cy.get('li[role="option"]').contains('991123 George Benson').click();
+    cy.get('[data-testid="group-member-autocomplete"] input').should('have.value', '');
+    cy.get('[data-testid="group-member-card"]').contains('991123').should('be.visible');
+    cy.contains('.MuiChip-label', '991123 George Benson').parent().find('.MuiChip-endDecorator').find('.MuiChipDelete-root').click();
+    cy.get('[data-testid="group-member-card"]').should('not.exist');
   });
 });

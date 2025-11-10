@@ -62,40 +62,38 @@
         "labelStatus": "Status",
         "placeholderStatus": "Select status"
       },
-      "submit": {
-        "submit": "Submit",
-        "loading": "Loading...",
-        "done": "Done",
-        "info": "Once everything has been graded, you can submit the submissions to the Examination Office.",
-        "failed": "Failed to submit results."
-      }
-    },
-    "gradeExam": {
-      "points": "Points",
-      "placeholder": "Enter Points",
-      "grade": "Grade",
-      "files": "Files",
-      "noFiles": "No submissions exists",
-      "matriculationNumber": "Matriculation Number",
-      "feedback": "Feedback",
-      "dropFile": "Drop or Click to add feedback file",
-      "hint": "The grade will be automaticly calculated",
-      "button": {
-        "next": "Next",
-        "back": "Back",
-        "save": "Save",
-        "loading": "Loading...",
-        "done": "Done"
-      },
-      "errorMessage": {
-        "notPositiveNumber": "Must be a positive number",
-        "numberToHigh": "Must be equal or lower than the total points",
-        "notGraded": "No grade noted",
-        "saveFailed": "Error while saving Grade"
-      },
-      "comment": {
-        "title": "Comment",
-        "placeholder": "Enter a comment"
+      "gradeExam": {
+        "points": "Points",
+        "placeholder": "Enter Points",
+        "grade": "Grade",
+        "files": "Files",
+        "noFiles": "No submissions exists",
+        "matriculationNumber": "Matriculation Number",
+        "feedback": "Feedback",
+        "dropFile": "Drop or Click to add feedback file",
+        "hint": "The grade will be automaticly calculated",
+        "button": {
+          "next": "Next",
+          "back": "Back",
+          "save": "Save",
+          "loading": "Loading...",
+          "done": "Done"
+        },
+        "errorMessage": {
+          "notPositiveNumber": "Must be a positive number",
+          "numberToHigh": "Must be equal or lower than the total points",
+          "notGraded": "No grade noted",
+          "saveFailed": "Error while saving Grade"
+        },
+        "comment": {
+          "title": "Comment",
+          "placeholder": "Enter a comment"
+        },
+        "groupMembers": {
+          "title": "Group members",
+          "placeholder": "Enter group members"
+        },
+        "close": "close"
       }
     }
   }

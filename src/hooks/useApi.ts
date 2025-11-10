@@ -51,7 +51,7 @@ const useApi = () => {
         );
         return response.data as Submission[];
       } catch (error) {
-        console.error('Error while getting exam: ', error);
+        console.error('Error while getting submission: ', error);
         return false;
       }
     },
@@ -77,7 +77,7 @@ const useApi = () => {
         return true;
       } catch (error) {
         console.error('Error while saving feedback', error);
-        return false;
+        return null;
       }
     },
     [axiosInstance]
@@ -86,11 +86,11 @@ const useApi = () => {
   const updateFeedback = useCallback(
     async (feedback: Feedback) => {
       try {
-        axiosInstance.put(`/feedback/${feedback.uuid}`, feedback);
-        return true;
+        return (await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback))
+          .data as Feedback;
       } catch (error) {
         console.error('Error while updating feedback', error);
-        return false;
+        return null;
       }
     },
     [axiosInstance]

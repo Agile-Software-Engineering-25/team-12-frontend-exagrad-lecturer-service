@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "grade": 5,
+  "points": 10,
+  "comment": "Good work",
+  "publishStatus": "UNPUBLISHED",
+  "gradedAt": "2025-10-31T07:10:22.067Z",
+  "examUuid": "a6666666-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "lecturerUuid": "fc6ac29a-b9dd-4b35-889f-2baff71f3be1",
+  "studentUuid": "b6666666-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+  "submissionUuid": "c7777777-cccc-4ccc-8ccc-cccccccccccc",
+  "fileReference": []
+}

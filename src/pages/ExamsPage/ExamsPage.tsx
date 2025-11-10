@@ -101,7 +101,7 @@ const ExamsPage = () => {
             'submittable',
             'rejected',
             'approved',
-            'comming_up',
+            'coming_up',
             'pending_review',
           ]}
           placeholder={t('components.testCard.filter.placeholderStatus')}

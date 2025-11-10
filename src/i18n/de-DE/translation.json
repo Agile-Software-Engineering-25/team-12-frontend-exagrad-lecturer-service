@@ -46,11 +46,11 @@
       },
       "files": "Dateien",
       "examTypes": {
-        "EXAM": "Klausur",
-        "PRESENTATION": "Präsentation",
-        "ORAL": "Mündlich",
-        "PROJECT": "Projekt",
-        "OTHERS": "Anderes"
+        "KLAUSUR": "Klausur",
+        "PRAESENTATION": "Präsentation",
+        "MUENDLICH": "Mündlich",
+        "PROJEKT": "Projekt",
+        "ANDERES": "Anderes"
       },
       "filter": {
         "labelModul": "Module",

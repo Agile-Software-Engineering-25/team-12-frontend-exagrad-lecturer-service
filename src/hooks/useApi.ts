@@ -46,6 +46,7 @@ const useApi = () => {
   const fetchSubmissionsForLecturer = useCallback(
     async (lecturerUuid: string) => {
       try {
+        
         const response = await axiosInstance.get(
           `/submissions/for-lecturer/${lecturerUuid}`
         );

@@ -8,7 +8,7 @@ import { useUser } from '@hooks/useUser';
 const RoutingComponent = () => {
   const { getUserId } = useUser();
   const { loadExams, loadFeedback, loadSubmissions } = useDataLoading();
-  const lecturerUuid = getUserId() || 'fc6ac29a-b9dd-4b35-889f-2baff71f3be1';
+  const lecturerUuid = getUserId() || '5a9cee80-7f1e-4bfb-8d4a-218128b3550f';
 
   useEffect(() => {
     const load = async () => {

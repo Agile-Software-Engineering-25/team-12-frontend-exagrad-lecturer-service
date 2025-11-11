@@ -11,11 +11,13 @@ import {
   Typography,
 } from '@mui/joy';
 import GenericModal from '@agile-software/shared-components/src/components/Modal/Modal';
-import DataUploader from './DataUploader';
+import FileChip from '@agile-software/shared-components/src/components/FileChip/FileChip';
+import Dropzone from '@agile-software/shared-components/src/components/Dropzone/Dropzone';
 import type {
   Exam,
   Feedback,
-  FileReference,
+  FeedbackDocumentResponse,
+  FeedbackRequest,
   Student,
 } from '@/@custom-types/backendTypes';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
@@ -41,9 +43,12 @@ interface FeedbackModalProps {
 
 const FeedbackModal = (props: FeedbackModalProps) => {
   const { t } = useTranslation();
-  const { saveFeedback, updateFeedback } = useApi();
+  const { saveFeedback, updateFeedback, downloadDocument } = useApi();
   const { getUserId } = useUser();
   const dispatch = useDispatch();
+
+  const [files, setFiles] = useState<File[]>([]);
+
   const lecturerUuid = getUserId() || 'fc6ac29a-b9dd-4b35-889f-2baff71f3be1';
   // Form state
   const [error, setError] = useState('');
@@ -51,7 +56,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'saved'>('idle');
   const [points, setPoints] = useState<string>();
   const [grade, setGrade] = useState<number | undefined>();
-  const [files, setFiles] = useState<FileReference[] | undefined>();
+  const [uploadedDocuments, setUploadedDocuments] = useState<
+    FeedbackDocumentResponse[]
+  >([]);
 
   /**
    * Saves the feedback for the current student
@@ -63,6 +70,19 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     }
 
     setStatus('loading');
+
+    const feedbackRequest: FeedbackRequest = {
+      gradedAt: new Date().toISOString(),
+      grade: grade,
+      examUuid: props.exam.uuid,
+      lecturerUuid: 'LE12345', // TODO: Ersetzen
+      studentUuid: props.student.uuid,
+      submissionUuid: props.feedback?.submissionUuid,
+      comment: comment,
+      points: Number(points),
+    };
+
+    //TODO: change this datatype so that feedback can be updated
     const gradedExam: Feedback = {
       uuid: props.feedback?.uuid,
       gradedAt: new Date().toISOString(),
@@ -73,13 +93,13 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       submissionUuid: props.feedback?.submissionUuid,
       comment: comment || '',
       points: Number(points),
-      fileReference: files || [],
+      fileReference: [],
       publishStatus: FeedbackPublishStatus.UNPUBLISHED,
     };
 
     const updatedFeedback: Feedback | null = gradedExam.uuid
       ? await updateFeedback(gradedExam)
-      : await saveFeedback(gradedExam);
+      : await saveFeedback(feedbackRequest, files);
 
     if (updatedFeedback) {
       setStatus('saved');
@@ -140,6 +160,26 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     setPoints(inputValue);
   };
 
+  /**
+   * Handles file selection - turns FileList/single File into array of Files for endpoint
+   */
+
+  const handleFileSelection = (selectedFiles: File | File[]) => {
+    setFiles((prevFiles) =>
+      Array.isArray(selectedFiles)
+        ? [...prevFiles, ...selectedFiles]
+        : [...prevFiles, selectedFiles]
+    );
+  };
+
+  const onDeleteFile = (fileName: string) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
+
+  const onDownload = (downloadUrl: string, fileName: string) => {
+    downloadDocument(downloadUrl, fileName);
+  };
+
   // Validate points and update grade with debounce
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -159,7 +199,8 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   useEffect(() => {
     if (props.open) {
       setComment(props.feedback?.comment || '');
-      setFiles(props.feedback?.fileReference || []);
+      setFiles(/* props.feedback?.fileReference || */ []); // TODO: change this to actual files and not reference
+      setUploadedDocuments(props.feedback?.fileReference || []);
       setGrade(props.feedback?.grade);
       setPoints(
         props.feedback?.points != null ? String(props.feedback.points) : ''
@@ -260,15 +301,52 @@ const FeedbackModal = (props: FeedbackModalProps) => {
           <FormHelperText sx={{ color: '#f50057' }}>{error}</FormHelperText>
         )}
 
-        {/* Feedback File Upload : NOTE: Data Uploader will be a shared component*/}
-        <FormControl>
-          <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
-          <DataUploader
-            files={files || []}
-            setFiles={setFiles}
-            disabled={status === 'saved'}
-          />
-        </FormControl>
+        <FormLabel>{t('components.gradeExam.feedback')}</FormLabel>
+        <Dropzone
+          onFileSelect={handleFileSelection}
+          dragDropText="Dateien hochladen"
+          browseText="Durchsuchen"
+        />
+
+        {uploadedDocuments.length > 0 && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.8 }}>
+            {uploadedDocuments.map((doc) => (
+              <FileChip
+                key={doc.uuid}
+                filename={
+                  doc.fileName ||
+                  t('components.dokumentModal.unknownFile', 'Unbekannte Datei')
+                }
+                onDelete={() => console.log('Delete file ' + doc.fileName)}
+                onClick={() => onDownload(doc.downloadUrl, doc.fileName)}
+              />
+            ))}
+          </Box>
+        )}
+
+        {files.length > 0 && (
+          <Tooltip title="Datei ist neu und wird beim Speichern hochgeladen">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.8 }}>
+              {files.map((doc) => (
+                <FileChip
+                  filename={
+                    doc.name ||
+                    t(
+                      'components.dokumentModal.unknownFile',
+                      'Unbekannte Datei'
+                    )
+                  }
+                  onDelete={() => onDeleteFile(doc.name)}
+                  containerSX={{
+                    opacity: 0.6,
+                    borderColor: '#C2CAD5',
+                    color: '#6B7280',
+                  }}
+                />
+              ))}
+            </Box>
+          </Tooltip>
+        )}
 
         {/* Comment Section */}
         <FormControl>

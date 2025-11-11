@@ -43,7 +43,7 @@ export interface Feedback {
   studentUuid: string;
   submissionUuid?: string | null;
   comment: string | null;
-  fileReference: FileReference[];
+  fileReference: FeedbackDocumentResponse[];
   fileUpload?: FileReference[];
   grade: number;
   points: number;
@@ -56,4 +56,24 @@ export interface Submission {
   studentUuid: string;
   submissionDate: string;
   fileUpload: FileReference[];
+}
+
+export interface FeedbackRequest {
+  gradedAt: string;
+  examUuid: string;
+  lecturerUuid: string;
+  studentUuid: string;
+  submissionUuid?: string | null;
+  comment: string | null;
+  grade: number;
+  points: number;
+}
+
+export interface FeedbackDocumentResponse {
+  uuid: string;
+  feedbackUuid: string;
+  lecturerUuid: string;
+  uploadDate: string;
+  downloadUrl: string;
+  fileName: string;
 }

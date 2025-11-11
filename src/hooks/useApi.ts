@@ -73,8 +73,8 @@ const useApi = () => {
       }
 
       try {
-        axiosInstance.post('/feedback', formData);
-        return true;
+        (await axiosInstance.post('/feedback', formData))
+          .data as Feedback;
       } catch (error) {
         console.error('Error while saving feedback', error);
         return null;

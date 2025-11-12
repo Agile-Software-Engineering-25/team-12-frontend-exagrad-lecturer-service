@@ -148,23 +148,12 @@ const ExamSubmissionPage = () => {
       .map((student) => getFeedback(student.uuid))
       .filter(Boolean);
 
-    const success = await submitFeedback(feedbackList);
+    const success = await submitFeedback(feedbackList); //TODO: test if we need to reload 
 
     if (success && examUuid) {
       setStatus('submitted');
       setError(false);
       setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
-
-      await Promise.all(
-        feedbackList.map((feedback) => {
-          feedback.publishStatus = FeedbackPublishStatus.PUBLISHED;
-          if (feedback.uuid) {
-            return updateFeedback(feedback);
-          } else {
-            return saveFeedback(feedback);
-          }
-        })
-      );
     } else {
       setStatus('idle');
       setError(true);

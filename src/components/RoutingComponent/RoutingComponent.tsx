@@ -23,9 +23,11 @@ const RoutingComponent = () => {
 
   useEffect(() => {
     const load = async () => {
-      await loadExams(lecturerUuid);
-      await loadFeedback(lecturerUuid);
-      await loadSubmissions(lecturerUuid);
+      await Promise.all([
+        loadExams(lecturerUuid),
+        loadFeedback(lecturerUuid),
+        loadSubmissions(lecturerUuid),
+      ]);
     };
     load();
   }, [loadExams, loadFeedback, loadSubmissions]);

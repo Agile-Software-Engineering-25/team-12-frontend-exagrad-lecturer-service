@@ -23,7 +23,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
   const { examUuid } = useParams();
-  const { saveFeedback, updateFeedback, submitFeedback } = useApi();
+  const { submitFeedback } = useApi();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
@@ -154,17 +154,6 @@ const ExamSubmissionPage = () => {
       setStatus('submitted');
       setError(false);
       setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
-
-      await Promise.all(
-        feedbackList.map((feedback) => {
-          feedback.publishStatus = FeedbackPublishStatus.PUBLISHED;
-          if (feedback.uuid) {
-            return updateFeedback(feedback);
-          } else {
-            return saveFeedback(feedback);
-          }
-        })
-      );
     } else {
       setStatus('idle');
       setError(true);

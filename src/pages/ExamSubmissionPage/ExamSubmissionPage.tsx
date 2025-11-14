@@ -17,8 +17,9 @@ import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
 import { FeedbackPublishStatus } from '@/@custom-types/enums';
-import usePublishStatus from '@/hooks/usePublishStatus';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from 'react-redux';
+import { setFeedback } from '@stores/slices/feedbackSlice.ts';
 
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
@@ -37,7 +38,6 @@ const ExamSubmissionPage = () => {
   const feedbacks = useTypedSelector((state) => state.feedback.data);
   const submissions = useTypedSelector((state) => state.submission.data);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const { setFeedbackStatus } = usePublishStatus();
   const navigate = useNavigate();
 
   const currentExam = useMemo(() => {
@@ -141,7 +141,7 @@ const ExamSubmissionPage = () => {
   );
 
   const allStudents = [...studentsWithSubmission, ...studentsWithoutSubmission];
-
+  const dispatch = useDispatch();
   const submit = async () => {
     setStatus('loading');
     const feedbackList = students
@@ -158,7 +158,14 @@ const ExamSubmissionPage = () => {
     if (success && examUuid) {
       setStatus('submitted');
       setError(false);
-      setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
+      dispatch(
+        setFeedback(
+          feedbackList.map((feedback) => ({
+            ...feedback,
+            publishStatus: FeedbackPublishStatus.PUBLISHED,
+          }))
+        )
+      );
     } else {
       setStatus('idle');
       setError(true);

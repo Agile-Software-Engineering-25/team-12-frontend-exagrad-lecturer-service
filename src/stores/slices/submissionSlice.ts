@@ -28,11 +28,20 @@ const submissionSlice = createSlice({
       }
 
       state.data = { ...state.data, ...submissionMap };
+      state.state = 'idle';
+    },
+    setSubmissionsLoading: (state) => {
+      state.state = 'loading';
+    },
+    setSubmissionsFailed: (state, action: PayloadAction<string>) => {
+      state.state = 'failed';
+      state.error = action.payload;
     },
   },
 });
 
-const { setSubmissions } = submissionSlice.actions;
+const { setSubmissions, setSubmissionsLoading, setSubmissionsFailed } =
+  submissionSlice.actions;
 
-export { setSubmissions };
+export { setSubmissions, setSubmissionsLoading, setSubmissionsFailed };
 export default submissionSlice.reducer;

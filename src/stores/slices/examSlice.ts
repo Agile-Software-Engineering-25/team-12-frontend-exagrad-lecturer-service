@@ -22,11 +22,19 @@ const examSlice = createSlice({
       }
 
       state.data = examMap;
+      state.state = 'idle';
+    },
+    setExamsLoading: (state) => {
+      state.state = 'loading';
+    },
+    setExamsFailed: (state, action: PayloadAction<string>) => {
+      state.state = 'failed';
+      state.error = action.payload;
     },
   },
 });
 
-const { setExams } = examSlice.actions;
+const { setExams, setExamsLoading, setExamsFailed } = examSlice.actions;
 
-export { setExams };
+export { setExams, setExamsLoading, setExamsFailed };
 export default examSlice.reducer;

@@ -34,6 +34,8 @@
       "gradeTest": "benoten",
       "editTest": "bearbeiten",
       "rejected": "Abgelehnt",
+      "approved": "Genehmigt",
+      "published": "Wird genehmigt",
       "gradeStatus": {
         "graded": "Benotet",
         "ungraded": "Unbenotet",

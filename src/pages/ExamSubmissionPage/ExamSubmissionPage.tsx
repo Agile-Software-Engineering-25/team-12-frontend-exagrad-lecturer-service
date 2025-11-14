@@ -17,8 +17,9 @@ import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { useTranslation } from 'react-i18next';
 import useApi from '@/hooks/useApi';
 import { FeedbackPublishStatus } from '@/@custom-types/enums';
-import usePublishStatus from '@/hooks/usePublishStatus';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch } from 'react-redux';
+import { setFeedback } from '@stores/slices/feedbackSlice.ts';
 
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const ExamSubmissionPage = () => {
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
-  const [fullyGraded, setFullyGraded] = useState(false);
+  const [atLeastOneGraded, setAtLeastOneGraded] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'submitted'>(
     'idle'
   );
@@ -37,7 +38,6 @@ const ExamSubmissionPage = () => {
   const feedbacks = useTypedSelector((state) => state.feedback.data);
   const submissions = useTypedSelector((state) => state.submission.data);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const { setFeedbackStatus } = usePublishStatus();
   const navigate = useNavigate();
 
   const currentExam = useMemo(() => {
@@ -141,19 +141,31 @@ const ExamSubmissionPage = () => {
   );
 
   const allStudents = [...studentsWithSubmission, ...studentsWithoutSubmission];
-
+  const dispatch = useDispatch();
   const submit = async () => {
     setStatus('loading');
     const feedbackList = students
       .map((student) => getFeedback(student.uuid))
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter(
+        (feedback) =>
+          feedback.publishStatus !== FeedbackPublishStatus.PUBLISHED &&
+          feedback.publishStatus !== FeedbackPublishStatus.APPROVED
+      ) as Feedback[];
 
     const success = await submitFeedback(feedbackList);
 
     if (success && examUuid) {
       setStatus('submitted');
       setError(false);
-      setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
+      dispatch(
+        setFeedback(
+          feedbackList.map((feedback) => ({
+            ...feedback,
+            publishStatus: FeedbackPublishStatus.PUBLISHED,
+          }))
+        )
+      );
     } else {
       setStatus('idle');
       setError(true);
@@ -176,11 +188,11 @@ const ExamSubmissionPage = () => {
   useEffect(() => {
     if (!examUuid) return;
 
-    const fullyGraded = students.every(
+    const atLeastOneGraded = students.some(
       (student) => getFeedback(student.uuid) != null
     );
 
-    setFullyGraded(fullyGraded);
+    setAtLeastOneGraded(atLeastOneGraded);
   }, [students, getFeedback, examUuid]);
 
   return (
@@ -217,7 +229,7 @@ const ExamSubmissionPage = () => {
             <Box>
               {status === 'idle' && (
                 <Button
-                  disabled={!fullyGraded || publishStatus}
+                  disabled={!atLeastOneGraded || publishStatus}
                   onClick={submit}
                   sx={{ width: '8em' }}
                 >
@@ -229,7 +241,7 @@ const ExamSubmissionPage = () => {
                   {t('components.testCard.submit.loading')}
                 </Button>
               )}
-              {status === 'submitted' && publishStatus && fullyGraded && (
+              {status === 'submitted' && publishStatus && atLeastOneGraded && (
                 <Button
                   variant="soft"
                   color={'success'}

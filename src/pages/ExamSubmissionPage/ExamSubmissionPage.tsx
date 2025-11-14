@@ -23,7 +23,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
   const { examUuid } = useParams();
-  const { updateFeedback, submitFeedback } = useApi();
+  const { submitFeedback } = useApi();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);

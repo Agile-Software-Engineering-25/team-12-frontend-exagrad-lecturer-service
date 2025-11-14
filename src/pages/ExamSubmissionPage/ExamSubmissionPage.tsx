@@ -146,7 +146,12 @@ const ExamSubmissionPage = () => {
     setStatus('loading');
     const feedbackList = students
       .map((student) => getFeedback(student.uuid))
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter(
+        (feedback) =>
+          feedback.publishStatus !== FeedbackPublishStatus.PUBLISHED &&
+          feedback.publishStatus !== FeedbackPublishStatus.APPROVED
+      ) as Feedback[];
 
     const success = await submitFeedback(feedbackList);
 

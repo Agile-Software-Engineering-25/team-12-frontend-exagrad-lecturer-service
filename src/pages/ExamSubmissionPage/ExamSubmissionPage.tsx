@@ -27,7 +27,7 @@ const ExamSubmissionPage = () => {
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
-  const [fullyGraded, setFullyGraded] = useState(false);
+  const [atLeastOneGraded, setAtLeastOneGraded] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'submitted'>(
     'idle'
   );
@@ -176,11 +176,11 @@ const ExamSubmissionPage = () => {
   useEffect(() => {
     if (!examUuid) return;
 
-    const fullyGraded = students.every(
+    const atLeastOneGraded = students.some(
       (student) => getFeedback(student.uuid) != null
     );
 
-    setFullyGraded(fullyGraded);
+    setAtLeastOneGraded(atLeastOneGraded);
   }, [students, getFeedback, examUuid]);
 
   return (
@@ -217,7 +217,7 @@ const ExamSubmissionPage = () => {
             <Box>
               {status === 'idle' && (
                 <Button
-                  disabled={!fullyGraded || publishStatus}
+                  disabled={!atLeastOneGraded || publishStatus}
                   onClick={submit}
                   sx={{ width: '8em' }}
                 >
@@ -229,7 +229,7 @@ const ExamSubmissionPage = () => {
                   {t('components.testCard.submit.loading')}
                 </Button>
               )}
-              {status === 'submitted' && publishStatus && fullyGraded && (
+              {status === 'submitted' && publishStatus && atLeastOneGraded && (
                 <Button
                   variant="soft"
                   color={'success'}

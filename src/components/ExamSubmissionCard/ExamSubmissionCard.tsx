@@ -78,9 +78,16 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
               <Chip size="sm" color="danger">
                 {t('components.testCard.rejected')}
               </Chip>
+            ) : props.feedback?.publishStatus ==
+              FeedbackPublishStatus.PUBLISHED ? (
+              <Chip size="sm" color="warning">
+                {t('components.testCard.published')}
+              </Chip>
             ) : props.feedback?.grade ? (
               <Chip size="sm" color="success">
-                {t('components.testCard.alreadyGraded')}
+                {props.feedback?.publishStatus == FeedbackPublishStatus.APPROVED
+                  ? t('components.testCard.approved')
+                  : t('components.testCard.alreadyGraded')}
               </Chip>
             ) : (
               <Chip size="sm" color="primary">

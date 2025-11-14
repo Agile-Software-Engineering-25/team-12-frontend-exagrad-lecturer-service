@@ -33,6 +33,8 @@
       "notGraded": "Ungraded",
       "gradeTest": "grade",
       "rejected": "Rejected",
+      "approved": "Approved",
+      "published": "Waiting for Approval",
       "editTest": "edit",
       "gradeStatus": {
         "graded": "Graded",

@@ -177,9 +177,19 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   };
 
   const onDeleteUploadedDocument = (fileId: string) => {
-    setUploadedDocuments((prevDocuments) =>
-      prevDocuments.filter((file) => file.uuid !== fileId)
+    const newDocuments = uploadedDocuments.filter(
+      (file) => file.uuid !== fileId
     );
+    setUploadedDocuments(newDocuments);
+
+    if (props.feedback) {
+      dispatch(
+        updateFeedbackSlice({
+          ...props.feedback,
+          fileReference: newDocuments,
+        })
+      );
+    }
   };
 
   const onDownload = (downloadUrl: string, fileName: string) => {

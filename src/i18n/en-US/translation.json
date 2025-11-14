@@ -32,6 +32,7 @@
       "alreadyGraded": "Graded",
       "notGraded": "Ungraded",
       "gradeTest": "grade",
+      "rejected": "Rejected",
       "editTest": "edit",
       "gradeStatus": {
         "graded": "Graded",

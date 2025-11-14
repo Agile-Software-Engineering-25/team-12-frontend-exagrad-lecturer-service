@@ -53,9 +53,12 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: props.feedback?.grade
-                ? 'success.softBg'
-                : 'primary.softBg',
+              backgroundColor:
+                props.feedback?.publishStatus == FeedbackPublishStatus.REJECTED
+                  ? 'danger.softBg'
+                  : props.feedback?.grade
+                    ? 'success.softBg'
+                    : 'primary.softBg',
             }}
           >
             {props.feedback?.grade ? (
@@ -68,7 +71,11 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
             <Typography level="h4" sx={{ pb: 0.5 }}>
               {props.student.matriculationNumber}
             </Typography>
-            {props.feedback?.grade ? (
+            {props.feedback?.publishStatus == FeedbackPublishStatus.REJECTED ? (
+              <Chip size="sm" color="danger">
+                {t('components.testCard.rejected')}
+              </Chip>
+            ) : props.feedback?.grade ? (
               <Chip size="sm" color="success">
                 {t('components.testCard.alreadyGraded')}
               </Chip>

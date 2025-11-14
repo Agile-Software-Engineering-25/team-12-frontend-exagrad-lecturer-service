@@ -33,6 +33,7 @@
       "notGraded": "Unbenotet",
       "gradeTest": "benoten",
       "editTest": "bearbeiten",
+      "rejected": "Abgelehnt",
       "gradeStatus": {
         "graded": "Benotet",
         "ungraded": "Unbenotet",

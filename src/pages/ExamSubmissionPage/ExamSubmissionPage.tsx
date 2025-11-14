@@ -23,7 +23,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const ExamSubmissionPage = () => {
   const { t } = useTranslation();
   const { examUuid } = useParams();
-  const { saveFeedback, updateFeedback, submitFeedback } = useApi();
+  const { updateFeedback, submitFeedback } = useApi();
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [currentFeedback, setCurrentFeedback] = useState<Feedback>();
   const [publishStatus, setIsPublished] = useState(false);
@@ -161,7 +161,7 @@ const ExamSubmissionPage = () => {
           if (feedback.uuid) {
             return updateFeedback(feedback);
           } else {
-            return saveFeedback(feedback);
+            alert('Only saved feedback can be submitted');
           }
         })
       );

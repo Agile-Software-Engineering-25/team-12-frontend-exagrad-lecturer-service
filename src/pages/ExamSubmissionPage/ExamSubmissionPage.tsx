@@ -154,17 +154,6 @@ const ExamSubmissionPage = () => {
       setStatus('submitted');
       setError(false);
       setFeedbackStatus(examUuid, FeedbackPublishStatus.PUBLISHED);
-
-      await Promise.all(
-        feedbackList.map((feedback) => {
-          feedback.publishStatus = FeedbackPublishStatus.PUBLISHED;
-          if (feedback.uuid) {
-            return updateFeedback(feedback);
-          } else {
-            alert('Only saved feedback can be submitted');
-          }
-        })
-      );
     } else {
       setStatus('idle');
       setError(true);

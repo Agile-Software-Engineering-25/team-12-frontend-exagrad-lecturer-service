@@ -24,11 +24,14 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
   const { t } = useTranslation();
   const isPublished =
     props.feedback?.publishStatus === FeedbackPublishStatus.PUBLISHED;
+  const isDisabled =
+    isPublished ||
+    props.feedback?.publishStatus == FeedbackPublishStatus.APPROVED;
 
   return (
     <Card
       color="neutral"
-      variant={props.submission || !isPublished ? 'outlined' : 'soft'}
+      variant={props.submission || !isDisabled ? 'outlined' : 'soft'}
       sx={{
         display: 'flex',
         width: 270,
@@ -90,7 +93,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           <Button
             size="sm"
             variant="soft"
-            disabled={isPublished}
+            disabled={isDisabled}
             onClick={() => props.onStudentClick(props.student)}
           >
             {t('components.testCard.editTest')}
@@ -99,7 +102,7 @@ const ExamSubmissionCard = (props: ExamSubmissionCardProps) => {
           <Button
             size="sm"
             variant="outlined"
-            disabled={isPublished}
+            disabled={isDisabled}
             onClick={() => props.onStudentClick(props.student)}
           >
             {t('components.testCard.gradeTest')}

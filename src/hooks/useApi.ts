@@ -4,8 +4,8 @@ import { useCallback } from 'react';
 import type {
   Exam,
   Feedback,
-  Submission,
   FeedbackRequest,
+  Submission,
 } from '@custom-types/backendTypes';
 
 const useApi = () => {
@@ -73,8 +73,13 @@ const useApi = () => {
       }
 
       try {
-        return (await axiosInstance.post('/feedback', formData))
-          .data as Feedback;
+        return (
+          await axiosInstance.post('/feedback', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+        ).data as Feedback;
       } catch (error) {
         console.error('Error while saving feedback', error);
         return null;

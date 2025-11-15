@@ -241,7 +241,7 @@ const ExamSubmissionPage = () => {
                   {t('components.testCard.submit.loading')}
                 </Button>
               )}
-              {status === 'submitted' && publishStatus && atLeastOneGraded && (
+              {status === 'submitted' && atLeastOneGraded && (
                 <Button
                   variant="soft"
                   color={'success'}

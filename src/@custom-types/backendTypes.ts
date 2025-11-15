@@ -43,7 +43,7 @@ export interface Feedback {
   studentUuid: string;
   submissionUuid?: string | null;
   comment: string | null;
-  fileReference: FeedbackDocumentResponse[];
+  fileReference?: FeedbackDocumentResponse[];
   fileUpload?: FileReference[];
   grade: number;
   points: number;

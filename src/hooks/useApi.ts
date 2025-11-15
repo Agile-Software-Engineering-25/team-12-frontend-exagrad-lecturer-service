@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import type {
   Exam,
   Feedback,
+  FeedbackDocumentResponse,
   FeedbackRequest,
   Submission,
 } from '@custom-types/backendTypes';
@@ -89,10 +90,37 @@ const useApi = () => {
   );
 
   const updateFeedback = useCallback(
-    async (feedback: Feedback) => {
+    async (
+      feedback: Feedback,
+      files: File[],
+      oldFiles: FeedbackDocumentResponse[]
+    ) => {
       try {
-        return (await axiosInstance.put(`/feedback/${feedback.uuid}`, feedback))
-          .data as Feedback;
+        const formData = new FormData();
+
+        formData.append(
+          'updateFeedback',
+          new Blob([JSON.stringify(feedback)], { type: 'application/json' })
+        );
+
+        for (const file of files) {
+          formData.append('files', file);
+        }
+
+        formData.append(
+          'oldFiles',
+          new Blob([JSON.stringify(oldFiles)], { type: 'application/json' })
+        );
+
+        const response = await axiosInstance.put(
+          `/feedback/${feedback.uuid}`,
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          }
+        );
+
+        return response.data as Feedback;
       } catch (error) {
         console.error('Error while updating feedback', error);
         return null;

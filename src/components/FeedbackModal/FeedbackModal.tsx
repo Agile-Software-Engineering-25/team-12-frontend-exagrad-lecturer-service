@@ -49,7 +49,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
   const [files, setFiles] = useState<File[]>([]);
 
-  const lecturerUuid = getUserId() || 'fc6ac29a-b9dd-4b35-889f-2baff71f3be1';
+  const lecturerUuid = getUserId() || '83c41a34-27f9-46f6-95ab-2538ff261aa8';
   // Form state
   const [error, setError] = useState('');
   const [comment, setComment] = useState<string>('');
@@ -75,14 +75,13 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       gradedAt: new Date().toISOString(),
       grade: grade,
       examUuid: props.exam.uuid,
-      lecturerUuid: 'LE12345', // TODO: Ersetzen
+      lecturerUuid: lecturerUuid,
       studentUuid: props.student.uuid,
       submissionUuid: props.feedback?.submissionUuid,
       comment: comment,
       points: Number(points),
     };
 
-    //TODO: change this datatype so that feedback can be updated
     const gradedExam: Feedback = {
       uuid: props.feedback?.uuid,
       gradedAt: new Date().toISOString(),
@@ -93,12 +92,11 @@ const FeedbackModal = (props: FeedbackModalProps) => {
       submissionUuid: props.feedback?.submissionUuid,
       comment: comment || '',
       points: Number(points),
-      fileReference: [],
       publishStatus: FeedbackPublishStatus.UNPUBLISHED,
     };
 
     const updatedFeedback: Feedback | null = gradedExam.uuid
-      ? await updateFeedback(gradedExam)
+      ? await updateFeedback(gradedExam, files, uploadedDocuments)
       : await saveFeedback(feedbackRequest, files);
 
     if (updatedFeedback) {
@@ -172,8 +170,26 @@ const FeedbackModal = (props: FeedbackModalProps) => {
     );
   };
 
-  const onDeleteFile = (fileName: string) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  const onDeleteFile = (fileIndex: number) => {
+    setFiles((prevFiles) =>
+      prevFiles.filter((_, index) => index !== fileIndex)
+    );
+  };
+
+  const onDeleteUploadedDocument = (fileId: string) => {
+    const newDocuments = uploadedDocuments.filter(
+      (file) => file.uuid !== fileId
+    );
+    setUploadedDocuments(newDocuments);
+
+    if (props.feedback) {
+      dispatch(
+        updateFeedbackSlice({
+          ...props.feedback,
+          fileReference: newDocuments,
+        })
+      );
+    }
   };
 
   const onDownload = (downloadUrl: string, fileName: string) => {
@@ -199,14 +215,15 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   useEffect(() => {
     if (props.open) {
       setComment(props.feedback?.comment || '');
-      setFiles(/* props.feedback?.fileReference || */ []); // TODO: change this to actual files and not reference
       setUploadedDocuments(props.feedback?.fileReference || []);
+      setFiles([]);
       setGrade(props.feedback?.grade);
       setPoints(
         props.feedback?.points != null ? String(props.feedback.points) : ''
       );
+      setError('');
     }
-  }, [props.feedback, props.open]);
+  }, [props.open, props.feedback]);
 
   return (
     <GenericModal
@@ -290,7 +307,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
             />
           </FormControl>
 
-          <FormControl sx={{ width: '4', paddingRight: 2 }}>
+          <FormControl sx={{ width: 25 }}>
             <FormLabel>{t('components.gradeExam.grade')}</FormLabel>
             <Typography height={'100%'} color="primary" paddingBlock={1.5}>
               {grade ?? 'N/A'}
@@ -317,7 +334,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                   doc.fileName ||
                   t('components.dokumentModal.unknownFile', 'Unbekannte Datei')
                 }
-                onDelete={() => console.log('Delete file ' + doc.fileName)}
+                onDelete={() => onDeleteUploadedDocument(doc.uuid)}
                 onClick={() => onDownload(doc.downloadUrl, doc.fileName)}
               />
             ))}
@@ -327,8 +344,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
         {files.length > 0 && (
           <Tooltip title="Datei ist neu und wird beim Speichern hochgeladen">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.8 }}>
-              {files.map((doc) => (
+              {files.map((doc, index) => (
                 <FileChip
+                  key={`new-file-${index}`}
                   filename={
                     doc.name ||
                     t(
@@ -336,7 +354,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
                       'Unbekannte Datei'
                     )
                   }
-                  onDelete={() => onDeleteFile(doc.name)}
+                  onDelete={() => onDeleteFile(index)}
                   containerSX={{
                     opacity: 0.6,
                     borderColor: '#C2CAD5',

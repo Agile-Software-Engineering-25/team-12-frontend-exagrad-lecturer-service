@@ -49,7 +49,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 
   const [files, setFiles] = useState<File[]>([]);
 
-  const lecturerUuid = getUserId() || 'fc6ac29a-b9dd-4b35-889f-2baff71f3be1';
+  const lecturerUuid = getUserId() || '83c41a34-27f9-46f6-95ab-2538ff261aa8';
   // Form state
   const [error, setError] = useState('');
   const [comment, setComment] = useState<string>('');

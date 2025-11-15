@@ -28,6 +28,14 @@ const feedbackSlice = createSlice({
       }
 
       state.data = { ...state.data, ...feedbackMap };
+      state.state = 'idle';
+    },
+    setFeedbackLoading: (state) => {
+      state.state = 'loading';
+    },
+    setFeedbackFailed: (state, action: PayloadAction<string>) => {
+      state.state = 'failed';
+      state.error = action.payload;
     },
     deleteFeedback: (state, action: PayloadAction<Feedback>) => {
       const feedback = action.payload;
@@ -50,8 +58,19 @@ const feedbackSlice = createSlice({
   },
 });
 
-const { setFeedback, deleteFeedback, updateFeedbackSlice } =
-  feedbackSlice.actions;
+const {
+  setFeedback,
+  deleteFeedback,
+  updateFeedbackSlice,
+  setFeedbackLoading,
+  setFeedbackFailed,
+} = feedbackSlice.actions;
 
-export { setFeedback, deleteFeedback, updateFeedbackSlice };
+export {
+  setFeedback,
+  deleteFeedback,
+  updateFeedbackSlice,
+  setFeedbackLoading,
+  setFeedbackFailed,
+};
 export default feedbackSlice.reducer;

@@ -10,9 +10,9 @@ import {
   Tooltip,
   Typography,
 } from '@mui/joy';
-import GenericModal from '@agile-software/shared-components/src/components/Modal/Modal';
-import FileChip from '@agile-software/shared-components/src/components/FileChip/FileChip';
-import Dropzone from '@agile-software/shared-components/src/components/Dropzone/Dropzone';
+import { Modal } from '@agile-software/shared-components';
+import { FileChip } from '@agile-software/shared-components';
+import { Dropzone } from '@agile-software/shared-components';
 import type {
   Exam,
   Feedback,
@@ -226,7 +226,7 @@ const FeedbackModal = (props: FeedbackModalProps) => {
   }, [props.open, props.feedback]);
 
   return (
-    <GenericModal
+    <Modal
       header={props.exam.name}
       open={props.open}
       setOpen={props.setOpen}
@@ -416,8 +416,9 @@ const FeedbackModal = (props: FeedbackModalProps) => {
           </Box>
         </FormControl>
       </Stack>
-    </GenericModal>
+    </Modal>
   );
 };
 
 export default FeedbackModal;
+

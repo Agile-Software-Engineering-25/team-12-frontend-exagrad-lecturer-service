@@ -421,4 +421,3 @@ const FeedbackModal = (props: FeedbackModalProps) => {
 };
 
 export default FeedbackModal;
-
